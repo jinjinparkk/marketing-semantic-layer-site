@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketing Semantic Layer — 쉽게 풀어 쓴 프로젝트 소개</title>
+<style>
+  :root {
+    --bg: #fbfbf9; --fg: #1d1d1f; --muted: #6b6b70; --line: #e4e4e0; --soft: #f2f2ee;
+    --accent: #2f5bd3; --accent-soft: #e8eefc;
+    --media: #c2410c; --media-soft: #fdf0e8;
+    --ga4: #0f766e; --ga4-soft: #e6f4f2;
+    --warn: #b91c1c; --warn-soft: #fdecec;
+    --easy: #a16207; --easy-soft: #fef8e6;
+    --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 16.5px/1.85 "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+         word-break: keep-all; }
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; }
+  nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 40px 20px 40px 28px;
+        border-right: 1px solid var(--line); font-size: 14px; }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 24px; line-height: 1.4; }
+  nav .brand small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; margin-top: 4px; }
+  nav ol { list-style: none; padding: 0; margin: 0; }
+  nav li { margin: 2px 0; }
+  nav a { color: var(--muted); text-decoration: none; display: block; padding: 3px 8px; border-radius: 6px; line-height: 1.5; }
+  nav a:hover { color: var(--fg); background: var(--soft); }
+  nav .sub a { padding-left: 22px; font-size: 13px; }
+  nav .group { margin-top: 16px; font-size: 11px; letter-spacing: .08em; color: var(--muted); padding-left: 8px; }
+  main { padding: 56px 64px 120px; min-width: 0; max-width: 900px; }
+  header.hero { padding-bottom: 36px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+  .eyebrow { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: .04em; }
+  h1 { font-size: 34px; line-height: 1.35; margin: 8px 0 16px; letter-spacing: -0.02em; }
+  .lead { font-size: 18px; color: #3a3a3e; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 20px; font-size: 14px; color: var(--muted); }
+  .meta-row b { color: var(--fg); font-weight: 600; margin-right: 6px; }
+  section { padding-top: 56px; }
+  h2 { font-size: 27px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  h2 .num { color: var(--accent); margin-right: 10px; }
+  h3 { font-size: 20px; margin: 48px 0 10px; padding-top: 8px; }
+  h4 { font-size: 16.5px; margin: 28px 0 6px; }
+  p { margin: 8px 0 14px; }
+  .section-lead { color: var(--muted); margin-bottom: 8px; }
+  code { font-family: var(--mono); font-size: .86em; background: var(--soft); padding: 1px 5px; border-radius: 4px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14.5px; line-height: 1.7; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; background: var(--soft); border-bottom: 1px solid #d6d6d0; white-space: nowrap; }
+  td code { white-space: nowrap; }
+  .table-wrap { overflow-x: auto; }
+  ul, ol { padding-left: 22px; margin: 8px 0 14px; }
+  li { margin: 4px 0; }
+  .note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 12px 16px;
+          margin: 16px 0; border-radius: 0 8px 8px 0; font-size: 15.5px; }
+  .note.warn { border-color: var(--warn); background: var(--warn-soft); }
+  .note.ga4 { border-color: var(--ga4); background: var(--ga4-soft); }
+  .note.media { border-color: var(--media); background: var(--media-soft); }
+  /* 쉽게 말하면 상자 */
+  .easy { background: var(--easy-soft); border: 1px solid #f1dfa8; border-radius: 10px; padding: 14px 18px 12px;
+          margin: 16px 0 20px; font-size: 15.5px; }
+  .easy::before { content: "💡 쉽게 말하면"; display: block; font-weight: 700; color: var(--easy); font-size: 13.5px; margin-bottom: 4px; }
+  .easy.story::before { content: "📖 이야기로 보기"; }
+  .easy.why::before { content: "🤔 왜 이렇게 하나요?"; }
+  .easy.check::before { content: "✅ 한 줄 정리"; }
+  .easy p:last-child, .easy ul:last-child { margin-bottom: 4px; }
+  .tag { white-space: nowrap; display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 7px; border-radius: 4px;
+         vertical-align: 1px; }
+  .tag.media { color: var(--media); background: var(--media-soft); }
+  .tag.ga4 { color: var(--ga4); background: var(--ga4-soft); }
+  .tag.new { color: var(--warn); background: var(--warn-soft); }
+  pre { font-family: var(--mono); font-size: 13px; line-height: 1.6; background: #fff; border: 1px solid var(--line);
+        border-radius: 8px; padding: 16px 18px; overflow-x: auto; margin: 12px 0 20px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .two > .note { margin: 8px 0; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--line);
+           border-radius: 10px; overflow: hidden; margin: 16px 0 24px; background: #fff; }
+  .three > div { padding: 18px 20px; border-right: 1px solid var(--line); }
+  .three > div:last-child { border-right: 0; }
+  .three .k { font-size: 12px; color: var(--muted); letter-spacing: .06em; }
+  .three .t { font-size: 18px; font-weight: 700; margin: 2px 0 8px; }
+  .three p { font-size: 14.5px; margin: 4px 0; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 16px 0 24px; border-top: 2px solid var(--fg); }
+  .stats > div { padding: 14px 16px 12px 0; }
+  .stats .v { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .stats .l { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .flow { display: grid; gap: 10px; margin: 16px 0 24px; }
+  .flow .row { display: grid; gap: 10px; }
+  .box { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: 14px; line-height: 1.55; }
+  .box b { display: block; font-size: 14.5px; }
+  .box small { color: var(--muted); }
+  .box.media { border-color: #f1c9b0; background: var(--media-soft); }
+  .box.ga4 { border-color: #a8d8d1; background: var(--ga4-soft); }
+  .box.core { border: 2px solid var(--accent); background: var(--accent-soft); }
+  .box.sl { border-color: #c9c2ee; background: #f1effc; }
+  .arrow { text-align: center; color: var(--muted); font-size: 13px; line-height: 1.3; }
+  .layer { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: stretch; }
+  .layer .lbl { font-size: 13px; font-weight: 700; color: var(--muted); padding-top: 8px; line-height: 1.4; }
+  .layer .lbl small { display: block; font-weight: 400; }
+  .boxes { display: flex; flex-wrap: wrap; gap: 8px; }
+  .boxes .box { font-family: var(--mono); font-size: 12.5px; padding: 7px 10px; }
+  .timeline { position: relative; margin: 18px 0 24px; padding-left: 24px; border-left: 2px solid var(--line); }
+  .timeline .ev { position: relative; margin: 0 0 14px; font-size: 15.5px; }
+  .timeline .ev::before { content: ""; position: absolute; left: -31px; top: 9px; width: 12px; height: 12px;
+                          border-radius: 50%; background: #fff; border: 2px solid var(--muted); }
+  .timeline .ev.buy::before { background: var(--ga4); border-color: var(--ga4); }
+  .timeline .d { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-right: 8px; }
+  dl.gloss { display: grid; grid-template-columns: 170px 1fr; gap: 0; margin: 12px 0 24px; border-top: 1px solid var(--line); }
+  dl.gloss dt, dl.gloss dd { margin: 0; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  dl.gloss dt { font-weight: 700; background: var(--soft); }
+  svg text { font-family: "Pretendard", "Malgun Gothic", sans-serif; }
+  footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; } nav { display: none; } main { padding: 32px 20px 80px; }
+    .two, .three, .stats { grid-template-columns: 1fr; } .three > div { border-right: 0; border-bottom: 1px solid var(--line); }
+    dl.gloss { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">Marketing Semantic Layer<small>2026-11 OKR · 쉽게 풀어 쓴 판</small></div>
+  <ol>
+    <li><a href="#start">0. 먼저 읽기 — 한 장 요약</a></li>
+    <li class="group">프로젝트</li>
+    <li><a href="#intro">1. 프로젝트 소개</a></li>
+    <li class="sub"><a href="#words">먼저 알아 둘 단어</a></li>
+    <li class="sub"><a href="#problem">무엇이 문제인가</a></li>
+    <li class="sub"><a href="#solution">어떻게 해결하나</a></li>
+    <li class="sub"><a href="#okr">목표(OKR)</a></li>
+    <li class="sub"><a href="#arch">전체 구조</a></li>
+    <li class="group">데이터</li>
+    <li><a href="#scenario">2. 데이터 시나리오</a></li>
+    <li class="sub"><a href="#why-fake">왜 가짜 데이터인가</a></li>
+    <li class="sub"><a href="#company">가상 회사와 캠페인</a></li>
+    <li class="sub"><a href="#naming">이름 짓는 규칙 · UTM</a></li>
+    <li class="sub"><a href="#journey">손님 한 명의 이야기</a></li>
+    <li class="sub"><a href="#counting">매체가 전환을 세는 법</a></li>
+    <li class="sub"><a href="#judge">GA4 심판 규칙</a></li>
+    <li class="sub"><a href="#incidents">일부러 넣은 사고 6건</a></li>
+    <li class="sub"><a href="#waste">일부러 넣은 낭비 3건</a></li>
+    <li class="sub"><a href="#raw">원천 데이터 생김새</a></li>
+    <li class="sub"><a href="#result">만들어진 결과</a></li>
+    <li class="group">설계</li>
+    <li><a href="#modeling">3. 데이터 모델링</a></li>
+    <li class="sub"><a href="#three-levels">개념 · 논리 · 물리</a></li>
+    <li class="sub"><a href="#conceptual">개념 모델</a></li>
+    <li class="sub"><a href="#logical">논리 모델</a></li>
+    <li class="sub"><a href="#dimensional">차원 모델링</a></li>
+    <li class="sub"><a href="#physical">물리 모델</a></li>
+    <li class="sub"><a href="#dbt-layers">dbt 계층 설계</a></li>
+    <li class="group">진행</li>
+    <li><a href="#plan">4. 학습 경로 · 일정</a></li>
+    <li><a href="#glossary">5. 용어 사전</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">MARKETING SEMANTIC LAYER</div>
+  <h1>"그 손님, 제가 데려왔어요!"<br>세 명이 동시에 손을 들 때, 진짜는 누구일까?</h1>
+  <p class="lead">광고 회사(Google · Meta · Naver)는 저마다 "이 주문은 내 광고 덕분"이라고 보고합니다.
+    이 프로젝트는 쇼핑몰이 직접 남긴 방문 기록(GA4)으로 누구 말이 맞는지 가려냅니다. 그리고 그 계산법을 <b>한 곳에 딱 정해 두어서</b>
+    대시보드든 AI 챗봇이든 누가 물어봐도 같은 답이 나오게 만듭니다.</p>
+  <div class="meta-row">
+    <span><b>기간</b>2026-11-02 ~ 11-30 (4주)</span>
+    <span><b>성격</b>회사 OKR</span>
+    <span><b>도구</b>BigQuery · dbt · Cube · Metabase · Airflow</span>
+    <span><b>데이터</b>가상 패션몰 (직접 만든 가짜 데이터)</span>
+  </div>
+</header>
+
+<!-- ───────────────────────── 0. 한 장 요약 ───────────────────────── -->
+<section id="start">
+  <h2><span class="num">0</span>먼저 읽기 — 한 장 요약</h2>
+  <p>이 페이지가 길어서 처음에 전체 그림부터 드립니다. 아래 이야기만 이해해도 프로젝트의 80%는 이해한 거예요.</p>
+  <div class="easy story">
+    <p>동네에 옷가게가 하나 있어요. 사장님은 손님을 모으려고 <b>전단지 아르바이트생 세 명</b>을 고용했어요. 이름은 구글, 메타, 네이버예요.</p>
+    <p>어느 날 손님 <b>한 명</b>이 와서 옷을 샀어요. 저녁에 아르바이트생들이 보고하러 왔어요.</p>
+    <ul>
+      <li>구글: "그 손님, 제 전단지 보고 왔어요!"</li>
+      <li>메타: "아니에요, 일주일 전에 제 전단지를 봤대요!"</li>
+      <li>네이버: "저도 그 손님한테 전단지 줬는데요?"</li>
+    </ul>
+    <p>보고서를 다 더하면 손님이 <b>세 명</b>이에요. 하지만 진짜 손님은 <b>한 명</b>이었죠. 이 말만 믿고 수당을 주면 사장님은 돈을 세 번 내는 거예요.</p>
+    <p>그런데 가게 입구에는 <b>방명록</b>이 있어요. 손님이 들어올 때 "어떤 전단지 보고 왔어요?"를 적어 두는 장부예요. 이 방명록이 바로 <b>GA4</b>예요.
+      방명록을 보면 진짜로 누가 데려왔는지 알 수 있어요.</p>
+  </div>
+  <table>
+    <tr><th>이야기 속</th><th>실제 프로젝트</th></tr>
+    <tr><td>옷가게</td><td>가상의 패션 쇼핑몰 <b>샘플패션</b></td></tr>
+    <tr><td>전단지 아르바이트생 3명</td><td>광고 매체 <b>Google Ads · Meta(페이스북·인스타) · Naver 검색광고</b></td></tr>
+    <tr><td>"제가 데려왔어요" 보고서</td><td>매체 리포트의 <b>전환 수</b> (= 매체가 주장하는 구매 수)</td></tr>
+    <tr><td>가게 입구 방명록</td><td><b>GA4</b> (구글 애널리틱스 4, 쇼핑몰에 설치된 방문 기록 도구)</td></tr>
+    <tr><td>방명록과 보고서를 맞춰 보는 일</td><td>이 프로젝트의 핵심: <b>매체 주장 vs GA4 판정</b></td></tr>
+    <tr><td>"수당 계산법은 이 공책에 적힌 대로만"</td><td><b>Semantic Layer</b> (지표 계산법을 한 곳에 정해 둔 사전)</td></tr>
+  </table>
+  <div class="easy check">매체 말을 그대로 믿지 말고, 쇼핑몰의 실제 기록으로 검산하자. 검산 방법은 한 곳에 적어 두고 모두가 그것만 쓰자.</div>
+</section>
+
+<!-- ───────────────────────── 1. 소개 ───────────────────────── -->
+<section id="intro">
+  <h2><span class="num">1</span>프로젝트 소개</h2>
+
+  <h3 id="words">먼저 알아 둘 단어</h3>
+  <p>앞으로 계속 나오는 단어들이에요. 처음에 한 번만 보고 넘어가도 괜찮아요. 맨 아래 <a href="#glossary">용어 사전</a>에도 모아 뒀어요.</p>
+  <table>
+    <tr><th>단어</th><th>뜻</th><th>예시</th></tr>
+    <tr><td><b>매체</b></td><td>광고를 실어 주는 회사</td><td>Google, Meta, Naver</td></tr>
+    <tr><td><b>캠페인</b></td><td>하나의 목적을 가진 광고 묶음. "행사" 하나라고 생각하면 돼요</td><td>"MW 브랜드 블랙프라이데이 검색광고"</td></tr>
+    <tr><td><b>광고그룹</b></td><td>캠페인 안에서 다시 나눈 작은 묶음</td><td>같은 캠페인 안의 "원피스 키워드" 묶음, "코트 키워드" 묶음</td></tr>
+    <tr><td><b>노출 · 클릭</b></td><td>광고가 화면에 보인 횟수 · 사람이 광고를 누른 횟수</td><td>1,000번 보이고 20번 눌림</td></tr>
+    <tr><td><b>전환</b></td><td>광고를 보고 우리가 원하는 행동(여기서는 <b>구매</b>)을 한 것</td><td>광고 클릭 후 원피스 구매 = 전환 1건</td></tr>
+    <tr><td><b>ROAS</b></td><td>광고비 1원을 써서 매출이 몇 원 났나. <code>매출 ÷ 광고비</code></td><td>100만 원 쓰고 400만 원 팔면 ROAS 4</td></tr>
+    <tr><td><b>CPA</b></td><td>구매 1건을 얻는 데 든 광고비. <code>광고비 ÷ 구매 수</code></td><td>100만 원 쓰고 50건 팔면 CPA 2만 원</td></tr>
+    <tr><td><b>GA4</b></td><td>쇼핑몰에 설치한 방문 기록 도구. 누가 어디서 와서 무엇을 했는지 한 줄씩 남겨요</td><td>"14:03 인스타 광고로 들어옴 → 14:10 구매"</td></tr>
+    <tr><td><b>UTM</b></td><td>광고 링크 뒤에 붙이는 <b>이름표</b>. GA4가 "이 손님은 어느 광고로 왔구나"를 알게 해 줘요</td><td><code>...?utm_source=instagram&amp;utm_campaign=mw_meta_...</code></td></tr>
+  </table>
+
+  <h3 id="problem">무엇이 문제인가</h3>
+  <h4>문제 ① 매체는 자기한테 유리하게 센다</h4>
+  <p>매체는 "우리 광고를 <b>본 적이 있거나 누른 적이 있는</b> 사람이 일정 기간 안에 사면 우리 덕"이라고 셉니다.
+    그런데 요즘 손님은 하나의 광고만 보고 사지 않아요. 유튜브에서 한 번 보고, 인스타에서 한 번 누르고, 며칠 뒤 검색해서 삽니다.
+    그러면 <b>세 매체가 모두 "내 덕"</b>이라고 보고해요.</p>
+  <div class="easy">세 친구가 같이 선물을 골랐는데 셋 다 "이건 내가 고른 선물이야"라고 말하는 것과 같아요. 선물은 하나인데 고른 사람은 셋이 돼요.</div>
+
+  <h4>문제 ② 다 더하면 실제보다 커진다</h4>
+  <p>매체 리포트의 전환을 모두 더하면 실제 주문 수보다 많아집니다. 이 숫자를 그대로 믿으면 "광고가 엄청 잘 되고 있네!"라고 착각하고,
+    효과 없는 광고에 계속 돈을 쓰게 돼요.</p>
+
+  <h4>문제 ③ 같은 질문에 답이 여러 개</h4>
+  <p>"지난달 ROAS가 얼마야?"라고 물으면, 대시보드는 4.2, 분석 담당자의 SQL은 3.8, AI 챗봇은 5.1이라고 답할 수 있어요.
+    각자 계산법이 조금씩 달라서예요. 무엇을 매출로 볼지, 어느 날짜로 셀지, 평균을 어떻게 낼지 등이 다르기 때문이에요.</p>
+  <div class="easy">같은 반 친구들 키를 재는데 누구는 신발 신고, 누구는 벗고, 누구는 cm 대신 inch로 재면 줄을 세울 수가 없겠죠? 자(기준)를 하나로 정해야 해요.</div>
+
+  <h3 id="solution">어떻게 해결하나</h3>
+  <table>
+    <tr><th>해결 방법</th><th>쉽게 말하면</th></tr>
+    <tr><td><b>GA4를 심판으로 삼는다</b></td><td>아르바이트생 보고서 대신 가게 방명록을 믿는다. 주문 1건은 <b>딱 한 캠페인</b>에만 공을 준다</td></tr>
+    <tr><td><b>계산법을 한 곳에 고정한다</b> (Semantic Layer)</td><td>"ROAS는 이렇게 계산한다"를 공식 사전 한 권에 적고, 대시보드도 AI도 그 사전만 본다</td></tr>
+    <tr><td><b>돈이 새는 곳을 찾는다</b></td><td>매체 보고서로는 잘 되는 것 같은데, 방명록으로 보면 손님을 거의 안 데려오는 광고를 골라낸다</td></tr>
+  </table>
+  <div class="easy why">
+    <p>왜 GA4가 심판일까요? 매체는 "선수"이기도 해서 자기 점수를 후하게 매길 수 있어요. GA4는 우리 쇼핑몰에 직접 설치되어 있고,
+      주문 1건을 1번만 기록하며, 한 주문을 여러 매체에 나눠 주지 않아요. 완벽하진 않지만 <b>모든 매체에 같은 잣대</b>를 댈 수 있어요.</p>
+  </div>
+
+  <h3 id="okr">목표 (OKR)</h3>
+  <p>OKR은 <b>O</b>bjective(이루고 싶은 것)와 <b>K</b>ey <b>R</b>esults(이뤘는지 확인하는 숫자)를 줄인 말이에요.</p>
+  <div class="note">
+    <b>Objective</b>: 매체마다 다르게 주장하는 광고 성과를 하나의 기준으로 검증한다. 이 과정에서 마케팅 성과 측정을 이해하고,
+    BI와 AI가 같은 숫자를 내는 데이터 파이프라인을 만드는 역량을 함께 갖춘다.
+  </div>
+  <table>
+    <tr><th>KR</th><th>내용</th><th>쉽게 말하면</th></tr>
+    <tr><td>KR1</td><td>마케팅 핵심 지표 10개를 Semantic Layer에 단일 정의하고 매일 자동 갱신</td><td>ROAS·CPA 같은 지표 10개의 계산법을 사전에 적고, 매일 아침 저절로 새 숫자로 바뀌게 한다</td></tr>
+    <tr><td>KR2</td><td>AI 챗봇 · BI 대시보드 결과 일치율 100% (검증 질문 20개), 예산 낭비 패턴 3건 탐지</td><td>질문 20개를 대시보드와 AI에 똑같이 물어서 20개 다 같은 답이 나와야 한다. 일부러 숨겨 둔 낭비 3건도 찾아내야 한다</td></tr>
+  </table>
+  <p><b>부가 목표</b>: dbt · 데이터 리니지 · Semantic Layer를 직접 만들며 배운다. 그리고 원천이 바뀌어도 그대로 쓸 수 있는 구조를 만든다.
+    새 매체를 붙일 때는 원천을 정리하는 파일만 하나 추가하면 되게 하는 거예요.</p>
+  <div class="easy">멀티탭처럼 만들자는 거예요. 새 전자제품(매체)이 생겨도 집 전기 배선을 다시 하지 않고, 플러그만 꽂으면 되게요.</div>
+
+  <h3 id="arch">전체 구조 — 데이터가 흘러가는 길</h3>
+  <p>데이터를 <b>식당 주방</b>이라고 생각해 보세요. 재료가 들어와서 → 씻고 → 손질하고 → 요리가 되고 → 메뉴판에 올라가서 → 손님에게 나갑니다.</p>
+  <div class="flow">
+    <div class="row" style="grid-template-columns: 1fr 1fr 1fr 1.2fr;">
+      <div class="box media"><b>Google Ads</b><small>JSONL 파일 · 비용이 micros 단위 · 중첩 구조</small></div>
+      <div class="box media"><b>Meta</b><small>CSV · 구매 수가 JSON 문자열 안에</small></div>
+      <div class="box media"><b>Naver SA</b><small>CSV · 한글 헤더 · VAT 포함</small></div>
+      <div class="box ga4"><b>GA4</b><small>날짜별 테이블 · 이벤트 정보 중첩</small></div>
+    </div>
+    <div class="arrow">🥕 재료 도착: 생성기가 만든 파일 → 적재 스크립트 → BigQuery 창고(raw)</div>
+    <div class="row" style="grid-template-columns: 3fr 1.2fr;">
+      <div class="box media"><b>dbt staging → intermediate (매체 쪽)</b><small>씻기·손질: 매체마다 다른 모양을 하나의 공통 모양으로 맞춘다</small></div>
+      <div class="box ga4"><b>dbt staging → intermediate (GA4 쪽)</b><small>방문 → 주문 → "어느 캠페인 덕인가" 정하기</small></div>
+    </div>
+    <div class="arrow">↓ 🍳 요리</div>
+    <div class="box core"><b>dbt mart: 캠페인 × 날짜별 "매체 주장 vs GA4 판정" 표</b><small>더해도 되는 숫자만 둔다: 비용 · 매체 전환 · GA4 주문 · GA4 매출</small></div>
+    <div class="arrow">↓ 📋 메뉴판</div>
+    <div class="box sl"><b>Cube (Semantic Layer)</b><small>ROAS · CPA · 과대 주장 배수처럼 나누기가 들어가는 지표는 여기서 단 한 번만 계산</small></div>
+    <div class="arrow">↓ 🍽️ 손님에게 (SQL API · REST API)</div>
+    <div class="row" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="box"><b>Metabase</b><small>그래프로 보는 대시보드</small></div>
+      <div class="box"><b>AI 챗봇</b><small>말로 물어보면 답하는 창구. 같은 메뉴판 사용</small></div>
+      <div class="box"><b>Airflow (로컬)</b><small>⏰ 매일 아침 "재료 받기 → 요리" 순서를 자동으로 돌리는 타이머</small></div>
+    </div>
+  </div>
+  <table>
+    <tr><th>도구</th><th>주방 비유</th><th>하는 일</th></tr>
+    <tr><td>BigQuery</td><td>창고 + 큰 조리대</td><td>구글의 클라우드 데이터베이스. 데이터를 저장하고 SQL로 계산한다</td></tr>
+    <tr><td>dbt</td><td>레시피 북</td><td>"이 재료를 이렇게 손질해서 이 요리를 만든다"를 SQL 파일로 적어 두고 순서대로 실행한다</td></tr>
+    <tr><td>Cube</td><td>메뉴판</td><td>지표 이름과 계산법을 정해 둔다. 누가 "ROAS 주세요" 하면 항상 같은 방법으로 계산해 준다</td></tr>
+    <tr><td>Metabase</td><td>홀 손님</td><td>메뉴판을 보고 그래프로 보여 준다</td></tr>
+    <tr><td>AI 챗봇</td><td>배달 손님</td><td>말로 질문하면 같은 메뉴판으로 답한다</td></tr>
+    <tr><td>Airflow</td><td>주방 타이머</td><td>매일 정해진 시간에 전체 과정을 자동 실행한다</td></tr>
+  </table>
+  <h4>지키는 원칙 5개</h4>
+  <table>
+    <tr><th>원칙</th><th>왜?</th></tr>
+    <tr><td>지표 계산은 Semantic Layer 한 곳에서만</td><td>여기저기 표마다 ROAS를 미리 계산해 두면 언젠가 계산법이 서로 달라져요. 사전은 한 권이어야 해요</td></tr>
+    <tr><td>원천은 <code>source()</code>, 모델은 <code>ref()</code>로만 부른다</td><td>dbt가 "이 표는 저 표에서 왔다"를 자동으로 알아서 족보(리니지) 그래프를 끊김 없이 그려 줘요</td></tr>
+    <tr><td>한 번 들어온 원천은 덮어쓰지 않는다</td><td>고칠 일이 있으면 모델을 하나 더 만들어요. 그래야 무엇을 왜 고쳤는지 그래프에 흔적이 남아요</td></tr>
+    <tr><td>회사마다 다른 것은 설정 파일(seed)로 뺀다</td><td>"우리 회사의 전환은 구매", "목표 ROAS는 3" 같은 건 코드가 아니라 설정이에요. 그래야 다른 회사 데이터에도 코드를 그대로 쓸 수 있어요</td></tr>
+    <tr><td>BigQuery 말고는 전부 내 PC에서</td><td>무료 한도 안에서 운영해요. 예산 알림, 하루 쿼리 한도, <code>maximum_bytes_billed</code>(한 번에 읽을 수 있는 양 제한)로 실수로 큰돈 나가는 걸 막아요</td></tr>
+  </table>
+</section>
+
+<!-- ───────────────────────── 2. 데이터 시나리오 ───────────────────────── -->
+<section id="scenario">
+  <h2><span class="num">2</span>데이터 시나리오</h2>
+
+  <h3 id="why-fake">왜 가짜 데이터인가</h3>
+  <p>실제 회사 데이터 대신 <b>생성기(프로그램)로 만든 가상 세계</b>를 씁니다. 이유는 두 가지예요.</p>
+  <ol>
+    <li><b>보안 걱정이 없다</b>: 실제 고객 정보나 광고비가 하나도 들어 있지 않아요.</li>
+    <li><b>정답지가 있다</b>: 사고와 낭비를 <b>일부러 심어 두었기</b> 때문에, 나중에 내 파이프라인이 그걸 찾아내는지 채점할 수 있어요.</li>
+  </ol>
+  <div class="easy">보물찾기와 같아요. 보물을 어디에 숨겼는지 아는 사람이 지도를 만들어야, 지도를 보고 찾는 사람이 제대로 찾았는지 확인할 수 있죠.</div>
+
+  <h3 id="company">가상 회사와 캠페인</h3>
+  <p>패션 쇼핑몰 <b>샘플패션</b> 1곳에 브랜드 2개가 있어요. 쇼핑몰과 GA4는 하나를 같이 씁니다.
+    기간은 <b>2025-06-01 ~ 11-30 (183일)</b>이고, 마지막 열흘은 블랙프라이데이 시즌이에요.</p>
+  <table>
+    <tr><th>브랜드</th><th>성격</th><th>예산 배분</th><th>하루 광고비</th></tr>
+    <tr><td><b>MW</b> 모어웨어</td><td>10년 된 여성복. 이미 유명해서 광고 없이 찾아오는 손님이 많아요 (직접·자연 유입 45%)</td><td>사게 하기 70 / 알리기 30</td><td>약 200만 원</td></tr>
+    <tr><td><b>NK</b> 누크</td><td>작년에 나온 캐주얼. 아직 잘 몰라서 광고에 많이 기대요 (자연 유입 15%)</td><td>알리기 70 / 사게 하기 30</td><td>약 100만 원</td></tr>
+  </table>
+
+  <h4>퍼널이란? — 손님이 사기까지 거치는 단계</h4>
+  <p>깔때기(funnel)처럼 위는 넓고 아래로 갈수록 좁아져요. 많은 사람이 알게 되고, 그중 일부가 관심을 갖고, 그중 일부가 삽니다.</p>
+  <table>
+    <tr><th>단계</th><th>코드</th><th>손님의 마음</th><th>어떤 광고</th></tr>
+    <tr><td>인지</td><td>AW</td><td>"이런 브랜드가 있구나"</td><td>유튜브 영상, 인스타 릴스</td></tr>
+    <tr><td>고려</td><td>CS</td><td>"원피스 하나 살까? 어디가 좋지?"</td><td>"원피스" 같은 일반 단어 검색광고</td></tr>
+    <tr><td>전환</td><td>CV</td><td>"모어웨어 가서 사야지"</td><td>브랜드 이름 검색광고, 쇼핑광고</td></tr>
+    <tr><td>리타겟팅</td><td>RT</td><td>"장바구니에 담아 놓고 깜빡했네"</td><td>장바구니에 담고 안 산 사람에게 다시 보여 주는 광고</td></tr>
+  </table>
+  <h4>캠페인 14개</h4>
+  <div class="table-wrap"><table>
+    <tr><th>퍼널</th><th>MW</th><th>NK</th></tr>
+    <tr><td>인지 AW</td><td>YouTube, 인스타 릴스</td><td>YouTube, 인스타 릴스</td></tr>
+    <tr><td>고려 CS</td><td>Google 일반검색(원피스)</td><td>-</td></tr>
+    <tr><td>전환 CV</td><td>Google 브랜드검색, PMax, Meta 유사타겟, Naver 브랜드검색</td><td>Google 브랜드검색, Meta 첫구매 20% 쿠폰(9/1~), Naver 쇼핑검색(7/1~)</td></tr>
+    <tr><td>리타겟팅 RT</td><td>Meta 장바구니 10일 + 20% 쿠폰</td><td>Meta 장바구니 10일</td></tr>
+  </table></div>
+  <ul>
+    <li><b>PMax</b>: 구글이 검색·유튜브·지메일 등에 알아서 광고를 뿌려 주는 자동 캠페인이에요. 광고그룹이 없어요.</li>
+    <li><b>유사타겟(LAL)</b>: "우리 기존 고객과 비슷한 사람"을 Meta가 찾아서 보여 주는 광고예요.</li>
+  </ul>
+  <div class="note">Naver 광고는 처음부터 집행하지만, dbt에는 <b>4주차에 일부러 늦게 붙입니다</b>. "새 매체를 붙일 때 파일 하나만 추가하면 된다"를 보여 주기 위해서예요.
+    그래서 그 전까지는 GA4에는 Naver로 온 손님이 있는데 매체 리포트에는 Naver가 없어요. 이상한 게 아니라 정상이에요.</div>
+
+  <h3 id="naming">이름 짓는 규칙 · UTM</h3>
+  <h4>캠페인 이름 = 주소처럼 순서대로</h4>
+  <p>주소를 "서울시 → 강남구 → 역삼동" 순서로 쓰듯, 캠페인 이름도 정해진 순서로 씁니다. 이름만 보고 무슨 캠페인인지 알 수 있게요.</p>
+  <p><code>브랜드_매체_상품_퍼널_타겟_프로모션</code></p>
+  <pre>MW _ META _ FEED _ RT _ CART10D _ CPN20
+│    │      │      │    │         └ 프로모션  AO(상시) · CPN20(20% 쿠폰)
+│    │      │      │    └ 타겟       BRANDKW · GENERICKW · DRESSKW · BROAD · LAL · INT · CART10D
+│    │      │      └ 퍼널          AW 인지 · CS 고려 · CV 전환 · RT 리타겟팅
+│    │      └ 상품               SRCH · PMAX · YT · FEED · REELS · SHOP
+│    └ 매체                    GG · META · NAVER
+└ 브랜드                     MW · NK</pre>
+  <div class="easy">위 이름을 읽으면 이렇게 돼요. "<b>모어웨어</b>가 <b>메타</b>의 <b>피드</b>에서 하는 <b>리타겟팅</b> 광고인데, <b>10일 안에 장바구니에 담은 사람</b>에게 <b>20% 쿠폰</b>을 보여 준다."
+    나중에 dbt에서 이 이름을 <code>_</code>로 잘라서 브랜드·퍼널 같은 칸을 자동으로 만들 거예요.</div>
+  <h4>UTM = 광고 링크에 붙이는 이름표</h4>
+  <p>광고를 누르면 쇼핑몰로 가는 주소 뒤에 이름표가 붙어 있어요. GA4는 이 이름표를 읽어서 "이 손님은 이 광고로 왔구나"를 기록해요.</p>
+  <pre>https://samplefashion.example/?utm_source=instagram&amp;utm_medium=paid_social&amp;utm_campaign=mw_meta_feed_rt_cart10d_cpn20&amp;utm_content=…</pre>
+  <table>
+    <tr><th>UTM</th><th>뜻</th><th>값</th></tr>
+    <tr><td><code>utm_source</code></td><td>어디서 왔나</td><td>google · youtube · facebook · instagram · naver (광고가 실제로 보인 곳 기준)</td></tr>
+    <tr><td><code>utm_medium</code></td><td>어떤 종류의 광고인가</td><td>검색·쇼핑 <code>cpc</code> / YouTube <code>paid_video</code> / Meta <code>paid_social</code></td></tr>
+    <tr><td><code>utm_campaign</code></td><td>어느 캠페인인가</td><td>캠페인 이름을 소문자로</td></tr>
+    <tr><td><code>utm_content</code></td><td>캠페인 안의 어느 광고그룹인가</td><td>광고그룹 코드</td></tr>
+  </table>
+  <div class="easy why">이름표가 매체 리포트(아르바이트생 보고서)와 GA4(방명록)를 이어 주는 <b>유일한 다리</b>예요. 그래서 이름표에 오타가 나면 다리가 끊어져요.
+    아래 <a href="#incidents">사고 I2·I3·I4</a>가 바로 이 다리가 흔들리는 사고들이에요.</div>
+
+  <h3 id="journey">손님 한 명의 이야기 — 왜 숫자가 부풀어 오르나</h3>
+  <p>인지 광고로 처음 온 사람은 대부분 그날 바로 사지 않아요. 며칠 뒤 브랜드를 검색하거나, 리타겟팅 광고를 보거나, 직접 주소를 쳐서 다시 와서 삽니다.</p>
+  <div class="easy story">손님 <b>지수</b>의 일주일을 따라가 볼게요.</div>
+  <div class="timeline">
+    <div class="ev"><span class="d">D-7</span>유튜브에서 모어웨어 광고를 봄 (누르지는 않음)</div>
+    <div class="ev"><span class="d">D-5</span>인스타 릴스 광고를 <b>클릭</b> → 쇼핑몰에서 원피스를 장바구니에 담고 나감</div>
+    <div class="ev buy"><span class="d">D-0</span>구글에서 "모어웨어"를 검색, 브랜드검색 광고를 클릭 → <b>원피스 1벌 구매</b></div>
+  </div>
+  <div class="two">
+    <div class="note ga4"><b>GA4 (방명록, 실제)</b><br>주문 <b>1건</b>. 마지막으로 데려온 <b>브랜드검색</b> 캠페인에만 공을 준다.</div>
+    <div class="note warn"><b>매체 리포트 (보고서, 주장)</b><br>Google: "검색 클릭 후 샀으니 1건"<br>Meta: "7일 안에 릴스 클릭했으니 1건"<br>→ <b>합계 2건</b></div>
+  </div>
+  <p>실제 주문은 1건인데 리포트를 합치면 2건이 됐어요. 손님이 수천 명이면 이런 겹침이 수천 번 일어나요. 이게 <b>과대 주장</b>이에요.</p>
+
+  <h3 id="counting">매체가 전환을 세는 법</h3>
+  <p>매체마다 "언제까지 산 걸 내 덕으로 칠지" 기간이 달라요. 이 기간을 <b>어트리뷰션 윈도</b>라고 해요. 우유 유통기한처럼 생각하면 쉬워요.
+    "클릭한 지 30일 안에 사면 내 덕, 31일째부터는 아님" 같은 식이에요.</p>
+  <table>
+    <tr><th>매체</th><th>클릭 후 인정 기간</th><th>보기만 해도 인정? (조회 전환)</th></tr>
+    <tr><td>Google</td><td>30일</td><td>YouTube 영상을 일정 시간 이상 본 경우 3일 (MW 6% · NK 15%)</td></tr>
+    <tr><td>Meta</td><td>광고세트마다 정한 설정 <code>attribution_setting</code>을 따름 (기본 <code>7d_click_1d_view</code> = 클릭 7일 + 조회 1일)</td><td>설정에 <code>1d_view</code>가 있으면 1일 (MW 22% · NK 40%)</td></tr>
+    <tr><td>Naver</td><td>20일</td><td>없음</td></tr>
+  </table>
+  <div class="easy"><b>조회 전환</b>은 "광고를 누르지도 않고 <b>스쳐 지나가며 보기만</b> 했는데, 하루 안에 샀으니 내 덕"이라는 거예요.
+    전단지를 받지도 않고 길에서 흘깃 본 사람까지 "제가 데려왔어요"라고 하는 셈이라, 과대 주장이 특히 커지는 원인이에요.</div>
+  <h4>매체 리포트의 이상한 습관 4가지</h4>
+  <table>
+    <tr><th>습관</th><th>쉽게 말하면</th></tr>
+    <tr><td>전환은 <b>산 날이 아니라 광고를 누른 날</b>에 붙는다</td><td>6/30에 클릭하고 7/3에 사면, 리포트는 "6/30 전환 1건"이라고 적어요</td></tr>
+    <tr><td>매일 아침 <b>최근 14일치를 다시</b> 받는다. 같은 날짜의 숫자가 받을 때마다 늘어난다</td><td>성적표가 매일 정정돼서 와요. 6/30에 클릭하고 7/3에 산 사람은 7/4에 받은 리포트부터 6/30 칸에 더해져요</td></tr>
+    <tr><td>14일보다 늦게 붙는 전환은 끝내 안 잡힌다</td><td>정정 기간이 지나면 더는 안 고쳐 줘요</td></tr>
+    <tr><td>비용·클릭은 다음 날 2% 크게 나왔다가 사흘째 확정</td><td>가짜 클릭(무효 클릭)을 나중에 빼 주기 때문이에요</td></tr>
+  </table>
+  <div class="easy why">그래서 "어제 숫자"를 한 번 저장하고 끝내면 안 돼요. 매일 지난 14일을 다시 계산해야 해요. 이걸 dbt에서 <b>incremental + lookback 14일</b>로 처리해요 (<a href="#dimensional">3장</a>에서 설명).</div>
+
+  <h3 id="judge">GA4 심판 규칙</h3>
+  <p class="section-lead">이 프로젝트가 스스로 정한 규칙이에요. GA4 화면에 보이는 숫자와 똑같다고 하지는 않아요.</p>
+  <table>
+    <tr><th>항목</th><th>규칙</th><th>쉽게 말하면</th></tr>
+    <tr><td>무엇을 구매로 보나</td><td><code>purchase</code> 이벤트, <code>transaction_id</code>로 중복 제거</td><td>주문번호가 같으면 1건으로 센다</td></tr>
+    <tr><td>누구에게 공을 주나</td><td>라스트 논-다이렉트 클릭, 30일. 주문 1건은 캠페인 1개에만</td><td>아래 설명 참고</td></tr>
+    <tr><td>손님이 어느 캠페인에서 왔나</td><td>utm_source / utm_medium / utm_campaign (정리한 뒤, 캠페인 이름이 바뀐 이력까지 반영)</td><td>이름표를 읽되, 오타와 개명을 바로잡고 읽는다</td></tr>
+    <tr><td>어느 날짜에 적나</td><td>기본은 <b>공을 받은 클릭의 날짜</b> (매체 리포트와 같은 기준). 보조로 구매일. 최근 30일은 "아직 확정 아님" 표시 (오늘 산 주문이 30일 전 클릭 날짜에 붙을 수 있으니까)</td><td>매체와 같은 날짜 기준으로 맞춰야 나란히 비교할 수 있다</td></tr>
+    <tr><td>시간대</td><td>한국 시간(KST). GA4 원본 <code>event_timestamp</code>는 UTC 마이크로초</td><td>원본은 영국 시간에 1초를 100만 칸으로 쪼갠 숫자라서, 한국 시간으로 바꿔야 날짜가 맞는다</td></tr>
+  </table>
+  <h4>"라스트 논-다이렉트 클릭"이 뭔가요?</h4>
+  <ul>
+    <li><b>라스트</b>: 여러 번 왔으면 <b>마지막으로 데려온</b> 광고에 공을 준다.</li>
+    <li><b>논-다이렉트</b>: 즐겨찾기나 주소창 입력처럼 <b>직접 온 방문은 건너뛴다</b>. 직접 온 건 아무도 데려온 게 아니니까요.</li>
+  </ul>
+  <div class="easy story">지수가 D-5에 릴스로 왔다가, D-0에 즐겨찾기로 <b>직접</b> 와서 샀다면? 직접 방문은 건너뛰고 그 전의 <b>릴스</b>가 공을 받아요.
+    D-0에 브랜드검색 광고로 와서 샀다면? 마지막 광고인 <b>브랜드검색</b>이 공을 받아요. 어느 쪽이든 공을 받는 캠페인은 <b>딱 하나</b>예요.</div>
+
+  <h3 id="incidents">일부러 넣은 사고 6건 <small style="font-weight:400;color:var(--muted)">— dbt 테스트와 정리 규칙으로 잡아야 할 것</small></h3>
+  <p>실제 회사에서 자주 일어나는 실수를 데이터에 숨겨 놨어요. dbt가 이걸 찾아내거나 바로잡지 못하면 숫자가 틀려요.</p>
+
+  <h4>I1 <span class="tag new">11-12 변경</span> 어트리뷰션 설정이 바뀜</h4>
+  <p>9/8~9/21 동안 MW 유사타겟 광고세트 2개의 설정이 <code>1d_click</code>(클릭 1일만)에서 <code>7d_click_1d_view</code>(클릭 7일 + 조회 1일)로 바뀌었어요.
+    담당자가 바뀌면서 기본값으로 돌아간 거예요. 9/22에 원래대로 돌렸어요. <b>실제 주문은 그대로인데 Meta 전환만 늘어나요.</b></p>
+  <div class="easy">키를 재는 자를 30cm짜리에서 1m짜리로 몰래 바꾼 것과 같아요. 아이 키는 그대로인데 기록만 갑자기 커져요. 이럴 때 "키가 컸다(성과가 좋아졌다)"고 착각하면 안 되죠.</div>
+  <ul>
+    <li><b>어디서 보이나</b>: Meta 리포트의 <code>attribution_setting</code> 칸</li>
+    <li><b>dbt에서는</b>: 설정이 바뀐 날을 찾는 테스트, 설정이 다른 기간끼리는 비교하지 않는 규칙, "매체 ÷ GA4" 배수가 갑자기 뛰면 경고</li>
+  </ul>
+  <div class="note warn"><b>I1을 바꾼 이유</b>: 처음엔 "Meta 픽셀을 두 번 설치해서 전환이 두 번 잡힘"이라는 사고였어요.
+    그런데 매체 리포트에는 픽셀 설치 정보가 없어요. 전환이 늘어난 건 보여도 <b>왜 늘었는지는 어느 표에서도 찾을 수 없어요</b>.
+    그래서 원인까지 데이터의 한 칸으로 남는 "설정 변경"으로 바꿨어요. <code>attribution_setting</code>은 Meta 인사이트 API가 실제로 주는 항목이에요.</div>
+
+  <h4>I2 이름표 종류를 잘못 씀</h4>
+  <p>7/1~7/14 NK 릴스 광고의 <code>utm_medium</code>을 <code>paid_social</code> 대신 <code>social</code>로 입력했어요.</p>
+  <div class="easy">"유료 광고" 바구니에 넣어야 할 사과를 "무료 SNS" 바구니에 넣은 거예요. 그 2주 동안 릴스 광고 손님이 광고가 아닌 걸로 분류돼요.</div>
+  <ul><li><b>어디서</b>: GA4 <code>collected_traffic_source</code> · <b>dbt에서는</b>: 채널 분류표(seed), 허용된 값만 있는지 확인하는 <code>accepted_values</code> 테스트</li></ul>
+
+  <h4>I3 캠페인 이름을 바꿈</h4>
+  <p>8/1에 MW 일반검색 캠페인 이름이 바뀌었어요 (<code>GENERICKW</code> → <code>DRESSKW</code>). UTM도 같이 바뀌었어요.</p>
+  <div class="easy">친구가 개명한 것과 같아요. 이름으로만 찾으면 7월의 "김철수"와 8월의 "김민준"이 다른 사람처럼 보여요. 바뀌지 않는 <b>학번(캠페인 ID)</b>으로 찾아야 같은 사람인 걸 알아요.</div>
+  <ul><li><b>어디서</b>: 매체 캠페인 설정 스냅샷 · <b>dbt에서는</b>: 매일 찍어 둔 캠페인 사진으로 이름 변경 이력 표 만들기(SCD2), ID 기준 연결</li></ul>
+
+  <h4>I4 대소문자·공백 실수</h4>
+  <p>Naver 광고 링크의 <code>utm_campaign</code> 중 4%가 대문자이거나 앞뒤에 공백이 있어요.</p>
+  <div class="easy">사람 눈에는 <code>mw_naver_srch</code>와 <code>MW_Naver_srch </code>가 같아 보이지만, 컴퓨터는 글자 하나만 달라도 다른 이름으로 봐요.</div>
+  <ul><li><b>어디서</b>: GA4 utm 값 · <b>dbt에서는</b>: staging에서 소문자로 바꾸고 공백을 지우는 정리 함수(macro)</li></ul>
+
+  <h4>I5 주문 완료 페이지 새로고침</h4>
+  <p>주문 완료 화면에서 새로고침하면 <code>purchase</code> 이벤트가 한 번 더 기록돼요. 1.5%가 중복이에요.</p>
+  <div class="easy">계산대에서 영수증이 실수로 두 장 나온 거예요. 주문번호가 같으니 한 장은 버려야 해요.</div>
+  <ul><li><b>어디서</b>: GA4 purchase 이벤트 · <b>dbt에서는</b>: <code>transaction_id</code>가 하나씩만 있는지 보는 <code>unique</code> 테스트, 중복 제거</li></ul>
+
+  <h4>I6 같은 구매가 이름 세 개로</h4>
+  <p>Meta 리포트의 <code>actions</code> 안에 구매가 <code>purchase</code>, <code>offsite_conversion.fb_pixel_purchase</code>, <code>omni_purchase</code> 세 가지 이름으로, 같은 숫자로 들어 있어요.</p>
+  <div class="easy">한 친구를 이름·별명·영어 이름으로 세 번 불렀다고 출석부에 세 명을 적으면 안 되죠. 셋 중 <b>하나만</b> 골라 세야 해요.</div>
+  <ul><li><b>어디서</b>: Meta <code>actions</code> JSON · <b>dbt에서는</b>: <code>action_type</code> 하나만 고르는 규칙</li></ul>
+
+  <h3 id="waste">일부러 넣은 예산 낭비 3건 <small style="font-weight:400;color:var(--muted)">— KR2 채점용 보물</small></h3>
+  <p>매체 리포트만 보면 문제없어 보이지만, GA4로 보면 돈이 새고 있는 경우예요.</p>
+  <table>
+    <tr><th>ID</th><th>무슨 일</th><th>매체만 보면</th><th>GA4로 보면</th></tr>
+    <tr><td><b>P1</b></td><td>8/1부터 MW 장바구니 리타겟팅 광고가 <b>최근 30일 안에 이미 산 사람</b>에게도 보임 (구매자 제외 설정 빠짐)</td><td>성과 좋아 보임</td><td>어차피 살 사람에게 20% 할인만 준 것</td></tr>
+    <tr><td><b>P2</b></td><td>NK 첫구매 20% 행사가 10/15에 끝났는데 광고는 계속 집행</td><td>조회 전환이 남아 있어서 잘 티가 안 남</td><td>주문은 확 줄고 비용은 그대로</td></tr>
+    <tr><td><b>P3</b></td><td>11/17 블프에 PMax 일예산을 45만 → 135만 원(3배)으로 올림</td><td>전환 수가 늘어남</td><td>ROAS가 절반 아래로 떨어짐</td></tr>
+  </table>
+  <div class="easy">
+    <ul>
+      <li><b>P1</b>: 방금 가게에서 옷을 사 간 손님에게 "20% 할인 쿠폰 드려요!" 하고 전단지를 또 주는 것. 그 손님은 쿠폰이 없어도 다음에 또 올 사람이었어요.</li>
+      <li><b>P2</b>: "오늘까지 할인!" 행사가 끝났는데 전단지를 계속 뿌리는 것. 전단지 값만 나가요.</li>
+      <li><b>P3</b>: 전단지를 3배로 뿌렸더니 손님은 조금 늘었지만 3배는 아니었어요. 전단지 한 장당 데려오는 손님은 오히려 줄었어요.</li>
+    </ul>
+  </div>
+  <p>그리고 낭비 패턴과 별개로 전체에 깔린 현상이 있어요. 바로 <b>매체 과대 주장</b>이에요. 매체 리포트 전환 합계가 GA4 주문보다 커요.
+    특히 인지 캠페인(릴스·유튜브)이 "보기만 해도 내 덕" 규칙으로 주문을 많이 가져가요. 이건 사고가 아니라 이 프로젝트의 <b>메인 분석 결과</b>예요.</p>
+
+  <h3 id="raw">원천 데이터 생김새 — 매체마다 말투가 다르다</h3>
+  <p>세 나라에서 온 영수증을 생각해 보세요. 하나는 달러, 하나는 엔, 하나는 원으로 적혀 있고, 날짜 쓰는 법도 다 달라요. 그대로 더하면 엉망이 돼요.
+    매체 데이터도 똑같아요.</p>
+  <div class="table-wrap"><table>
+    <tr><th>원천</th><th>생김새</th><th>BigQuery 테이블</th></tr>
+    <tr><td><span class="tag media">Google Ads</span></td><td>광고그룹 × 하루 = 1줄, JSONL 파일. 안에 상자가 겹겹이 들어 있음(중첩). 숫자가 글자로 저장됨. 비용은 <b>micros</b>(1원 = 1,000,000). PMax는 광고그룹이 없음</td><td><code>raw_google_ads.ad_group_daily</code></td></tr>
+    <tr><td><span class="tag media">Meta</span></td><td>광고세트 × 하루 = 1줄, CSV. 비용이 글자. 구매 수는 <code>actions</code>라는 JSON 글자 안에 숨어 있음. <code>clicks</code>(모든 클릭) ≠ 링크 클릭. <code>attribution_setting</code> 칸</td><td><code>raw_meta.adset_insights_daily</code></td></tr>
+    <tr><td><span class="tag media">Naver</span></td><td>광고그룹 × 하루 = 1줄, CSV. 칸 이름이 한글. 숫자에 쉼표(<code>1,234</code>). 비용에 <b>부가세 10% 포함</b>. 날짜가 <code>2025.06.01</code></td><td><code>raw_naver_sa.ad_group_stat_daily</code></td></tr>
+    <tr><td>캠페인 설정</td><td>매체별로 매일 아침 찍어 둔 캠페인 이름·상태 사진(스냅샷)</td><td><code>raw_*.campaigns</code></td></tr>
+    <tr><td>예산 변경 이력</td><td>1줄 = 예산을 바꾼 1번 (이전값 · 바꾼 값 · 시각 UTC)</td><td><code>raw_change_history.budget_changes</code></td></tr>
+    <tr><td><span class="tag ga4">GA4</span></td><td>실제 GA4 export와 같은 구조. <b>날짜마다 테이블이 따로</b> 있음. 이벤트 정보(<code>event_params</code>)와 상품 목록(<code>items</code>)이 중첩</td><td><code>analytics_412093847.events_YYYYMMDD</code></td></tr>
+  </table></div>
+  <p>적재 스크립트는 매체 테이블에 딱 3칸만 덧붙여요: <code>_extract_date</code>(언제 받은 파일인지), <code>_file_name</code>(파일 이름), <code>_loaded_at</code>(창고에 넣은 시각).
+    앞에서 말했듯 매일 14일치를 다시 받으니까, <b>같은 날짜가 여러 번 들어 있는 게 정상</b>이에요. 그중 가장 최근에 받은 값을 고르는 건 dbt가 할 일이에요.</p>
+
+  <h3 id="result">만들어진 결과</h3>
+  <p class="section-lead">2026-11-12 I1을 바꾼 뒤 전체를 다시 만들고, DuckDB(내 PC용 작은 데이터베이스)로 확인한 숫자예요.</p>
+  <div class="stats">
+    <div><div class="v">338만</div><div class="l">GA4 이벤트 (하루 약 1.8만 줄)</div></div>
+    <div><div class="v">28,532</div><div class="l">실제 주문 (새로고침 중복 459건은 별도)</div></div>
+    <div><div class="v">29,385</div><div class="l">매체 리포트 전환 합계</div></div>
+    <div><div class="v">약 1.4배</div><div class="l">매체 주장 ÷ GA4 광고 귀속 주문 (약 2.05만)</div></div>
+  </div>
+  <div class="easy">광고 덕분에 생긴 진짜 주문은 약 2만 500건인데, 매체들은 합쳐서 2만 9천 건이 자기 덕이라고 해요. <b>약 1.4배 부풀려져 있어요.</b>
+    (실제 주문 28,532건 중 나머지는 광고 없이 직접·검색으로 온 손님이에요.)</div>
+  <table>
+    <tr><th>확인 항목</th><th>결과</th><th>읽는 법</th></tr>
+    <tr><td>매체별 리포트 전환</td><td>Google 14,643 · Meta 11,335 · Naver 3,407</td><td>각자 주장하는 숫자</td></tr>
+    <tr><td>과대 주장이 가장 큰 곳</td><td>MW 릴스: 매체 ROAS 10.9 vs GA4 1.0 · NK 릴스 1.10 vs 0.28 · YouTube 두 캠페인</td><td>MW 릴스는 매체 말로는 1원 써서 10.9원 벌었다는데, 방명록으로 보면 1원 써서 1원 벌었어요</td></tr>
+    <tr><td>I1 설정 변경</td><td>MW 유사타겟 Meta 전환 153 → <b>293</b> → 133건 (바뀌기 전 2주 → 바뀐 2주 → 되돌린 뒤 2주). 같은 기간 GA4 구매 148 → 141 → 125건, 비용 392만 → 394만 → 375만 원</td><td>돈도 실제 주문도 비슷한데 매체 전환만 2배 가까이 뛰었다가 돌아와요. 자를 바꾼 흔적이에요</td></tr>
+    <tr><td>P1 리타겟팅</td><td>주문 중 최근 30일 구매자 비율 6~8% → 8월부터 56~60%</td><td>쿠폰 받은 사람 절반 이상이 이미 산 사람</td></tr>
+    <tr><td>P2 쿠폰 종료</td><td>GA4 주문 주 20~35건 → 10/16 이후 주 2~7건, 비용은 주 100만 원 그대로</td><td>손님은 끊겼는데 돈은 계속 나감</td></tr>
+    <tr><td>P3 블프 증액</td><td>PMax 하루 비용 42만 → 126만 원, GA4 ROAS 5.9 → 2.0</td><td>돈 3배, 효율은 3분의 1</td></tr>
+    <tr><td>용량</td><td>GA4 99MB (parquet) · 매체 약 29MB</td><td>BigQuery 무료 저장 한도 10GB 안에 넉넉히 들어감</td></tr>
+  </table>
+</section>
+
+<!-- ───────────────────────── 3. 모델링 ───────────────────────── -->
+<section id="modeling">
+  <h2><span class="num">3</span>데이터 모델링</h2>
+  <p class="section-lead">dbt 모델(SQL)은 직접 작성해요. 여기는 코드를 쓰기 전에 "어떤 표를 어떤 모양으로 만들지" 정하는 설계안이에요.</p>
+  <div class="easy"><b>데이터 모델링</b>이란 "흩어진 데이터를 어떤 표에, 어떤 칸으로, 어떻게 연결해서 담을지" 정하는 일이에요.
+    장난감 정리함을 사기 전에 "블록은 여기, 인형은 여기, 자주 쓰는 건 위 칸"을 정하는 것과 같아요.</div>
+
+  <h3 id="three-levels">개념 · 논리 · 물리 — 세 단계로 나눠 생각하기</h3>
+  <p>집을 지을 때 바로 벽돌부터 쌓지 않죠. <b>스케치 → 설계도 → 시공</b> 순서로 가요. 데이터도 똑같아요.</p>
+  <div class="three">
+    <div><div class="k">CONCEPTUAL · 스케치</div><div class="t">개념 모델</div>
+      <p><b>무엇</b>이 있고 서로 어떻게 연결되나</p><p>"방 3개, 거실과 부엌은 붙어 있음"</p><p>캠페인, 클릭, 주문, 세션… 과 관계</p><p style="color:var(--muted)">컴퓨터 몰라도 됨 · 마케터와 대화용</p></div>
+    <div><div class="k">LOGICAL · 설계도</div><div class="t">논리 모델</div>
+      <p><b>어떤 모양</b>의 표로 담나</p><p>"방 크기 3×4m, 문은 여기"</p><p>칸(컬럼), 키, 그레인, 팩트·디멘션</p><p style="color:var(--muted)">어떤 DB인지 몰라도 됨 · 설계용</p></div>
+    <div><div class="k">PHYSICAL · 시공</div><div class="t">물리 모델</div>
+      <p><b>어떻게 저장</b>하나</p><p>"벽돌로? 나무로? 기초는 얼마나 깊게?"</p><p>타입, 파티션, view · table · incremental</p><p style="color:var(--muted)">DB마다 다름 · 비용과 속도가 정해짐</p></div>
+  </div>
+
+  <h3 id="conceptual">개념 모델 — 무엇이 있고 어떻게 연결되나</h3>
+  <p>출발점은 표가 아니라 <b>질문</b>이에요. "매체가 주장하는 성과는 실제와 얼마나 다른가? 어디서 돈이 새나?"
+    이 문장에 나오는 <b>명사</b>(캠페인, 성과, 주문, 비용…)가 그림 속 상자가 돼요. 이 상자를 <b>엔티티</b>라고 불러요.</p>
+  <h4>그림 읽는 법</h4>
+  <ul>
+    <li><b>상자</b> = 우리가 관리할 "것" (브랜드, 캠페인, 주문…)</li>
+    <li><b>선</b> = 둘 사이의 관계</li>
+    <li><b>1 ─ N</b> = "하나에 여러 개가 딸려 있다". 엄마 1명에 자녀 여러 명이 있는 것처럼, 브랜드 1개에 캠페인 여러 개가 있어요.</li>
+    <li><b>N ─ 0..1</b> = "여러 개가 0개 또는 1개에 연결된다". 주문 여러 건이 캠페인 하나에 귀속되거나, 광고 없이 왔으면 아무 캠페인에도 귀속되지 않아요(0개).</li>
+  </ul>
+  <svg viewBox="0 0 860 400" width="100%" role="img" aria-label="개념 모델: 매체 세계와 GA4 세계가 캠페인에서만 만난다" style="max-width:860px;display:block;margin:12px 0 8px">
+    <rect x="10" y="10" width="420" height="380" rx="12" fill="#fdf0e8" stroke="#f1c9b0"/>
+    <text x="28" y="34" font-size="14" font-weight="700" fill="#c2410c">매체 세계 (보고서 = 합계 숫자만)</text>
+    <rect x="450" y="10" width="400" height="380" rx="12" fill="#e6f4f2" stroke="#a8d8d1"/>
+    <text x="468" y="34" font-size="14" font-weight="700" fill="#0f766e">GA4 세계 (방명록 = 한 명 한 명 기록)</text>
+    <g font-size="14" text-anchor="middle">
+      <rect x="40" y="70" width="110" height="40" rx="8" fill="#fff" stroke="#999"/><text x="95" y="95">브랜드</text>
+      <rect x="40" y="150" width="110" height="40" rx="8" fill="#fff" stroke="#999"/><text x="95" y="175">매체</text>
+      <rect x="250" y="110" width="150" height="48" rx="8" fill="#e8eefc" stroke="#2f5bd3" stroke-width="2"/><text x="325" y="139" font-weight="700">캠페인</text>
+      <rect x="250" y="210" width="150" height="40" rx="8" fill="#fff" stroke="#999"/><text x="325" y="235">광고그룹</text>
+      <rect x="250" y="300" width="150" height="48" rx="8" fill="#fff" stroke="#999"/><text x="325" y="320">일별 성과</text><text x="325" y="338" font-size="11" fill="#6b6b70">비용 · 클릭 · 주장 전환</text>
+      <rect x="40" y="300" width="130" height="48" rx="8" fill="#fff" stroke="#999"/><text x="105" y="320">예산 변경</text><text x="105" y="338" font-size="11" fill="#6b6b70">이전값 · 이후값</text>
+      <rect x="480" y="70" width="110" height="40" rx="8" fill="#fff" stroke="#999"/><text x="535" y="95">사용자</text>
+      <rect x="480" y="170" width="110" height="40" rx="8" fill="#fff" stroke="#999"/><text x="535" y="195">세션(방문)</text>
+      <rect x="480" y="290" width="110" height="40" rx="8" fill="#fff" stroke="#999"/><text x="535" y="315">이벤트</text>
+      <rect x="680" y="170" width="140" height="40" rx="8" fill="#fff" stroke="#999"/><text x="750" y="195" font-weight="700">주문</text>
+    </g>
+    <g stroke="#888" stroke-width="1.5" fill="none">
+      <line x1="150" y1="90" x2="250" y2="125"/><line x1="150" y1="170" x2="250" y2="145"/>
+      <line x1="325" y1="158" x2="325" y2="210"/><line x1="325" y1="250" x2="325" y2="300"/>
+      <line x1="250" y1="150" x2="105" y2="300"/>
+      <line x1="535" y1="110" x2="535" y2="170"/><line x1="535" y1="210" x2="535" y2="290"/>
+      <line x1="590" y1="190" x2="680" y2="190"/>
+      <path d="M750,170 L750,60 L325,60 L325,110" stroke="#2f5bd3" stroke-width="2.5" stroke-dasharray="6 4"/>
+    </g>
+    <g font-size="12" fill="#555">
+      <text x="160" y="100">1</text><text x="236" y="122">N</text>
+      <text x="160" y="168">1</text><text x="236" y="152">N</text>
+      <text x="332" y="176">1</text><text x="332" y="205">N</text>
+      <text x="332" y="268">1</text><text x="332" y="296">N</text>
+      <text x="542" y="128">1</text><text x="542" y="165">N</text>
+      <text x="542" y="228">1</text><text x="542" y="285">N</text>
+      <text x="598" y="184">1</text><text x="650" y="184">0..N</text>
+      <text x="470" y="54" fill="#2f5bd3" font-weight="700">주문 N ── 0..1 캠페인 (귀속) · 두 세계를 잇는 유일한 선</text>
+    </g>
+  </svg>
+  <div class="easy">
+    <p>그림에서 가장 중요한 건 <b>파란 점선 하나</b>예요. 왼쪽(매체)과 오른쪽(GA4)은 <b>캠페인</b>에서만 만나요.</p>
+    <p>매체 보고서는 "어제 손님 30명 데려왔어요"라는 <b>합계 숫자만</b> 줘요. 그 30명이 누구인지는 안 알려 줘요.
+      반면 방명록(GA4)은 손님 한 명 한 명을 적어요. 그래서 "손님 한 명씩" 맞춰 볼 수는 없고,
+      <b>"이 캠페인, 이 날짜에 몇 명?"으로 합친 숫자끼리만</b> 비교할 수 있어요.</p>
+    <p>→ 그래서 핵심 표의 단위가 <b>캠페인 × 날짜</b>로 정해져요. 좋아서 고른 게 아니라 <b>두 세계를 안정적으로 맞출 수 있는 가장 작은 단위</b>예요.
+      (광고그룹 × 날짜까지 내려갈 수도 있지만, PMax에는 광고그룹이 없고 GA4에서 광고그룹을 알려면 <code>utm_content</code> 이름표에 기대야 해서 흔들려요. 시간 단위는 원천에 아예 없어요.)</p>
+  </div>
+  <ul>
+    <li><b>세션 1 ─ 0..N 주문</b>: 방문 한 번에 안 살 수도(0), 여러 번 살 수도(N) 있어요. 주문은 GA4의 <code>purchase</code> 이벤트에서 만들어져요.</li>
+    <li><b>광고그룹은 없을 수도 있어요</b>: PMax 캠페인은 광고그룹 없이 캠페인에 바로 성과가 붙어요. 그래서 실제 표에서는 <code>ad_group_id</code>가 비어 있는(NULL) 줄이 생겨요.</li>
+  </ul>
+  <div class="easy check">개념도를 그리면 두 세계가 어디서만 만나는지 보이고, 그 지점이 비교 단위가 된다.</div>
+
+  <h3 id="logical">논리 모델 — 어떤 모양의 표로 담나</h3>
+  <h4>키(key) — 한 줄을 정확히 가리키는 이름표</h4>
+  <p>학교에서 "김민수 나와!"라고 하면 김민수가 여러 명일 수 있어요. 그래서 학번을 써요. 표에서도 한 줄을 콕 집어 가리키는 값이 필요해요.</p>
+  <table>
+    <tr><th>종류</th><th>뜻</th><th>학교 비유</th><th>이 프로젝트</th></tr>
+    <tr><td>기본키 PK</td><td>한 줄을 유일하게 가리키는 값</td><td>학번</td><td>주문의 <code>transaction_id</code></td></tr>
+    <tr><td>외래키 FK</td><td>다른 표의 기본키를 가리키는 값</td><td>성적표에 적힌 학번 (학생 명부를 가리킴)</td><td>주문 표에 붙는 <code>campaign_key</code></td></tr>
+    <tr><td>자연키</td><td>원천이 원래 준 키</td><td>원래 다니던 학교의 번호</td><td>Google <code>campaign_id</code> <code>21837465001</code></td></tr>
+    <tr><td>대리키</td><td>우리가 새로 만든 키</td><td>"3반 7번"처럼 우리가 새로 붙인 번호</td><td><code>매체 이름 + campaign_id</code>를 섞어 만든 값 (<code>dbt_utils.generate_surrogate_key</code>)</td></tr>
+  </table>
+  <div class="easy why">대리키가 왜 필요할까요? Google 캠페인 번호와 Meta 캠페인 번호가 <b>우연히 같을 수</b> 있어요. 다른 반에 같은 번호 학생이 있는 것처럼요.
+    그래서 "Google의 123번", "Meta의 123번"처럼 매체 이름까지 붙여서 새 번호를 만들어요.</div>
+
+  <h4>그레인(grain) — 이 표에서 한 줄은 무엇인가</h4>
+  <p>그레인은 "표의 한 줄이 무엇 하나를 뜻하는가"예요. 출석부는 1줄 = 학생 1명, 급식표는 1줄 = 하루 메뉴처럼요.
+    표를 만들기 전에 <b>가장 먼저</b> 정해야 해요.</p>
+  <p>그레인이 다른 표끼리 붙이면(JOIN) 숫자가 부풀어요. 이걸 <b>팬아웃</b>이라고 해요.</p>
+  <pre>캠페인×날짜 표 (그날 비용 100만 원, 1줄)  JOIN  광고그룹×날짜 표 (그 캠페인에 광고그룹 3개 → 3줄)
+→ 결과 3줄, 줄마다 비용 100만 원이 복사됨 → 합계 300만 원   ✗ (진짜는 100만 원)</pre>
+  <div class="easy">반 전체 간식비 10만 원이 적힌 종이를 학생 3명 명단에 하나씩 붙이면, 나중에 합칠 때 간식비가 30만 원이 돼 버려요.</div>
+
+  <h4>정규화 vs 비정규화</h4>
+  <table>
+    <tr><th></th><th>정규화</th><th>비정규화</th></tr>
+    <tr><td>방식</td><td>같은 내용을 한 번만 적고, 잘게 나눈 표끼리 번호로 연결</td><td>자주 같이 보는 내용을 미리 한 표에 합쳐 둠</td></tr>
+    <tr><td>비유</td><td>주소록은 한 권, 편지에는 주소록 번호만</td><td>편지 봉투마다 주소를 다 적어 둠</td></tr>
+    <tr><td>장점</td><td>이사 가면 주소록 한 곳만 고치면 됨</td><td>읽을 때 주소록을 안 펼쳐도 돼서 빠르고 쉬움</td></tr>
+    <tr><td>쓰는 곳</td><td>주문 시스템 (쓰기 위주)</td><td><b>분석 (읽기 위주) ← 이 프로젝트</b></td></tr>
+  </table>
+
+  <h3 id="dimensional">차원 모델링 (Kimball 방식)</h3>
+  <p>분석용 표를 설계하는 가장 유명한 방법이에요. 마트 영수증으로 생각하면 쉬워요.</p>
+  <ul>
+    <li><b>팩트</b> = 영수증의 <b>숫자</b>. 더하고 세는 대상이에요. (금액, 개수)</li>
+    <li><b>디멘션</b> = 영수증의 <b>글자</b>. 자르고 묶는 기준이에요. (날짜, 지점, 상품 종류)</li>
+  </ul>
+  <p>"<b>강남점</b>에서 <b>11월</b>에 <b>과자</b>를 얼마나 팔았나?" → 굵은 글씨가 디멘션(자르는 기준), "얼마나"가 팩트(더하는 숫자)예요.</p>
+  <h4>스타 스키마 — 별 모양 배치</h4>
+  <p>가운데 팩트 표 하나, 주변에 디멘션 표들이 별처럼 둘러싸요.</p>
+  <svg viewBox="0 0 760 270" width="100%" role="img" aria-label="스타 스키마" style="max-width:760px;display:block;margin:8px 0 16px">
+    <g stroke="#999" stroke-width="1.5"><line x1="380" y1="135" x2="380" y2="50"/><line x1="380" y1="135" x2="130" y2="135"/><line x1="380" y1="135" x2="630" y2="135"/><line x1="380" y1="135" x2="380" y2="225"/></g>
+    <g font-size="13" text-anchor="middle">
+      <rect x="290" y="95" width="180" height="80" rx="8" fill="#e8eefc" stroke="#2f5bd3" stroke-width="2"/>
+      <text x="380" y="122" font-weight="700" font-family="Consolas, monospace" font-size="12.5">fct_media_vs_ga4_daily</text>
+      <text x="380" y="144" fill="#444">cost · media_conversions</text><text x="380" y="162" fill="#444">ga4_orders · ga4_revenue</text>
+      <rect x="300" y="20" width="160" height="44" rx="8" fill="#fff" stroke="#999"/><text x="380" y="40" font-family="Consolas, monospace" font-size="12.5">dim_campaigns</text><text x="380" y="56" font-size="11" fill="#6b6b70">브랜드 · 매체 · 퍼널 · 타겟</text>
+      <rect x="40" y="113" width="150" height="44" rx="8" fill="#fff" stroke="#999"/><text x="115" y="133" font-family="Consolas, monospace" font-size="12.5">dim_date</text><text x="115" y="149" font-size="11" fill="#6b6b70">요일 · 주차 · 블프 시즌</text>
+      <rect x="570" y="113" width="150" height="44" rx="8" fill="#fff" stroke="#999"/><text x="645" y="133" font-family="Consolas, monospace" font-size="12.5">dim_channels</text><text x="645" y="149" font-size="11" fill="#6b6b70">utm → 채널</text>
+      <rect x="300" y="205" width="160" height="44" rx="8" fill="#fff" stroke="#999"/><text x="380" y="225" font-family="Consolas, monospace" font-size="12.5">dim_advertisers</text><text x="380" y="241" font-size="11" fill="#6b6b70">전환 정의 · KPI 목표 (seed)</text>
+    </g>
+  </svg>
+  <p>질문 "<b>NK</b> 브랜드 <b>인지 퍼널</b> 캠페인의 <b>블프 주간</b> ROAS는?" → 굵은 글씨는 전부 디멘션 표에서 골라내고, ROAS는 가운데 팩트 표의 숫자를 더해서 계산해요.</p>
+  <div class="note warn"><b>dim_channels 주의</b>: 이 팩트 표는 <b>캠페인에 귀속된 주문만</b> 담아요. 직접·자연 유입 주문은 캠페인이 없어서 여기 안 들어와요.
+    그래서 "utm → 채널" 표를 이 팩트에 바로 붙이면 안 맞아요. 여기서 채널은 캠페인의 속성(매체·상품 → 채널)으로 <code>dim_campaigns</code> 안에 넣는 게 깔끔해요.
+    "광고·직접·자연 유입 전체 주문"을 채널별로 보고 싶다면 그건 GA4 쪽 별도 팩트(예: 채널 × 날짜)의 일이에요.</div>
+  <h4>설계 4단계</h4>
+  <table>
+    <tr><th>단계</th><th>질문</th><th>이 프로젝트</th></tr>
+    <tr><td>① 업무 과정 고르기</td><td>어떤 활동을 측정하나?</td><td>광고 집행 / 주문 귀속</td></tr>
+    <tr><td>② 그레인 선언</td><td>한 줄 = 무엇?</td><td>캠페인 × 날짜</td></tr>
+    <tr><td>③ 디멘션 정하기</td><td>무엇으로 자르나?</td><td>캠페인(브랜드·퍼널 포함), 날짜, 채널</td></tr>
+    <tr><td>④ 팩트 정하기</td><td>무엇을 세나?</td><td>비용, 노출, 클릭, 매체 전환, GA4 주문, GA4 매출</td></tr>
+  </table>
+  <p>순서가 중요해요. <b>그레인을 팩트보다 먼저</b> 정해요. "한 줄이 뭔지"가 정해져야 그 줄에 어떤 숫자를 넣을지 정할 수 있으니까요.</p>
+
+  <h4>더해도 되는 숫자, 안 되는 숫자 — "mart에는 합계만" 규칙의 이유</h4>
+  <table>
+    <tr><th>성질</th><th>뜻</th><th>예시</th><th>비유</th></tr>
+    <tr><td>가산</td><td>어떤 기준으로든 더해도 됨</td><td>비용, 클릭, 주문 수</td><td>사탕 개수: 반끼리 더해도, 날짜끼리 더해도 OK</td></tr>
+    <tr><td>반가산</td><td>일부 기준으로만 더함</td><td><b>그날 설정된 일예산</b>: 캠페인끼리는 더해도 되지만, 날짜끼리 더하면 "그 기간에 쓸 수 있었던 최대치"라는 <b>다른 뜻</b>이 돼요. 기간으로 볼 땐 보통 평균이나 마지막 값을 써요</td><td>통장 잔고: 내 통장 + 동생 통장은 OK, 월요일 잔고 + 화요일 잔고는 이상함</td></tr>
+    <tr><td>비가산</td><td>더하면 안 됨</td><td><b>ROAS, CPA, CTR</b> (나누기로 만든 숫자), <b>사용자 수</b>(중복을 뺀 사람 수)</td><td>시험 점수 평균: 국어 평균 + 수학 평균 ≠ 전체 평균</td></tr>
+  </table>
+  <div class="note"><b>사용자 수도 더하면 안 돼요</b>: 월요일 방문자 100명, 화요일 100명이어도 이틀 방문자는 200명이 아닐 수 있어요. 같은 사람이 이틀 다 왔을 수 있으니까요.
+    GA4 쪽에서 "사용자 수"나 "구매자 수"를 지표로 만들 땐 mart에 날짜별 숫자를 저장해 두고 더하면 안 되고, Cube에서 원본 줄을 <code>count(distinct …)</code>로 세야 해요.</div>
+  <pre>한 달 ROAS를 "하루 ROAS들의 평균"으로 내면 틀려요.
+  1일  광고비 10  매출 100  → ROAS 10
+  2일  광고비 90  매출  90  → ROAS  1
+  평균 (10 + 1) ÷ 2 = 5.5   ✗
+  진짜 (100 + 90) ÷ (10 + 90) = 1.9   ✓   ← 합계끼리 나눠야 함</pre>
+  <div class="easy">돈을 10원밖에 안 쓴 날과 90원 쓴 날을 똑같이 1표씩 쳐 주면 안 되죠. 그래서 mart 표에는 <b>더해도 되는 숫자(비용·매출)만</b> 두고,
+    나누기는 Cube에서 <b>합계끼리 딱 한 번</b> 해요. 그러면 대시보드든 AI든 같은 방법으로 나누니까 <b>답이 같을 수밖에 없어요</b>.</div>
+
+  <h4>팩트 표의 종류</h4>
+  <table>
+    <tr><th>종류</th><th>한 줄</th><th>비유</th><th>이 프로젝트</th></tr>
+    <tr><td>트랜잭션</td><td>일이 생길 때마다 1줄</td><td>영수증 한 장</td><td><code>int_ga4__orders</code> (주문 1건)</td></tr>
+    <tr><td>주기적 스냅샷</td><td>정해진 주기마다 1줄</td><td>매일 쓰는 일기</td><td><code>fct_media_performance_daily</code> (캠페인 × 하루)</td></tr>
+    <tr><td>누적 스냅샷</td><td>과정 하나가 진행되면서 같은 줄을 고쳐 감</td><td>택배 배송 조회 (접수→출발→도착)</td><td>(안 씀)</td></tr>
+  </table>
+  <div class="note"><b>늦게 도착하는 팩트</b>: 매체는 같은 날짜 숫자를 14일 동안 계속 고쳐 보내요. "어제 숫자가 확정"이라는 게 없어요.
+    → dbt의 <b>incremental + lookback</b>으로 처리해요. 매일 표 전체를 다시 만들지 않고, <b>최근 며칠만</b> 다시 계산해서 덮어쓰는 방식이에요.</div>
+  <div class="note warn"><b>GA4 쪽은 14일로 부족해요 → 30일</b>: GA4 주문은 <b>공을 받은 클릭의 날짜</b>에 적고, 클릭 후 <b>30일</b> 안의 구매까지 인정해요.
+    그러면 오늘 들어온 주문이 29일 전 날짜 줄의 숫자를 바꿀 수 있어요. 매체 쪽에 맞춰 14일만 다시 계산하면 15~30일 전 날짜의 GA4 주문이 영영 빠져요.
+    <ul style="margin:6px 0 0">
+      <li>매체 쪽: lookback <b>14일</b> (원천이 14일치만 다시 주니까)</li>
+      <li>GA4 쪽 · 비교 표 <code>fct_media_vs_ga4_daily</code>: lookback <b>30일</b> 이상 (귀속 기간만큼)</li>
+      <li>그래서 "아직 확정 아님" 표시도 최근 7일이 아니라 <b>최근 30일</b>이 맞아요</li>
+    </ul></div>
+
+  <h4>천천히 바뀌는 디멘션 (SCD)</h4>
+  <p>캠페인 이름처럼 가끔 바뀌는 정보를 어떻게 저장할지 정하는 방법이에요. 사고 I3(캠페인 이름 변경)이 여기서 해결돼요.</p>
+  <table>
+    <tr><th>방식</th><th>처리</th><th>비유</th><th>I3 때 결과</th></tr>
+    <tr><td>Type 1</td><td>덮어쓰기</td><td>연락처에서 옛 이름을 지우고 새 이름만 남김</td><td>옛 이름이 사라져서 7월 GA4 이름표와 연결 못 함 ✗</td></tr>
+    <tr><td>Type 2</td><td>이력을 새 줄로 추가 (<code>valid_from</code> · <code>valid_to</code>)</td><td>"7월까지는 김철수, 8월부터 김민준"이라고 둘 다 적어 둠</td><td>7월엔 옛 이름, 8월엔 새 이름으로 연결 ✓</td></tr>
+  </table>
+  <pre>campaign_key | campaign_name               | valid_from | valid_to
+abc          | MW_GG_SRCH_CS_GENERICKW_AO  | 2025-06-01 | 2025-08-01   ← 옛 이름은 6/1 ~ 7/31 (8/1은 포함 안 함)
+abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null = 지금도 이 이름</pre>
+  <div class="note warn"><b>dbt <code>snapshot</code>으로는 과거 이력을 못 만들어요</b>: dbt snapshot은 <b>실행하는 그 순간의 모습</b>을 찍어 두는 기능이에요.
+    오늘 처음 돌리면 오늘 이름만 찍혀요. 7월의 옛 이름은 이미 지나가서 못 찍어요.
+    <br>다행히 이 데이터에는 <code>raw_*.campaigns</code>에 <b>매일 아침 찍어 둔 사진</b>이 6/1부터 쌓여 있어요. 그래서 이력은 이렇게 나눠 만들어요.
+    <ul style="margin:6px 0 0">
+      <li><b>과거 이력</b>: <code>int_campaigns__name_history</code>를 SQL로 만들어요. 날짜순으로 보다가 이름이 바뀐 곳에서 새 줄을 시작하면 돼요
+        (<code>lag()</code>로 전날 이름과 비교하는 "gaps and islands" 패턴)</li>
+      <li><b>앞으로의 변경</b>: dbt snapshot은 이걸 배우는 용도로, 오늘 이후 변경을 쌓는 데 써요</li>
+    </ul></div>
+  <div class="note"><b>기간 경계 맞추기</b>: 위 예시의 <code>valid_to</code>는 "마지막 날(7/31)"이 아니라 <b>다음 이름이 시작한 날(8/1)</b>이에요.
+    dbt snapshot의 <code>dbt_valid_to</code>도 같은 방식이에요. 조인 조건도 하나로 정해서 일관되게 써요.
+    추천은 <code>날짜 &gt;= valid_from AND (날짜 &lt; valid_to OR valid_to IS NULL)</code>예요. 경계를 섞어 쓰면 8/1 같은 바뀐 날이 두 줄에 걸리거나 빠져요.</div>
+  <div class="easy check">그레인을 먼저 정하고, 팩트 표에는 더해도 되는 숫자만 두고, 바뀌는 정보는 Type 2로 이력을 남긴다.</div>
+
+  <h3 id="physical">물리 모델 — BigQuery에 실제로 어떻게 저장하나</h3>
+  <h4>타입 — 칸마다 담을 수 있는 값의 종류</h4>
+  <table>
+    <tr><th>무엇</th><th>타입</th><th>왜</th></tr>
+    <tr><td>ID</td><td><code>STRING</code> (글자)</td><td>Naver는 <code>cmp-…</code>처럼 글자가 섞여 있어서 숫자 타입에 못 담아요. Meta의 18자리 숫자는 BigQuery 정수에는 들어가지만, 엑셀이나 자바스크립트를 거치면 끝자리가 반올림돼 깨져요. ID는 계산할 일이 없으니 글자로 통일해요</td></tr>
+    <tr><td>금액</td><td><code>NUMERIC</code></td><td>소수 계산 오차가 없는 숫자 타입이에요. 돈은 1원도 틀리면 안 되니까요</td></tr>
+    <tr><td>날짜</td><td><code>DATE</code></td><td>"2025-06-01" 같은 날짜</td></tr>
+    <tr><td>적재 시각</td><td><code>TIMESTAMP</code></td><td>날짜 + 시각</td></tr>
+  </table>
+  <h4>파티션 · 클러스터링 — 돈과 바로 연결돼요</h4>
+  <p>BigQuery는 <b>읽은 데이터 양만큼</b> 돈을 받아요. 그래서 필요한 부분만 읽게 정리해 두는 게 중요해요.</p>
+  <ul>
+    <li><b>파티션</b> = 책장을 <b>날짜별 칸</b>으로 나누기. "11월 것만 줘" 하면 11월 칸만 꺼내 읽어요.</li>
+    <li><b>클러스터링</b> = 각 칸 안을 <b>캠페인 순서로 정렬</b>하기. 원하는 캠페인을 더 빨리 찾아요.</li>
+  </ul>
+  <pre>fct_media_vs_ga4_daily
+  partition_by : report_date (하루 단위 칸)
+  cluster_by   : campaign_key (칸 안에서 캠페인 순 정렬)</pre>
+  <div class="note"><b>솔직히 말하면 이 표는 너무 작아요</b>: 캠페인 14개 × 183일 = 약 2,600줄이에요. BigQuery는 쿼리 한 번에 최소 10MB를 읽은 걸로 쳐서,
+    이 크기에서는 파티션을 나눠도 요금 차이가 없어요. 이 표의 파티션은 <b>연습용</b>이에요. 진짜 효과는 338만 줄짜리 <code>stg_ga4__events</code> 같은 큰 표에서 나요.</div>
+  <div class="note warn"><b>GA4 원천의 함정</b>: GA4는 파티션이 아니라 <code>events_20250601</code>, <code>events_20250602</code>…처럼 <b>날짜마다 표가 따로</b> 있어요(샤딩).
+    <code>events_*</code>로 부를 때 <code>_TABLE_SUFFIX</code>로 날짜 범위를 정하지 않으면 183일치를 <b>전부</b> 읽어서 돈이 많이 나가요.</div>
+
+  <h4>머티리얼라이제이션 — dbt가 결과를 어떻게 남길지</h4>
+  <p>dbt 모델(SQL)을 실행한 결과를 실제 표로 저장할지, 레시피로만 둘지 정하는 거예요.</p>
+  <table>
+    <tr><th>방식</th><th>실제로 저장하나</th><th>반찬 비유</th><th>언제 쓰나</th></tr>
+    <tr><td><code>view</code></td><td>저장 안 함, 부를 때마다 계산</td><td>레시피만 붙여 두고 먹을 때마다 새로 요리</td><td>가벼운 staging</td></tr>
+    <tr><td><code>table</code></td><td>매번 통째로 다시 만들어 저장</td><td>매일 반찬통을 비우고 새로 다 만들어 채움</td><td>작은 표, 처음 만들 때</td></tr>
+    <tr><td><code>incremental</code></td><td>새로 들어온 것만 추가·수정</td><td>반찬통은 두고 오늘 몫만 더 채움</td><td>GA4 이벤트, 일별 팩트 (lookback 14일)</td></tr>
+    <tr><td><code>ephemeral</code></td><td>저장 안 함, 다른 모델 안에 끼워 넣음</td><td>양념장: 따로 담아 두지 않고 요리할 때 바로 섞음</td><td>한 번만 쓰는 중간 계산</td></tr>
+  </table>
+  <p>staging을 <code>view</code>로 두면, GA4처럼 큰 원천은 mart를 만들 때마다 <b>다시 처음부터 읽혀요</b>. 그래서 <code>stg_ga4__events</code>는 <code>incremental</code>로 해요.
+    안전장치로 <code>maximum_bytes_billed</code> 5GB(한 번에 5GB 넘게 읽으려 하면 멈춤)와, 큰 표에는 <code>require_partition_filter</code>(날짜 조건 없이 부르면 거부)를 걸어요.</p>
+  <div class="easy check">물리 모델은 "얼마나 빠르게, 얼마나 싸게"의 문제. BigQuery에서는 파티션과 머티리얼라이제이션이 핵심.</div>
+
+  <h3 id="dbt-layers">dbt 계층 설계 — 주방의 작업대 순서</h3>
+  <p>dbt 모델은 층층이 쌓여요. 아래층에서 만든 걸 위층이 가져다 써요.</p>
+  <div class="flow">
+    <div class="layer"><div class="lbl">sources<small>🥕 들어온 재료 그대로</small></div><div class="boxes">
+      <div class="box media">raw_google_ads</div><div class="box media">raw_meta</div><div class="box media">raw_naver_sa (4주차)</div>
+      <div class="box">raw_change_history</div><div class="box ga4">analytics_412093847</div></div></div>
+    <div class="layer"><div class="lbl">seeds<small>📒 설정표 · 코드표</small></div><div class="boxes">
+      <div class="box">advertiser_settings</div><div class="box">channel_mapping</div><div class="box">naming_codes</div></div></div>
+    <div class="layer"><div class="lbl">staging<small>🚿 씻기: 원천 1개당 1개, 이름 · 타입 · 단위 정리</small></div><div class="boxes">
+      <div class="box media">stg_google_ads__ad_group_daily</div><div class="box media">stg_google_ads__campaigns</div>
+      <div class="box media">stg_meta__adset_insights_daily</div><div class="box media">stg_meta__campaigns</div>
+      <div class="box">stg_change_history__budget_changes</div><div class="box ga4">stg_ga4__events</div></div></div>
+    <div class="layer"><div class="lbl">intermediate<small>🔪 손질: 합치기 · 이력 · 귀속</small></div><div class="boxes">
+      <div class="box media">int_ad_performance__unioned (contract)</div><div class="box">int_campaigns__parsed</div>
+      <div class="box">int_campaigns__name_history (SCD2)</div><div class="box">int_budgets__history</div>
+      <div class="box ga4">int_ga4__sessions</div><div class="box ga4">int_ga4__orders</div><div class="box ga4">int_orders__attributed</div></div></div>
+    <div class="layer"><div class="lbl">marts<small>🍳 완성 요리: 스타 스키마</small></div><div class="boxes">
+      <div class="box">dim_campaigns</div><div class="box media">fct_media_performance_daily</div><div class="box ga4">fct_ga4_attributed_daily</div>
+      <div class="box core">fct_media_vs_ga4_daily ★</div><div class="box">fct_waste_signals</div></div></div>
+    <div class="layer"><div class="lbl">사용처<small>🍽️ exposures</small></div><div class="boxes">
+      <div class="box sl">Cube 지표</div><div class="box">Metabase 대시보드</div><div class="box">AI 챗봇</div></div></div>
+  </div>
+  <table>
+    <tr><th>계층</th><th>주방 비유</th><th>하는 일</th></tr>
+    <tr><td>staging</td><td>재료 씻기</td><td>원천마다 다른 모양을 우리 규칙으로 맞춰요. micros ÷ 100만, 부가세 빼기, 쉼표 지우기, 가장 최근 <code>_extract_date</code> 값만 남기기</td></tr>
+    <tr><td>intermediate</td><td>재료 손질·섞기</td><td>표끼리 키로 연결, 캠페인 이름 이력(SCD2), 주문을 캠페인에 귀속, 그레인 맞추기</td></tr>
+    <tr><td>marts</td><td>완성 요리</td><td>팩트(<code>fct_</code>)·디멘션(<code>dim_</code>) 표. 파티션·클러스터 적용</td></tr>
+    <tr><td>Cube</td><td>메뉴판</td><td>ROAS처럼 나누기가 들어가는 지표를 한 곳에서 계산</td></tr>
+  </table>
+  <ul>
+    <li><b>contract</b>: "이 표에는 반드시 이 칸들이 이 타입으로 있어야 한다"는 약속이에요. 매체를 합치는 표에 걸어 두면, 새 매체가 약속과 다른 모양으로 들어올 때 바로 에러가 나요.</li>
+    <li><b>★ fct_media_vs_ga4_daily</b>: 이 프로젝트의 주인공 표예요. 캠페인 × 날짜마다 "매체가 주장한 전환"과 "GA4가 인정한 주문"이 나란히 있어요.</li>
+  </ul>
+  <h4>모델별 그레인 (설계안)</h4>
+  <div class="table-wrap"><table>
+    <tr><th>모델</th><th>한 줄 =</th><th>키</th><th>저장 방식</th></tr>
+    <tr><td><code>stg_*_daily</code></td><td>광고그룹 × 날짜 (가장 최근 받은 값 1개). PMax는 캠페인 × 날짜</td><td>source_system, campaign_id, ad_group_id(PMax는 NULL), report_date</td><td>view</td></tr>
+    <tr><td><code>stg_ga4__events</code></td><td>이벤트 1건</td><td>이벤트 해시</td><td>incremental</td></tr>
+    <tr><td><code>int_ga4__orders</code></td><td>주문 1건</td><td>transaction_id</td><td>table</td></tr>
+    <tr><td><code>int_orders__attributed</code></td><td>주문 1건 + 공을 받은 캠페인 (0개 또는 1개)</td><td>transaction_id</td><td>table</td></tr>
+    <tr><td><code>int_campaigns__name_history</code></td><td>캠페인 × 이름이 유효한 기간</td><td>campaign_key, valid_from</td><td>table</td></tr>
+    <tr><td><code>fct_media_vs_ga4_daily</code></td><td>캠페인 × 날짜</td><td>campaign_key, report_date</td><td>incremental (lookback 30일)</td></tr>
+  </table></div>
+  <div class="note warn"><b>키에 NULL이 있으면 생기는 문제</b>: PMax는 <code>ad_group_id</code>가 비어 있어요. 이 칸으로 대리키를 만들거나 <code>unique</code> 테스트를 걸면 NULL 처리 때문에 헷갈려요.
+    키를 만들 땐 <code>coalesce(ad_group_id, '(campaign)')</code>처럼 빈칸을 정해진 글자로 채워 두면 안전해요.</div>
+  <div class="note warn"><b>비교 표는 양쪽 중 한쪽만 있는 날도 담아야 해요</b>: 어떤 날은 매체에는 비용이 있는데 GA4 주문은 0건이고, 어떤 날은 그 반대예요
+    (Naver를 붙이기 전, 또는 이름표가 어느 캠페인에도 안 맞는 주문).
+    <ul style="margin:6px 0 0">
+      <li>매체 표와 GA4 표를 <code>inner join</code>하면 한쪽만 있는 날이 <b>사라져요</b> → <code>full outer join</code>을 하거나, 캠페인 × 날짜 뼈대(spine)를 먼저 만들고 양쪽을 <code>left join</code>해요</li>
+      <li>이름표가 어느 캠페인에도 안 맞는 GA4 주문은 버리지 말고 <code>unmapped</code> 캠페인으로 모아요. 그래야 "연결 못 한 주문이 몇 건인지"를 테스트로 볼 수 있어요</li>
+    </ul></div>
+  <h4>꼭 지킬 결정 5개</h4>
+  <table>
+    <tr><th>#</th><th>결정</th><th>왜?</th></tr>
+    <tr><td>1</td><td>모델마다 "한 줄 = 무엇"을 설명 첫 줄에 적는다</td><td>그레인을 모르면 팬아웃 실수를 해요. 적어 두면 나도 남도 헷갈리지 않아요</td></tr>
+    <tr><td>2</td><td>비교 단위는 캠페인 × 날짜</td><td>PMax는 광고그룹이 없고, GA4에서 광고그룹을 찾으려면 <code>utm_content</code>에 기대야 해서 불안정해요</td></tr>
+    <tr><td>3</td><td>연결은 이름이 아니라 <code>campaign_id</code>로</td><td>이름은 바뀌고(I3) 오타도 나요(I4). GA4 이름표(<code>utm_campaign</code>)를 ID로 바꾸는 변환표가 이 프로젝트에서 가장 어려운 모델이에요</td></tr>
+    <tr><td>4</td><td>mart에는 더해도 되는 숫자만, 비율은 Cube에서</td><td>ROAS 평균 함정을 피하고, 대시보드·AI가 같은 답을 내게 하려고요</td></tr>
+    <tr><td>5</td><td>처음엔 전부 <code>table</code>, 숫자가 맞은 뒤에 incremental</td><td>처음부터 복잡하게 하면 숫자가 틀렸을 때 원인을 찾기 어려워요. 먼저 맞게, 그다음 빠르게</td></tr>
+  </table>
+  <div class="note warn"><b>아직 정리할 문서</b>: <code>docs/canonical_schema.md</code>의 <code>ad_performance</code> 그레인은 "캠페인 × 일 × 시간"인데, 지금 원천 데이터는
+    "광고그룹 × 일"이에요. contract를 걸기 전에 맞춰야 해요. <code>ad_group_id</code> 칸을 추가하고(PMax 때문에 비어 있어도 되게), <code>report_hour</code>는 비어 있어도 되게 유지해요.
+    Meta의 <code>attribution_setting</code>을 공통 표에 넣을지도 이때 정해요.</div>
+</section>
+
+<!-- ───────────────────────── 4. 일정 ───────────────────────── -->
+<section id="plan">
+  <h2><span class="num">4</span>dbt 학습 경로 · 일정</h2>
+  <p class="section-lead">프로젝트를 만드는 순서가 곧 dbt 기능을 배우는 순서예요. 단계마다 끝나면 <code>dbt docs</code>의 족보(리니지) 그래프를 열어서, 내가 예상한 모양과 같은지 비교해요.</p>
+  <div class="easy">체크 질문은 "이 단계를 정말 이해했나?"를 스스로 확인하는 퀴즈예요. 답을 말로 설명할 수 있으면 다음 단계로 가요.</div>
+  <div class="table-wrap"><table>
+    <tr><th>단계</th><th>만드는 것</th><th>배우는 기능</th><th>체크 질문</th></tr>
+    <tr><td>0</td><td>가상환경, <code>dbt init</code>, <code>profiles.yml</code></td><td>프로젝트 구조, <code>dbt debug</code> (BigQuery 연결 확인)</td><td>-</td></tr>
+    <tr><td>1</td><td><code>sources.yml</code> → <code>stg_google_ads</code></td><td><code>source()</code> · <code>ref()</code> · seed</td><td>이 모델을 지우면 그래프에서 무엇이 같이 사라지나?</td></tr>
+    <tr><td>2</td><td><code>stg_meta</code> → <code>int_ad_performance__unioned</code></td><td>어댑터 패턴, macro, <code>var</code></td><td>네 번째 매체를 붙일 때 고칠 파일은 몇 개?</td></tr>
+    <tr><td>2.5</td><td><code>stg_ga4__events</code> → 주문 → 귀속</td><td>UNNEST(중첩 풀기), <code>_TABLE_SUFFIX</code></td><td>6/30 클릭 · 7/3 구매는 어느 날짜 줄에 들어가나?</td></tr>
+    <tr><td>3</td><td>contract · 정합성 테스트</td><td><code>contract: enforced</code>, generic · singular test</td><td>contract에 없는 칸을 staging에 추가하면 어디서 막히나?</td></tr>
+    <tr><td>4</td><td>캠페인 SCD2(과거는 SQL, 앞으로는 snapshot), 예산 이력, 일별 팩트</td><td><code>lag()</code> · <code>snapshot</code>, <code>incremental</code></td><td>10일 전 날짜의 전환이 늘면 반영되나?</td></tr>
+    <tr><td>5</td><td>문서화, exposures, 공개 / 비공개</td><td><code>exposures</code>, <code>groups</code> · <code>access</code></td><td>이 지표를 쓰는 대시보드와 원천은? (그래프만 보고)</td></tr>
+    <tr><td>6</td><td>정의를 바꿨을 때 영향 실습</td><td><code>state:modified+</code></td><td><code>stg_naver_sa</code>의 부가세 처리를 바꾸면 영향받는 대시보드는?</td></tr>
+    <tr><td>7</td><td>칸 단위 족보, 실행 기록 족보 (여유 있으면)</td><td>OpenLineage + Marquez</td><td>-</td></tr>
+  </table></div>
+  <h3>4주 일정</h3>
+  <table>
+    <tr><th>주차</th><th>내용</th></tr>
+    <tr><td>1주 (11/2~)</td><td>목적 · 설계, 데이터 시나리오, 생성기, GCP 세팅, dbt staging</td></tr>
+    <tr><td>2주</td><td>매체 합치기, GA4 주문 · 귀속, 데이터 테스트, Airflow 매일 자동 실행</td></tr>
+    <tr><td>3주</td><td>Cube 지표 10개, Metabase 대시보드</td></tr>
+    <tr><td>4주</td><td>AI 챗봇 연결, 검증 질문 20개, 낭비 패턴 찾기, Naver 추가 시연</td></tr>
+  </table>
+</section>
+
+<!-- ───────────────────────── 5. 용어 사전 ───────────────────────── -->
+<section id="glossary">
+  <h2><span class="num">5</span>용어 사전</h2>
+  <p class="section-lead">읽다가 모르는 단어가 나오면 여기서 찾아보세요.</p>
+  <dl class="gloss">
+    <dt>GA4</dt><dd>구글 애널리틱스 4. 쇼핑몰에 설치해서 방문·클릭·구매를 한 줄씩 기록하는 도구. 이 프로젝트의 "심판"</dd>
+    <dt>매체 리포트</dt><dd>광고 회사가 주는 성과 보고서. 비용·노출·클릭·전환(주장)이 들어 있음</dd>
+    <dt>전환</dt><dd>광고를 보고 원하는 행동(여기선 구매)을 한 것</dd>
+    <dt>과대 주장</dt><dd>여러 매체가 같은 주문을 각자 자기 덕이라고 세서, 합계가 실제보다 커지는 현상</dd>
+    <dt>어트리뷰션(귀속)</dt><dd>주문 하나를 어느 광고 덕으로 볼지 정하는 일</dd>
+    <dt>어트리뷰션 윈도</dt><dd>광고를 보거나 누른 뒤 며칠 안에 사야 "광고 덕"으로 쳐 주는지 정한 기간</dd>
+    <dt>조회 전환</dt><dd>광고를 누르지 않고 보기만 했는데 정해진 기간 안에 사서 전환으로 친 것</dd>
+    <dt>라스트 논-다이렉트 클릭</dt><dd>직접 방문은 건너뛰고, 마지막으로 데려온 광고에 공을 주는 규칙</dd>
+    <dt>UTM</dt><dd>광고 링크 뒤에 붙이는 이름표. GA4가 손님이 어느 광고로 왔는지 알게 해 줌</dd>
+    <dt>ROAS · CPA · CTR</dt><dd>매출 ÷ 광고비 · 광고비 ÷ 구매 수 · 클릭 ÷ 노출. 나누기로 만든 숫자라 그냥 더하거나 평균 내면 안 됨</dd>
+    <dt>퍼널</dt><dd>인지 → 고려 → 전환 → 리타겟팅. 손님이 사기까지 거치는 단계</dd>
+    <dt>Semantic Layer</dt><dd>지표 이름과 계산법을 한 곳에 정해 둔 층. 모두가 같은 사전을 보게 함 (이 프로젝트는 Cube)</dd>
+    <dt>BigQuery</dt><dd>구글의 클라우드 데이터 창고. 읽은 양만큼 요금을 냄</dd>
+    <dt>dbt</dt><dd>SQL 파일로 "표를 어떻게 만들지"를 적어 두고 순서대로 실행해 주는 도구. 표 사이의 족보도 그려 줌</dd>
+    <dt>리니지</dt><dd>데이터의 족보. "이 숫자는 어느 표에서 왔고, 그 표는 어느 원천에서 왔나"를 이은 그래프</dd>
+    <dt>staging · intermediate · mart</dt><dd>dbt 모델의 층. 씻기 → 손질 → 완성 요리</dd>
+    <dt>seed</dt><dd>dbt 프로젝트 안에 넣어 두는 작은 CSV 설정표 (채널 분류표, 코드표 등)</dd>
+    <dt>source() · ref()</dt><dd>dbt에서 원천 표 · 다른 모델을 부르는 방법. 이걸로 불러야 족보가 이어짐</dd>
+    <dt>contract</dt><dd>표의 칸 이름과 타입을 약속해 두고, 어기면 에러를 내게 하는 dbt 기능</dd>
+    <dt>엔티티</dt><dd>개념 모델의 상자. 관리할 "것" (캠페인, 주문 등)</dd>
+    <dt>기본키 · 외래키</dt><dd>한 줄을 콕 집는 값(학번) · 다른 표의 기본키를 가리키는 값</dd>
+    <dt>대리키</dt><dd>원천 키를 그대로 쓰지 않고 우리가 새로 만든 키 (매체 이름 + ID)</dd>
+    <dt>그레인</dt><dd>표의 한 줄이 무엇 하나를 뜻하는지</dd>
+    <dt>팬아웃</dt><dd>그레인이 다른 표를 붙여서 숫자가 복사·부풀려지는 실수</dd>
+    <dt>팩트 · 디멘션</dt><dd>더하고 세는 숫자 · 자르고 묶는 기준</dd>
+    <dt>스타 스키마</dt><dd>가운데 팩트 표, 주변에 디멘션 표를 둔 별 모양 설계</dd>
+    <dt>가산 · 반가산 · 비가산</dt><dd>어디로든 더해도 됨 · 일부로만 더함 · 더하면 안 됨</dd>
+    <dt>SCD Type 1 · 2</dt><dd>바뀐 정보를 덮어쓰기 · 이력을 새 줄로 남기기</dd>
+    <dt>snapshot</dt><dd>dbt에서 SCD Type 2 이력을 자동으로 남겨 주는 기능. 단, 실행한 날부터만 쌓임 (과거는 못 찍음)</dd>
+    <dt>파티션 · 클러스터링</dt><dd>표를 날짜별 칸으로 나누기 · 칸 안을 정렬하기. 읽는 양(=요금)을 줄임</dd>
+    <dt>샤딩</dt><dd>날짜마다 표를 따로 만드는 방식 (GA4 export). <code>_TABLE_SUFFIX</code>로 범위를 정해야 함</dd>
+    <dt>view · table · incremental · ephemeral</dt><dd>dbt 결과를 남기는 방식. 레시피만 · 매번 새로 · 새 것만 추가 · 다른 모델에 끼워 넣기</dd>
+    <dt>lookback</dt><dd>incremental로 돌릴 때 최근 며칠을 다시 계산할지 (매체 쪽 14일, GA4·비교 표 30일)</dd>
+    <dt>micros</dt><dd>Google Ads의 금액 단위. 1원 = 1,000,000 micros</dd>
+    <dt>exposures</dt><dd>dbt 족보에 "이 표를 쓰는 대시보드·챗봇"까지 그려 넣는 기능</dd>
+    <dt>Airflow</dt><dd>여러 작업을 정해진 순서와 시간에 자동 실행하는 도구</dd>
+  </dl>
+  <footer>marketing-semantic-layer · 데이터는 전부 가상 (생성기 출력) · 데이터 생성기는 AI 작성, dbt 이후는 직접 구축 · 쉽게 풀어 쓴 판 2026-11-12</footer>
+</section>
+</main>
+</div>
+</body>
+</html>
