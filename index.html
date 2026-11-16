@@ -350,7 +350,7 @@
     <li><b>PMax</b>: 구글이 검색·유튜브·지메일 등에 알아서 광고를 뿌려 주는 자동 캠페인이에요. 광고그룹이 없어요.</li>
     <li><b>유사타겟(LAL)</b>: "우리 기존 고객과 비슷한 사람"을 Meta가 찾아서 보여 주는 광고예요.</li>
   </ul>
-  <div class="note">Naver 광고는 처음부터 집행하지만, dbt에는 <b>마지막 주(11주차)에 일부러 늦게 붙입니다</b>. "새 매체를 붙일 때 파일 하나만 추가하면 된다"를 보여 주기 위해서예요.
+  <div class="note">Naver 광고는 처음부터 집행하지만, dbt에는 <b>마지막 주(1/27 최종 보고 주)에 일부러 늦게 붙입니다</b>. "새 매체를 붙일 때 파일 하나만 추가하면 된다"를 보여 주기 위해서예요.
     그래서 그 전까지는 GA4에는 Naver로 온 손님이 있는데 매체 리포트에는 Naver가 없어요. 이상한 게 아니라 정상이에요.</div>
 
   <h3 id="naming">이름 짓는 규칙 · UTM</h3>
@@ -802,7 +802,7 @@ abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null 
   <p>dbt 모델은 층층이 쌓여요. 아래층에서 만든 걸 위층이 가져다 써요.</p>
   <div class="flow">
     <div class="layer"><div class="lbl">sources<small>🥕 들어온 재료 그대로</small></div><div class="boxes">
-      <div class="box media">raw_google_ads</div><div class="box media">raw_meta</div><div class="box media">raw_naver_sa (11주차)</div>
+      <div class="box media">raw_google_ads</div><div class="box media">raw_meta</div><div class="box media">raw_naver_sa (마지막 주)</div>
       <div class="box">raw_change_history</div><div class="box ga4">analytics_412093847</div></div></div>
     <div class="layer"><div class="lbl">seeds<small>📒 설정표 · 코드표</small></div><div class="boxes">
       <div class="box">advertiser_settings</div><div class="box">channel_mapping</div><div class="box">naming_codes</div></div></div>
@@ -880,14 +880,17 @@ abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null 
     <tr><td>6</td><td>정의를 바꿨을 때 영향 실습</td><td><code>state:modified+</code></td><td><code>stg_naver_sa</code>의 부가세 처리를 바꾸면 영향받는 대시보드는?</td></tr>
     <tr><td>7</td><td>칸 단위 족보, 실행 기록 족보 (여유 있으면)</td><td>OpenLineage + Marquez</td><td>-</td></tr>
   </table></div>
-  <h3>일정 (11/16 ~ 2027-01-31, 11주)</h3>
+  <h3>일정 (11/16 ~ 2027-01-29, 매주 수요일 보고 · 최종 보고 1/27)</h3>
   <table>
-    <tr><th>주차</th><th>내용</th></tr>
-    <tr><td>1~2주 (11/16 ~ 11/29)</td><td>환경, 매체 staging, 소재 주소 스냅샷, 매체 합치기 (contract)</td></tr>
-    <tr><td>3~4주 (11/30 ~ 12/13)</td><td>GA4 중첩 데이터, 세션 · 주문, <b>랜딩 URL 매핑</b>, 캠페인 귀속</td></tr>
-    <tr><td>5~6주 (12/14 ~ 12/27)</td><td>스타 스키마 mart, 테스트, incremental, Airflow</td></tr>
-    <tr><td>7~8주 (12/28 ~ 1/10)</td><td>Cube 지표 10개, 낭비 신호</td></tr>
-    <tr><td>9주 / 10주 / 11주</td><td>Metabase 대시보드 / AI 챗봇 · 검증 질문 20개 / Naver 추가 시연 · 리니지 · 최종 보고</td></tr>
+    <tr><th>보고일</th><th>내용</th></tr>
+    <tr><td>11/18</td><td>설계 변경 (랜딩 URL 매핑, API 형식 원천), 개발 환경 결정 (DuckDB 개발 → BigQuery 운영)</td></tr>
+    <tr><td>11/25 · 12/2</td><td>dbt 시작, 매체 staging, 지표 정의서, 매체 합치기 (contract), CI</td></tr>
+    <tr><td>12/9 · 12/16</td><td>GA4 중첩 데이터, 세션 · 주문, <b>랜딩 URL 매핑</b></td></tr>
+    <tr><td>12/23</td><td>캠페인 귀속, 스타 스키마 mart, 테스트</td></tr>
+    <tr><td>12/30 · 1/6</td><td>BigQuery 전환 · 대조, 검증 질문 20개, incremental, Airflow</td></tr>
+    <tr><td>1/13</td><td>Cube 지표 10개, 낭비 신호</td></tr>
+    <tr><td>1/20</td><td>백필, Metabase 대시보드, AI 챗봇 연결</td></tr>
+    <tr><td><b>1/27 최종</b></td><td>챗봇 vs 대시보드 검증, Naver 추가 시연, 리니지, AI 정답률 비교</td></tr>
   </table>
 </section>
 
