@@ -110,10 +110,39 @@
   dl.gloss dt, dl.gloss dd { margin: 0; padding: 10px 12px; border-bottom: 1px solid var(--line); }
   dl.gloss dt { font-weight: 700; background: var(--soft); }
   svg text { font-family: "Pretendard", "Malgun Gothic", sans-serif; }
+  /* 도구 선택 */
+  .diagram { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 10px 6px; margin: 16px 0 10px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .crit { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 22px; counter-reset: c; }
+  .crit > div { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.55; }
+  .crit > div::before { counter-increment: c; content: counter(c); display: inline-grid; place-items: center; width: 22px; height: 22px;
+                        border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+  .crit b { display: block; font-size: 15px; }
+  .crit small { color: var(--muted); }
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0 24px; }
+  .pick { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px 10px; }
+  .pick.key { border: 2px solid #8b7fd6; background: #f8f7fe; grid-column: 1 / -1; }
+  .pick .slot { font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+  .pick .win { font-size: 19px; font-weight: 700; margin: 2px 0 6px; }
+  .pick .win::before { content: "✅ "; font-size: 15px; }
+  .pick .alts { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+  .pick .alts span { font-size: 12.5px; background: var(--soft); border-radius: 6px; padding: 2px 8px; color: var(--muted); }
+  .pick .alts span s { text-decoration: none; color: #4a4a50; font-weight: 600; margin-right: 4px; }
+  .pick .alts span s::before { content: "✕ "; color: var(--warn); font-weight: 400; }
+  .pick p { font-size: 14.5px; margin: 4px 0; }
+  .steps { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 4px; margin: 14px 0 8px; }
+  .steps .st { flex: 1 1 0; min-width: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px 10px 8px;
+               font-size: 13px; line-height: 1.45; text-align: center; }
+  .steps .st b { display: block; font-size: 14px; margin-bottom: 2px; }
+  .steps .st small { color: var(--muted); }
+  .steps .st.dev { background: var(--accent-soft); border-color: #c4d2f6; }
+  .steps .st.prod { background: var(--ga4-soft); border-color: #a8d8d1; }
+  .steps .ar { align-self: center; color: var(--muted); font-size: 15px; }
   footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; } nav { display: none; } main { padding: 32px 20px 80px; }
-    .two, .three, .stats { grid-template-columns: 1fr; } .three > div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .two, .three, .stats, .picks { grid-template-columns: 1fr; } .crit { grid-template-columns: 1fr 1fr; }
+    .steps { flex-wrap: wrap; } .steps .st { min-width: 100px; } .steps .ar { display: none; } .three > div { border-right: 0; border-bottom: 1px solid var(--line); }
     dl.gloss { grid-template-columns: 1fr; }
   }
 </style>
@@ -131,6 +160,7 @@
     <li class="sub"><a href="#solution">어떻게 해결하나</a></li>
     <li class="sub"><a href="#okr">목표(OKR)</a></li>
     <li class="sub"><a href="#arch">전체 구조</a></li>
+    <li class="sub"><a href="#tools">도구 선택 — 왜 이걸 골랐나</a></li>
     <li class="group">데이터</li>
     <li><a href="#scenario">2. 데이터 시나리오</a></li>
     <li class="sub"><a href="#why-fake">왜 가짜 데이터인가</a></li>
@@ -306,6 +336,169 @@
     <tr><td>회사마다 다른 것은 설정 파일(seed)로 뺀다</td><td>"우리 회사의 전환은 구매", "목표 ROAS는 3" 같은 건 코드가 아니라 설정이에요. 그래야 다른 회사 데이터에도 코드를 그대로 쓸 수 있어요</td></tr>
     <tr><td>BigQuery 말고는 전부 내 PC에서</td><td>무료 한도 안에서 운영해요. 예산 알림, 하루 쿼리 한도, <code>maximum_bytes_billed</code>(한 번에 읽을 수 있는 양 제한)로 실수로 큰돈 나가는 걸 막아요</td></tr>
   </table>
+
+  <h3 id="tools">도구 선택 — 왜 이걸 골랐나</h3>
+  <p>데이터가 흘러가는 길을 다섯 칸으로 나누고, 칸마다 후보를 비교해서 하나씩 골랐어요.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 860 318" role="img" aria-label="수집, 저장, 변환, 지표 정의, 보기와 묻기 다섯 단계와 각 단계의 도구">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#9a9aa0"/>
+        </marker>
+      </defs>
+      <!-- 단계 이름 -->
+      <g font-size="12.5" font-weight="700" fill="#6b6b70">
+        <text x="85" y="22" text-anchor="middle">① 수집 (EL)</text>
+        <text x="257" y="22" text-anchor="middle">② 저장</text>
+        <text x="429" y="22" text-anchor="middle">③ 변환 (T)</text>
+        <text x="601" y="22" text-anchor="middle">④ 지표 정의</text>
+        <text x="773" y="22" text-anchor="middle">⑤ 보기 · 묻기</text>
+      </g>
+      <!-- ① 수집 -->
+      <rect x="10" y="34" width="150" height="156" rx="12" fill="#fdf0e8" stroke="#f1c9b0"/>
+      <text x="85" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="#c2410c">생성기 · 적재</text>
+      <g font-size="12" fill="#3a3a3e" text-anchor="middle">
+        <text x="85" y="100">Google · Meta · Naver</text>
+        <text x="85" y="118">+ GA4</text>
+        <text x="85" y="146" fill="#6b6b70">실제 API 응답 모양</text>
+        <text x="85" y="164" fill="#6b6b70">사고 6 · 낭비 3 · 정답지</text>
+      </g>
+      <!-- ② 저장 -->
+      <rect x="182" y="34" width="150" height="156" rx="12" fill="#ffffff" stroke="#d6d6d0"/>
+      <text x="257" y="72" text-anchor="middle" font-size="17" font-weight="700">BigQuery</text>
+      <g font-size="12" fill="#3a3a3e" text-anchor="middle">
+        <text x="257" y="100">운영 · 무료 한도</text>
+        <rect x="200" y="122" width="114" height="50" rx="8" fill="#e8eefc"/>
+        <text x="257" y="142" font-weight="700" fill="#2f5bd3">개발: DuckDB</text>
+        <text x="257" y="160" fill="#6b6b70">내 PC · 0원</text>
+      </g>
+      <!-- ③ 변환 -->
+      <rect x="354" y="34" width="150" height="156" rx="12" fill="#e8eefc" stroke="#2f5bd3" stroke-width="2"/>
+      <text x="429" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="#2f5bd3">dbt Core</text>
+      <g font-size="12" fill="#3a3a3e" text-anchor="middle">
+        <text x="429" y="100">staging</text>
+        <text x="429" y="118">→ intermediate</text>
+        <text x="429" y="136">→ mart (스타 스키마)</text>
+        <text x="429" y="164" fill="#6b6b70">테스트 · 리니지</text>
+      </g>
+      <!-- ④ 지표 정의 -->
+      <rect x="526" y="34" width="150" height="156" rx="12" fill="#f1effc" stroke="#8b7fd6" stroke-width="2"/>
+      <text x="601" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="#5b4fc0">Cube</text>
+      <g font-size="12" fill="#3a3a3e" text-anchor="middle">
+        <text x="601" y="100">ROAS · CPA ·</text>
+        <text x="601" y="118">과대 주장 배수</text>
+        <text x="601" y="146" font-weight="700" fill="#5b4fc0">정의는 여기 한 곳</text>
+        <text x="601" y="164" fill="#6b6b70">Semantic Layer</text>
+      </g>
+      <!-- ⑤ 보기 · 묻기 -->
+      <rect x="698" y="34" width="150" height="72" rx="12" fill="#e6f4f2" stroke="#a8d8d1"/>
+      <text x="773" y="64" text-anchor="middle" font-size="16" font-weight="700" fill="#0f766e">Metabase</text>
+      <text x="773" y="86" text-anchor="middle" font-size="12" fill="#6b6b70">대시보드 (SQL API)</text>
+      <rect x="698" y="118" width="150" height="72" rx="12" fill="#e6f4f2" stroke="#a8d8d1"/>
+      <text x="773" y="148" text-anchor="middle" font-size="16" font-weight="700" fill="#0f766e">AI 챗봇</text>
+      <text x="773" y="170" text-anchor="middle" font-size="12" fill="#6b6b70">질문 답변 (REST API)</text>
+      <!-- 화살표 -->
+      <g stroke="#9a9aa0" stroke-width="1.6" fill="none" marker-end="url(#ah)">
+        <line x1="161" y1="112" x2="180" y2="112"/>
+        <line x1="333" y1="112" x2="352" y2="112"/>
+        <line x1="505" y1="112" x2="524" y2="112"/>
+        <path d="M677,112 C688,112 686,70 696,70"/>
+        <path d="M677,112 C688,112 686,154 696,154"/>
+      </g>
+      <!-- 아래 띠: Airflow -->
+      <rect x="10" y="210" width="838" height="38" rx="10" fill="#fef8e6" stroke="#f1dfa8" stroke-dasharray="5 4"/>
+      <text x="429" y="234" text-anchor="middle" font-size="13" fill="#3a3a3e"><tspan font-weight="700" fill="#a16207">⏰ Airflow</tspan>  매일 ①→④ 순서대로 자동 실행 · 테스트가 실패하면 멈춤 · 지난 날짜 다시 돌리기(백필)</text>
+      <!-- 아래 띠: CI · 검증 -->
+      <rect x="182" y="262" width="322" height="44" rx="10" fill="#ffffff" stroke="#d6d6d0" stroke-dasharray="5 4"/>
+      <text x="343" y="282" text-anchor="middle" font-size="12.5" font-weight="700">🔍 GitHub Actions (CI)</text>
+      <text x="343" y="298" text-anchor="middle" font-size="11.5" fill="#6b6b70">PR마다 DuckDB로 dbt build · 비밀키 없이</text>
+      <rect x="526" y="262" width="322" height="44" rx="10" fill="#ffffff" stroke="#d6d6d0" stroke-dasharray="5 4"/>
+      <text x="687" y="282" text-anchor="middle" font-size="12.5" font-weight="700">🎯 BI = AI 숫자 일치 검증 (KR2)</text>
+      <text x="687" y="298" text-anchor="middle" font-size="11.5" fill="#6b6b70">검증 질문 20개 · 챗봇 vs 대시보드</text>
+    </svg>
+  </div>
+
+  <h4>고르는 기준 4가지 (위에서부터 우선)</h4>
+  <div class="crit">
+    <div><b>비용 0원</b><small>클라우드는 BigQuery 무료 한도만, 나머지는 전부 내 PC</small></div>
+    <div><b>BI와 AI가 같은 정의</b><small>지표 정의를 한 곳에 두고 둘 다 거기서 가져가야 해요</small></div>
+    <div><b>실무에서 그대로 쓰이나</b><small>특정 회사 제품에 묶이지 않는 쪽</small></div>
+    <div><b>역할이 눈에 보이나</b><small>수집 · 변환 · 지표 · 화면이 도구별로 나뉘어야 이해돼요</small></div>
+  </div>
+
+  <h4>칸마다 무엇과 비교했나</h4>
+  <div class="picks">
+    <div class="pick key">
+      <div class="slot">④ 지표 정의 (Semantic Layer) — 가장 중요한 선택</div>
+      <div class="win">Cube</div>
+      <div class="alts">
+        <span><s>MetricFlow</s>BI · 챗봇에 내보내는 API는 dbt Cloud 유료</span>
+        <span><s>Looker (LookML)</s>유료 기업용</span>
+        <span><s>대시보드 안에서 계산</s>BI와 챗봇의 정의가 갈라짐</span>
+      </div>
+      <p>무료 · 내 PC에서 <b>Metabase(SQL API)와 챗봇(REST API) 둘 다에 같은 지표</b>를 내보낼 수 있는 유일한 후보였어요.
+      MetricFlow가 나빠서가 아니라 비용 조건 때문이에요. 개념(측정값 · 차원 · 비율은 합계끼리 한 번만 나누기)은 거의 같아요.</p>
+    </div>
+    <div class="pick">
+      <div class="slot">① 수집 · 원천 데이터</div>
+      <div class="win">직접 만든 생성기</div>
+      <div class="alts"><span><s>회사 실데이터</s>가져오지 않음</span><span><s>공개 샘플</s>매체 데이터 · 정답이 없음</span></div>
+      <p>정답(실제 주문)을 알아서 dbt 결과를 숫자로 검증할 수 있어요. 실제 API 모양이라 나중에 실제 수집으로 바꿔도 dbt는 그대로예요.</p>
+    </div>
+    <div class="pick">
+      <div class="slot">② 저장</div>
+      <div class="win">BigQuery + DuckDB</div>
+      <div class="alts"><span><s>Snowflake · Redshift</s>체험 뒤 유료</span><span><s>로컬 PostgreSQL</s>클라우드 웨어하우스 연습이 안 됨</span></div>
+      <p>하루 수십 번 도는 개발은 DuckDB(0원), 기준을 넘으면 BigQuery로 올려요. GA4가 원래 BigQuery 형식이에요.</p>
+    </div>
+    <div class="pick">
+      <div class="slot">③ 변환</div>
+      <div class="win">dbt Core</div>
+      <div class="alts"><span><s>저장 프로시저</s>순서 · 테스트 · 리니지를 사람이</span><span><s>Dataform</s>BigQuery 전용</span><span><s>dbt Cloud</s>유료</span></div>
+      <p>무료 오픈소스이고, DuckDB와 BigQuery 둘 다 지원해요. 실무에서 가장 흔해요.</p>
+    </div>
+    <div class="pick">
+      <div class="slot">⑤ 보기 (대시보드)</div>
+      <div class="win">Metabase</div>
+      <div class="alts"><span><s>Power BI · Tableau</s>유료</span><span><s>Looker Studio</s>지표 정의 계층 없음 · 내 PC의 Cube에 못 붙음</span><span><s>Superset</s>설치가 무거움</span></div>
+      <p>무료 · 내 PC · Cube에 바로 붙는 가장 가벼운 도구예요. <b>Metabase 안에서는 지표를 계산하지 않아요.</b></p>
+    </div>
+    <div class="pick">
+      <div class="slot">⑤ 묻기 (AI 챗봇)</div>
+      <div class="win">Cube API로만 조회</div>
+      <div class="alts"><span><s>챗봇이 SQL 직접 작성</s>틀린 계산 · 비용 통제 어려움</span></div>
+      <p>챗봇은 "어떤 지표를, 어떤 기준으로"만 고르고 계산은 Cube가 해요. 마지막에 두 방식의 정답률을 비교해요.</p>
+    </div>
+    <div class="pick">
+      <div class="slot">자동 실행 · 코드 검사</div>
+      <div class="win">Airflow + GitHub Actions</div>
+      <div class="alts"><span><s>작업 스케줄러 · cron</s>멈춤 · 백필을 직접</span><span><s>Cloud Composer · dbt Cloud CI</s>유료</span></div>
+      <p>실무 표준이고 무료예요. CI는 DuckDB로 돌려서 BigQuery 비밀키를 GitHub에 올리지 않아요.</p>
+    </div>
+  </div>
+
+  <h4>개발 흐름 — 코드 한 줄이 운영까지 가는 길</h4>
+  <div class="steps">
+    <div class="st dev"><b>브랜치</b><small>회차마다 하나</small></div><div class="ar">→</div>
+    <div class="st dev"><b>dbt 작성</b><small>DuckDB에서 0원으로 반복</small></div><div class="ar">→</div>
+    <div class="st dev"><b>dbt build</b><small>테스트 · 검증값 확인</small></div><div class="ar">→</div>
+    <div class="st"><b>PR · 리뷰</b><small>바뀐 모델 · 결과 설명</small></div><div class="ar">→</div>
+    <div class="st"><b>CI 통과</b><small>GitHub Actions</small></div><div class="ar">→</div>
+    <div class="st"><b>병합</b><small>master에 반영</small></div><div class="ar">→</div>
+    <div class="st prod"><b>BigQuery 운영</b><small>12/30 주 전환 · Airflow 매일 실행</small></div>
+  </div>
+  <p class="section-lead" style="font-size:14px">BigQuery로 넘어가는 기준: mart까지 <code>dbt build</code> 전부 통과, 매핑 단계별 세션 수 = 검증값, 매체 ÷ GA4 약 1.27배 재현.</p>
+
+  <h4>회사 환경이라면 무엇이 바뀌나</h4>
+  <table>
+    <tr><th>회사 조건</th><th>바뀌는 칸</th></tr>
+    <tr><td>dbt Cloud 유료를 이미 씀</td><td>④ Cube → <b>MetricFlow</b> (지표 정의를 dbt 안에)</td></tr>
+    <tr><td>Looker를 이미 씀</td><td>④ + ⑤ → <b>Looker</b> 하나 (LookML이 Semantic Layer)</td></tr>
+    <tr><td>Power BI · Tableau를 이미 씀</td><td>⑤ Metabase → 그 도구 (Semantic Layer에 붙는지 먼저 확인)</td></tr>
+    <tr><td>Fivetran 같은 수집 도구를 씀</td><td>① 생성기 → 그 도구. 원천을 실제 API 모양으로 맞춰 둬서 ③ dbt는 그대로</td></tr>
+  </table>
+  <div class="easy check">도구는 조건에 따라 바뀌어도 <b>칸을 나누는 생각</b>은 그대로예요. 원천은 그대로 보존, 변환은 한 곳(dbt), 지표 정의도 한 곳(Semantic Layer), 화면과 AI는 가져다 쓰기만. 이걸 지키면 "BI와 AI가 같은 숫자"가 유지돼요.</div>
 </section>
 
 <!-- ───────────────────────── 2. 데이터 시나리오 ───────────────────────── -->
