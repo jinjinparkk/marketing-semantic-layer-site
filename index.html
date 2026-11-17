@@ -138,19 +138,27 @@
   .steps .st.dev { background: var(--accent-soft); border-color: #c4d2f6; }
   .steps .st.prod { background: var(--ga4-soft); border-color: #a8d8d1; }
   .steps .ar { align-self: center; color: var(--muted); font-size: 15px; }
+  /* 소개 ↔ 진행 상황 전환 버튼 (progress/style.css 의 .switch 와 같은 모양) */
+  .switch { position: fixed; top: 14px; right: 18px; z-index: 50; display: flex; gap: 2px; padding: 3px;
+            background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+  .switch a { padding: 6px 14px; border-radius: 999px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
+  .switch a:hover { color: var(--fg); }
+  .switch a.on { background: var(--accent); color: #fff; }
   footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; } nav { display: none; } main { padding: 32px 20px 80px; }
     .two, .three, .stats, .picks { grid-template-columns: 1fr; } .crit { grid-template-columns: 1fr 1fr; }
     .steps { flex-wrap: wrap; } .steps .st { min-width: 100px; } .steps .ar { display: none; } .three > div { border-right: 0; border-bottom: 1px solid var(--line); }
     dl.gloss { grid-template-columns: 1fr; }
+    .switch { position: static; margin: 12px 20px 0; width: max-content; }
   }
 </style>
 </head>
 <body>
+<div class="switch" role="navigation" aria-label="페이지 전환"><a class="on" href="./" aria-current="page">📘 프로젝트 소개</a><a href="progress/">📊 OKR 진행 상황</a></div>
 <div class="layout">
 <nav>
-  <div class="brand">Marketing Semantic Layer<small>2026-11 OKR · 쉽게 풀어 쓴 판</small></div>
+  <div class="brand">Marketing Semantic Layer<small>2026-11 ~ 2027-01 OKR · 쉽게 풀어 쓴 판</small></div>
   <ol>
     <li><a href="#start">0. 먼저 읽기 — 한 장 요약</a></li>
     <li class="group">프로젝트</li>
@@ -197,13 +205,11 @@
     이 프로젝트는 쇼핑몰이 직접 남긴 방문 기록(GA4)으로 누구 말이 맞는지 가려냅니다. 그리고 그 계산법을 <b>한 곳에 딱 정해 두어서</b>
     대시보드든 AI 챗봇이든 누가 물어봐도 같은 답이 나오게 만듭니다.</p>
   <div class="meta-row">
-    <span><b>기간</b>2026-11-12 ~ 2027-01-29 (최종 보고 1/27)</span>
+    <span><b>기간</b>2026-11-02 ~ 2027-01-29 (최종 보고 1/27)</span>
     <span><b>성격</b>회사 OKR</span>
     <span><b>도구</b>BigQuery · dbt · Cube · Metabase · Airflow</span>
     <span><b>데이터</b>가상 패션몰 (직접 만든 가짜 데이터)</span>
-  </div>
-  <p style="margin-top:18px"><a href="progress/" style="display:inline-block; text-decoration:none; font-weight:600; font-size:15px; padding:8px 16px; border-radius:8px; background:var(--accent); color:#fff">📊 OKR 진행 상황 보기 →</a></p>
-</header>
+  </div></header>
 
 <!-- ───────────────────────── 0. 한 장 요약 ───────────────────────── -->
 <section id="start">
@@ -976,7 +982,7 @@ abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null 
   partition_by : report_date (하루 단위 칸)
   cluster_by   : campaign_key (칸 안에서 캠페인 순 정렬)</pre>
   <div class="note"><b>솔직히 말하면 이 표는 너무 작아요</b>: 캠페인 14개 × 183일 = 약 2,600줄이에요. BigQuery는 쿼리 한 번에 최소 10MB를 읽은 걸로 쳐서,
-    이 크기에서는 파티션을 나눠도 요금 차이가 없어요. 이 표의 파티션은 <b>연습용</b>이에요. 진짜 효과는 338만 줄짜리 <code>stg_ga4__events</code> 같은 큰 표에서 나요.</div>
+    이 크기에서는 파티션을 나눠도 요금 차이가 없어요. 이 표의 파티션은 <b>연습용</b>이에요. 진짜 효과는 339만 줄짜리 <code>stg_ga4__events</code> 같은 큰 표에서 나요.</div>
   <div class="note warn"><b>GA4 원천의 함정</b>: GA4는 파티션이 아니라 <code>events_20250601</code>, <code>events_20250602</code>…처럼 <b>날짜마다 표가 따로</b> 있어요(샤딩).
     <code>events_*</code>로 부를 때 <code>_TABLE_SUFFIX</code>로 날짜 범위를 정하지 않으면 183일치를 <b>전부</b> 읽어서 돈이 많이 나가요.</div>
 
@@ -1020,7 +1026,7 @@ abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null 
     <tr><th>계층</th><th>주방 비유</th><th>하는 일</th></tr>
     <tr><td>staging</td><td>재료 씻기</td><td>원천마다 다른 모양을 우리 규칙으로 맞춰요. micros ÷ 100만, 부가세 빼기, 쉼표 지우기, 가장 최근 <code>_extract_date</code> 값만 남기기</td></tr>
     <tr><td>intermediate</td><td>재료 손질·섞기</td><td>표끼리 키로 연결, 캠페인 이름 · 소재 주소 이력(SCD2), 세션을 랜딩 URL로 소재에 매핑, 주문을 캠페인에 귀속, 그레인 맞추기</td></tr>
-    <tr><td>marts</td><td>완성 요리</td><td>팩트(<code>fct_</code>)·디멘션(<code>dim_</code>) 표. 파티션·클러스터 적용</td></tr>
+    <tr><td>marts</td><td>완성 요리</td><td>팩트(<code>fct_</code>)·디멘션(<code>dim_</code>) 표. 파티션·클러스터 적용 (운영 BigQuery에서만)</td></tr>
     <tr><td>Cube</td><td>메뉴판</td><td>ROAS처럼 나누기가 들어가는 지표를 한 곳에서 계산</td></tr>
   </table>
   <ul>
@@ -1066,10 +1072,10 @@ abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null 
   <div class="easy">체크 질문은 "이 단계를 정말 이해했나?"를 스스로 확인하는 퀴즈예요. 답을 말로 설명할 수 있으면 다음 단계로 가요.</div>
   <div class="table-wrap"><table>
     <tr><th>단계</th><th>만드는 것</th><th>배우는 기능</th><th>체크 질문</th></tr>
-    <tr><td>0</td><td>가상환경, <code>dbt init</code>, <code>profiles.yml</code></td><td>프로젝트 구조, <code>dbt debug</code> (BigQuery 연결 확인)</td><td>-</td></tr>
+    <tr><td>0</td><td>가상환경, <code>dbt init</code>, <code>profiles.yml</code></td><td>프로젝트 구조, <code>dbt debug</code> (먼저 DuckDB 연결, BigQuery는 12/30 주에 추가)</td><td>-</td></tr>
     <tr><td>1</td><td><code>sources.yml</code> → <code>stg_google_ads</code></td><td><code>source()</code> · <code>ref()</code> · seed</td><td>이 모델을 지우면 그래프에서 무엇이 같이 사라지나?</td></tr>
     <tr><td>2</td><td><code>stg_meta</code> → <code>int_ad_performance__unioned</code></td><td>어댑터 패턴, macro, <code>var</code></td><td>네 번째 매체를 붙일 때 고칠 파일은 몇 개?</td></tr>
-    <tr><td>2.5</td><td><code>stg_ga4__events</code> → 주문 → 귀속</td><td>UNNEST(중첩 풀기), <code>_TABLE_SUFFIX</code></td><td>6/30 클릭 · 7/3 구매는 어느 날짜 줄에 들어가나?</td></tr>
+    <tr><td>2.5</td><td><code>stg_ga4__events</code> → 주문 → 귀속</td><td>UNNEST(중첩 풀기), 날짜별 표 읽기 (DuckDB는 파일 패턴, BigQuery는 <code>_TABLE_SUFFIX</code> — 매크로로 감춤)</td><td>6/30 클릭 · 7/3 구매는 어느 날짜 줄에 들어가나?</td></tr>
     <tr><td>3</td><td>contract · 정합성 테스트</td><td><code>contract: enforced</code>, generic · singular test</td><td>contract에 없는 칸을 staging에 추가하면 어디서 막히나?</td></tr>
     <tr><td>4</td><td>캠페인 SCD2(과거는 SQL, 앞으로는 snapshot), 예산 이력, 일별 팩트</td><td><code>lag()</code> · <code>snapshot</code>, <code>incremental</code></td><td>10일 전 날짜의 전환이 늘면 반영되나?</td></tr>
     <tr><td>5</td><td>문서화, exposures, 공개 / 비공개</td><td><code>exposures</code>, <code>groups</code> · <code>access</code></td><td>이 지표를 쓰는 대시보드와 원천은? (그래프만 보고)</td></tr>

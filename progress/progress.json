@@ -3,38 +3,38 @@
   "krs": [
     {
       "id": "KR1",
-      "title": "마케팅 지표 기준(Semantic Layer)과 데이터 파이프라인 구축",
+      "title": "마케팅 핵심 지표 10개 Semantic Layer 단일 정의 및 일일 자동 갱신 체계 구축",
       "milestones": [
         {
           "pct": 25,
-          "label": "데이터 시나리오 · 지표 정의서",
+          "label": "시나리오 · 지표 정의서 · 구조 설계",
           "task": "t106"
         },
         {
           "pct": 50,
-          "label": "생성기 + dbt 정제 · 통합 (1.27배 재현)",
+          "label": "데이터 생성기 + dbt 정제 · 통합 모델",
           "task": "t302"
         },
         {
           "pct": 75,
-          "label": "Cube 지표 10개",
+          "label": "Cube 지표 10개 · 품질 테스트 통과",
           "task": "t404"
         },
         {
           "pct": 90,
-          "label": "Airflow 백필 전 구간 정상",
+          "label": "Airflow 일일 갱신 · 14일 백필 정상",
           "task": "t407"
         },
         {
           "pct": 100,
-          "label": "Naver 추가 시연 · 리니지 · BI/AI 별도 계산 0건",
+          "label": "BI · AI 별도 지표 계산 0건 · 정의서 정리",
           "task": "t503"
         }
       ]
     },
     {
       "id": "KR2",
-      "title": "같은 기준으로 예산 낭비 탐지 · BI와 AI가 같은 숫자",
+      "title": "AI 챗봇 · BI 대시보드 결과 일치율 100% 달성 (검증 질문 20개 기준)",
       "milestones": [
         {
           "pct": 25,
@@ -43,12 +43,17 @@
         },
         {
           "pct": 50,
-          "label": "챗봇이 Cube API로만 숫자 조회",
+          "label": "BI · 챗봇을 Semantic Layer에 연결",
           "task": "t501"
         },
         {
+          "pct": 75,
+          "label": "검증 질문 18개 이상 일치",
+          "task": "t502a"
+        },
+        {
           "pct": 90,
-          "label": "검증 질문 20개 일치 + 낭비 3건",
+          "label": "20개 전부 일치 + 낭비 3건 탐지",
           "task": "t502"
         },
         {
@@ -610,11 +615,21 @@
       "note": ""
     },
     {
+      "id": "t502a",
+      "date": "2026-12-15",
+      "week": "2027-01-27",
+      "track": "AE",
+      "title": "검증 질문 20개 챗봇 vs 대시보드 비교 — 18개 이상 일치",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
       "id": "t502",
       "date": "2026-12-15",
       "week": "2027-01-27",
       "track": "AE",
-      "title": "검증 질문 20개 챗봇 vs 대시보드 · 낭비 3건",
+      "title": "검증 질문 20개 전부 일치 · 낭비 3건 탐지",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -634,7 +649,7 @@
       "date": "2026-12-16",
       "week": "2027-01-27",
       "track": "AE",
-      "title": "Naver staging 어댑터 · exposures · 체크리스트 확인",
+      "title": "BI · AI 별도 지표 계산 0건 확인 · 지표 정의서 정리 · Naver staging 어댑터 · exposures · 체크리스트 확인",
       "status": "todo",
       "done_on": "",
       "note": ""
