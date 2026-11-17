@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>OKR 진행 상황 — 보고용</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<script src="common.js"></script>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div><div class="eyebrow">마케팅 Semantic Layer OKR · 진행 상황</div>
+      <h1 id="h1"></h1><div class="obj" id="obj"></div></div>
+    <div class="tools"><a class="btn" href="https://jinjinparkk.github.io/marketing-semantic-layer-site/">← 프로젝트 소개</a><button class="btn" id="theme"></button></div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="card"><h2>KR 진척</h2><div class="sub">앞 단계부터 순서대로 끝난 만큼 올라갑니다</div><div id="krs"></div></div>
+
+  <div class="card"><h2>계획 대비 진척</h2>
+    <div class="sub">공유 일정(회차별 마감) 기준 누적 작업 수 · 선 위에 마우스를 올리면 날짜별 숫자</div>
+    <div class="legend" style="margin-bottom:6px"><span><i class="sw line" style="background:var(--accent)"></i>실제 완료</span><span><i class="sw line" style="background:var(--plan)"></i>공유 계획</span></div>
+    <div class="chart" id="burn"></div></div>
+
+  <div class="card"><h2>전체 일정 — 11주 · 매주 수요일 보고</h2>
+    <div class="sub">막대 = 그 회차 작업. 칸에 마우스를 올리면 AE · DE 별 완료 수</div>
+    <div class="legend" style="margin-bottom:10px"><span><i class="sw" style="background:var(--ae)"></i>AE 완료 (애널리틱스 엔지니어 · 모델링 · 지표)</span><span><i class="sw" style="background:var(--de)"></i>DE 완료 (데이터 엔지니어 · 수집 · 운영 · 비용)</span><span><i class="sw" style="background:var(--track)"></i>남은 작업</span></div>
+    <div class="weeks" id="weeks"></div>
+    <details class="tbl"><summary>표로 보기</summary><div id="weeks-tbl"></div></details></div>
+
+  <div class="grid2 row">
+    <div class="card" id="now"></div>
+    <div class="card"><h2>dbt 실무 활용 체크리스트</h2><div class="sub" id="chk-sub"></div><div class="chk" id="chk" style="grid-template-columns:1fr 1fr"></div></div>
+  </div>
+
+  <div class="card"><h2>주간 기록</h2><div class="sub">최신 회차부터</div><div id="logs"></div></div>
+</main>
+<script>
+(async () => {
+  initTheme(document.getElementById('theme'));
+  const data = await loadData(), tm = taskMap(data), today = todayISO();
+  const cur = currentWeek(data, today), all = ratio(data.tasks);
+  const kr = data.krs.map(k => krPct(k, tm));
+  const plannedNow = data.tasks.filter(t => t.week <= today).length;
+  const diff = all.d - plannedNow;
+  const chkDone = data.checklist.filter(c => c.tasks.every(id => tm[id]?.status === 'done')).length;
+  const dNext = dayDiff(today, cur.report);
+
+  document.getElementById('h1').textContent = `${mdw(today)} 기준 — ${all.pct}% 진행`;
+  document.getElementById('obj').textContent = data.objective;
+
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi hero"><div class="k">전체 진척</div><div class="v">${all.pct}<small>%</small></div>
+      <div class="d">작업 ${all.d} / ${all.n} · 공유 계획 대비 <span class="${diff >= 0 ? 'up' : 'down'}">${diff >= 0 ? '▲ +' : '▼ '}${diff}</span></div>${meter(all.pct)}</div>
+    <div class="kpi"><div class="k">KR1</div><div class="v">${kr[0]}<small>%</small></div>${meter(kr[0])}</div>
+    <div class="kpi"><div class="k">KR2</div><div class="v">${kr[1]}<small>%</small></div>${meter(kr[1])}</div>
+    <div class="kpi"><div class="k">다음 보고</div><div class="v">${dNext === 0 ? '오늘' : 'D-' + dNext}</div><div class="d">${mdw(cur.report)}</div></div>`;
+
+  document.getElementById('krs').innerHTML = data.krs.map(k => krSteps(k, tm)).join('');
+
+  const start = '2026-11-16', end = data.weeks[data.weeks.length - 1].report;
+  burnup(document.getElementById('burn'), {
+    label: '공유 계획 대비 누적 완료 작업 수', start, end, today, total: data.tasks.length,
+    plan: cumulative(data.tasks.map(t => t.week)),
+    actual: cumulative(data.tasks.filter(t => t.status === 'done').map(t => t.done_on)),
+    ticks: data.weeks.filter((_, i) => i % 2 === 0).map(w => w.report),
+  });
+
+  // 주차별 막대
+  const rows = data.weeks.map(w => {
+    const ts = data.tasks.filter(t => t.week === w.report), n = ts.length;
+    const ae = ts.filter(t => t.track === 'AE'), de = ts.filter(t => t.track === 'DE');
+    const aeD = ae.filter(t => t.status === 'done').length, deD = de.filter(t => t.status === 'done').length, rest = n - aeD - deD;
+    const r = ratio(ts), past = w.report < today;
+    const st = r.pct === 100 ? ['done', '✓ 완료'] : past ? ['late', '⚠ 미완'] : ts.some(t => t.status !== 'todo') ? ['doing', '◐ 진행'] : ['todo', '○ 예정'];
+    const tip = `<b>${md(w.report)} 보고 · ${esc(w.title)}</b>작업 ${period(w)}<br>AE ${aeD} / ${ae.length} 완료 · DE ${deD} / ${de.length} 완료`;
+    const segs = [aeD && `<i class="ae" style="flex:${aeD}"></i>`, deD && `<i class="de" style="flex:${deD}"></i>`, rest && `<i class="rest" style="flex:${rest}"></i>`].filter(Boolean).join('');
+    return { w, n, r, st, ae, de, aeD, deD, html: `<div class="w ${w.report === cur.report ? 'now' : ''}" data-tip="${esc(tip)}">
+      <div class="date">${md(w.report)}<small>보고</small></div>
+      <div class="title">${esc(w.title)}<small>작업 ${period(w)}</small></div>
+      <div class="bar"><div class="seg">${segs}</div></div>
+      <div class="cnt">${r.d} / ${n}</div>
+      <div class="st2"><span class="pill ${st[0]}">${st[1]}</span></div></div>` };
+  });
+  document.getElementById('weeks').innerHTML = rows.map(r => r.html).join('');
+  document.getElementById('weeks-tbl').innerHTML = `<table><tr><th>보고일</th><th>작업 기간</th><th>주제</th><th>AE 완료</th><th>DE 완료</th><th>전체</th><th>상태</th></tr>
+    ${rows.map(r => `<tr><td>${mdw(r.w.report)}</td><td>${period(r.w)}</td><td>${esc(r.w.title)}</td><td class="num">${r.aeD} / ${r.ae.length}</td><td class="num">${r.deD} / ${r.de.length}</td><td class="num">${r.r.d} / ${r.n}</td><td>${r.st[1]}</td></tr>`).join('')}</table>`;
+
+  // 이번 회차
+  const curTasks = data.tasks.filter(t => t.week === cur.report);
+  const ahead = data.tasks.filter(t => t.week > cur.report && t.status !== 'todo');
+  const pill = t => `<span class="pill ${t.status}">${ST_LABEL[t.status]}</span>`;
+  document.getElementById('now').innerHTML = `<h2>이번 보고 회차 — ${mdw(cur.report)}</h2>
+    <div class="sub"><b style="color:var(--ink)">${esc(cur.title)}</b><br>작업 기간 ${period(cur)} · ${ratio(curTasks).d} / ${curTasks.length} 완료</div>
+    ${curTasks.map(t => `<div class="task"><div class="t">${tag(t.track)}${esc(t.title)}</div>${pill(t)}</div>`).join('')}
+    ${ahead.length ? `<h2 style="margin-top:16px">앞서 진행한 다음 회차 작업 <span class="pill done">+${ahead.length}</span></h2>
+      ${ahead.map(t => `<div class="task"><div class="t">${tag(t.track)}${esc(t.title)} <span class="muted">· ${md(t.week)} 회차</span></div>${pill(t)}</div>`).join('')}` : ''}`;
+
+  // 체크리스트
+  document.getElementById('chk-sub').textContent = `실무에서 dbt를 쓰는 방식 ${data.checklist.length}가지 — ${chkDone}개 완료`;
+  document.getElementById('chk').innerHTML = data.checklist.map(c => {
+    const ts = c.tasks.map(id => tm[id]).filter(Boolean), r = ratio(ts), started = ts.some(t => t.status !== 'todo');
+    const [cls, ic] = r.pct === 100 ? ['ok', '✓'] : started ? ['part', '◐'] : ['', '○'];
+    const tip = `<b>${c.no}. ${esc(c.name)}</b>${ts.map(t => `${ST_LABEL[t.status]} · ${esc(t.title)}`).join('<br>')}`;
+    return `<div class="${cls}" data-tip="${esc(tip)}"><span class="ic">${ic}</span><span><b>${c.no}</b>${esc(c.name)}</span></div>`;
+  }).join('');
+
+  // 주간 기록
+  const L = { done: '한 것', numbers: '숫자로 확인', learned_ae: '배운 것 · AE', learned_de: '배운 것 · DE', blocked: '막힌 것', next: '다음' };
+  const keys = Object.keys(data.logs || {}).filter(k => Object.values(data.logs[k]).some(Boolean)).sort().reverse();
+  document.getElementById('logs').innerHTML = keys.length ? keys.map(k => {
+    const lg = data.logs[k], w = data.weeks.find(x => x.report === k);
+    return `<div class="log"><div class="when">${md(k)} 보고<small>${esc(w?.title || '')}</small><small>${w ? period(w) : ''}</small></div><dl>
+      ${Object.entries(L).filter(([f]) => lg[f]).map(([f, n]) => `<dt>${n}</dt><dd>${esc(lg[f])}</dd>`).join('')}</dl></div>`;
+  }).join('') : '<p class="muted">아직 기록 없음</p>';
+})();
+</script>
+</body>
+</html>
