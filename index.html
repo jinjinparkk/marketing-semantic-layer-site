@@ -138,6 +138,22 @@
   .steps .st.dev { background: var(--accent-soft); border-color: #c4d2f6; }
   .steps .st.prod { background: var(--ga4-soft); border-color: #a8d8d1; }
   .steps .ar { align-self: center; color: var(--muted); font-size: 15px; }
+  /* 6. 실무 질문 · 문제 해결 */
+  .qa { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px 12px; margin: 14px 0; }
+  .qa-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .qa-no { font-size: 13px; font-weight: 700; color: #fff; background: var(--accent); border-radius: 6px; padding: 1px 8px; }
+  .qa-q { font-size: 18px; font-weight: 700; flex: 1; min-width: 240px; }
+  .qa-st { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+  .qa-st.ok { color: #006300; background: #e5f4e5; }
+  .qa-st.part { color: #8a5a00; background: #fdf1d6; }
+  .qa-st.str { color: #5b4fc0; background: #f1effc; }
+  .qa-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 16px; margin-top: 10px; }
+  .qa-grid h5 { margin: 0 0 4px; font-size: 12.5px; color: var(--muted); letter-spacing: .04em; }
+  .qa-grid p, .qa-grid li { font-size: 14.5px; }
+  .qa-grid ul { margin: 0 0 6px; padding-left: 18px; }
+  .qa-grid .prob { background: var(--warn-soft); border-radius: 8px; padding: 10px 12px; }
+  .qa-grid .prob p { margin: 0; }
+  .qa .when { font-size: 13px; color: var(--muted); border-top: 1px dashed var(--line); margin-top: 8px; padding-top: 8px; }
   /* 소개 ↔ 진행 상황 전환 버튼 (progress/style.css 의 .switch 와 같은 모양) */
   .switch { position: fixed; top: 14px; right: 18px; z-index: 50; display: flex; gap: 2px; padding: 3px;
             background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
@@ -151,6 +167,7 @@
     .steps { flex-wrap: wrap; } .steps .st { min-width: 100px; } .steps .ar { display: none; } .three > div { border-right: 0; border-bottom: 1px solid var(--line); }
     dl.gloss { grid-template-columns: 1fr; }
     .switch { position: static; margin: 12px 20px 0; width: max-content; }
+    .qa-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -193,6 +210,7 @@
     <li class="group">진행</li>
     <li><a href="#plan">4. 학습 경로 · 일정</a></li>
     <li><a href="#glossary">5. 용어 사전</a></li>
+    <li><a href="#practice">6. 실무 질문 · 문제 해결</a></li>
     <li style="margin-top:14px"><a href="progress/" style="color:var(--accent); font-weight:600">📊 OKR 진행 상황 →</a></li>
   </ol>
 </nav>
@@ -1138,7 +1156,125 @@ abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null 
     <dt>exposures</dt><dd>dbt 족보에 "이 표를 쓰는 대시보드·챗봇"까지 그려 넣는 기능</dd>
     <dt>Airflow</dt><dd>여러 작업을 정해진 순서와 시간에 자동 실행하는 도구</dd>
   </dl>
-  <footer>marketing-semantic-layer · 데이터는 전부 가상 (생성기 출력) · 데이터 생성기는 AI 작성, dbt 이후는 직접 구축 · 쉽게 풀어 쓴 판 2026-11-12</footer>
+</section>
+
+<!-- ───────────────────────── 6. 실무 질문 · 문제 해결 ───────────────────────── -->
+<section id="practice">
+  <h2><span class="num">6</span>실무 질문 · 문제 해결</h2>
+  <p class="section-lead">dbt를 회사에서 운영하면 반드시 부딪히는 질문 7개예요. 질문마다 <b>무엇이 문제인지</b>, 이번 프로젝트에서 <b>어떻게 풀었는지</b>, <b>언제 하는지</b>를 적었어요.</p>
+  <div class="table-wrap"><table>
+    <tr><th>#</th><th>질문</th><th>한 줄 답</th><th>상태</th></tr>
+    <tr><td>1</td><td>프로젝트 구조</td><td>원천 정리 → 통합 → 완성 표, 3계층 + 공개 범위</td><td style="white-space:nowrap">✅ 계획에 포함</td></tr>
+    <tr><td>2</td><td>모델 저장 방식</td><td>표마다 view · table · incremental을 근거로 고름, 파티션은 운영에서만</td><td style="white-space:nowrap">✅ 계획에 포함</td></tr>
+    <tr><td>3</td><td>Airflow 연동</td><td>적재 → 신선도 확인 → dbt → BI, 실패하면 멈춤 · 연동 방식 두 가지 비교</td><td style="white-space:nowrap">△ 보강 예정</td></tr>
+    <tr><td>4</td><td>개발 · 테스트 프로세스</td><td>DuckDB에서 0원 개발 → PR → CI → 병합 → 운영</td><td style="white-space:nowrap">✅ 계획에 포함</td></tr>
+    <tr><td>5</td><td>다른 파이프라인과의 의존성</td><td>앞은 신선도 검사 · Asset, 뒤는 exposures</td><td style="white-space:nowrap">△ 보강 예정</td></tr>
+    <tr><td>6</td><td>국가별 같은 모델 정의</td><td>모델은 하나, 차이는 설정(seed · var)으로</td><td style="white-space:nowrap">☆ 시간 남으면</td></tr>
+    <tr><td>7</td><td>백필</td><td>lookback이 있는 incremental + 같은 날짜를 다시 돌려도 같은 결과</td><td style="white-space:nowrap">✅ 계획에 포함</td></tr>
+  </table></div>
+
+  <div class="qa">
+    <div class="qa-head"><span class="qa-no">Q1</span><span class="qa-q">dbt 프로젝트를 어떤 구조로 구성할 것인가?</span><span class="qa-st ok">✅ 계획에 포함</span></div>
+    <div class="qa-grid">
+      <div class="prob"><h5>문제</h5><p>모델이 수십 · 수백 개가 되면 어디에 무엇이 있는지, 어떤 표를 가져다 써도 되는지 알 수 없어요. 아무나 중간 표를 참조하면 하나 고칠 때 어디가 깨질지 몰라요.</p></div>
+      <div><h5>이번 프로젝트의 답</h5><ul>
+        <li><b>3계층</b>: <code>staging</code>(원천별 정리, 1원천 = 1폴더) → <code>intermediate</code>(매체 통합 · URL 매핑 · 귀속) → <code>marts</code>(<code>fct_</code> · <code>dim_</code> 스타 스키마)</li>
+        <li><b>이름 규칙</b>: <code>stg_&lt;원천&gt;__&lt;대상&gt;</code>, <code>int_&lt;주제&gt;__&lt;동작&gt;</code>. 이름만 보고 계층과 출처를 알 수 있어요</li>
+        <li><b>공개 범위</b>: <code>groups</code> · <code>access</code>로 intermediate는 비공개, mart만 공개. 다른 팀은 mart만 가져다 써요</li>
+        <li>mart는 staging을 직접 참조하지 않아요. 새 매체는 <b>staging 파일만 추가</b>하면 돼요 (마지막 주 Naver로 시연)</li>
+      </ul></div>
+    </div>
+    <div class="when">언제: 11/25 ~ 12/23 · 확인: "네 번째 매체를 붙일 때 고칠 파일은 몇 개?"</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-head"><span class="qa-no">Q2</span><span class="qa-q">dbt 모델을 어떻게 저장할 것인가?</span><span class="qa-st ok">✅ 계획에 포함</span></div>
+    <div class="qa-grid">
+      <div class="prob"><h5>문제</h5><p>전부 <code>table</code>로 만들면 매번 다시 쓰느라 비용이 들고, 전부 <code>view</code>로 두면 대시보드가 열릴 때마다 원천부터 계산해서 느려요. 큰 표를 날짜 조건 없이 읽으면 요금이 한 번에 커져요.</p></div>
+      <div><h5>이번 프로젝트의 답</h5><ul>
+        <li><b>staging = view</b>(가볍게 이름 · 형식만), <b>무거운 intermediate = table</b>, <b>일별 fact = incremental</b></li>
+        <li>근거를 숫자로: <code>run_results.json</code>의 모델별 실행 시간 상위 5개를 보고 고르고, 선택 이유를 README에 한 줄씩</li>
+        <li><b>운영(BigQuery)에서만</b> 날짜 파티션 · 클러스터, <code>require_partition_filter</code>, <code>maximum_bytes_billed</code>로 실수 차단</li>
+        <li>개발은 DuckDB, 운영은 BigQuery — <b>target</b>으로 저장 위치를 나눠요</li>
+      </ul></div>
+    </div>
+    <div class="when">언제: 12/23(실행 성능) · 12/30(파티션 · 클러스터) · 1/6(incremental)</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-head"><span class="qa-no">Q3</span><span class="qa-q">dbt와 Airflow를 어떻게 연동할 것인가?</span><span class="qa-st part">△ 보강 예정</span></div>
+    <div class="qa-grid">
+      <div class="prob"><h5>문제</h5><p>dbt 혼자서는 <b>언제</b> 돌아야 하는지, 앞단 적재가 끝났는지 몰라요. 테스트가 실패했는데도 대시보드가 갱신되면 틀린 숫자가 그대로 보고돼요.</p></div>
+      <div><h5>이번 프로젝트의 답</h5><ul>
+        <li>매일 DAG: <b>적재 → <code>source freshness</code> → <code>dbt snapshot</code> → <code>dbt build</code> → BI 갱신</b></li>
+        <li><b>테스트가 실패하면 멈춤</b>: 일부러 테스트를 깨뜨려 BI 갱신 단계로 넘어가지 않는 것까지 확인</li>
+        <li>실패하면 알림(메일 또는 로그)</li>
+        <li><b>연동 방식 두 가지를 비교해서 고르기</b> (보강):
+          <code>dbt build</code> 한 번(BashOperator, 간단하지만 어느 모델이 실패했는지 안 보임) vs 모델마다 작업 하나(Cosmos, 리니지가 Airflow에 보이고 실패한 모델만 재실행)</li>
+      </ul></div>
+    </div>
+    <div class="when">언제: 1/6(DAG · 멈춤 · 연동 방식 비교) · 1/20(실패 알림)</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-head"><span class="qa-no">Q4</span><span class="qa-q">dbt 모델을 어떤 프로세스로 개발하고 테스트할 것인가?</span><span class="qa-st ok">✅ 계획에 포함</span></div>
+    <div class="qa-grid">
+      <div class="prob"><h5>문제</h5><p>운영 표를 바로 고치다가 숫자가 깨지거나, 리뷰 없이 반영돼서 "언제 왜 바뀌었는지" 아무도 몰라요. 개발하면서 수십 번 돌리면 클라우드 비용이 쌓여요.</p></div>
+      <div><h5>이번 프로젝트의 답</h5><ul>
+        <li><b>브랜치 → DuckDB에서 개발(0원) → <code>dbt build</code> → PR · 리뷰 → CI 통과 → 병합 → 운영</b></li>
+        <li>테스트 층: 기본 4종(unique · not_null · relationships · accepted_values), 합계 일치 같은 직접 만든 테스트, <code>unit_tests</code>(URL 파싱 · 매핑 우선순위를 가짜 입력으로)</li>
+        <li>등급: 꼭 맞아야 하면 <code>error</code>, 지켜볼 것(unmapped 비율)은 <code>warn</code>, 실패 행은 <code>store_failures</code>로 표로 남김</li>
+        <li><code>contract</code>로 열 이름 · 형식 고정, CI는 GitHub Actions + DuckDB(비밀키 없이), 나중엔 바뀐 것만 검사(<code>state:modified+</code> · <code>--defer</code>)</li>
+      </ul></div>
+    </div>
+    <div class="when">언제: 11/25(브랜치 · PR) · 12/2(CI) · 12/9 · 12/16(단위 테스트) · 12/23(테스트 등급 · contract) · 1/13(Slim CI)</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-head"><span class="qa-no">Q5</span><span class="qa-q">다른 파이프라인과 dbt 모델 간의 의존성은 어떻게 챙길 것인가?</span><span class="qa-st part">△ 보강 예정</span></div>
+    <div class="qa-grid">
+      <div class="prob"><h5>문제</h5><p>적재가 늦거나 빠졌는데 dbt가 어제 데이터로 돌아서 대시보드가 조용히 틀려요. 반대로 dbt 표를 고쳤는데 그 표를 쓰는 대시보드 · 챗봇이 무엇인지 몰라서 영향을 못 봐요.</p></div>
+      <div><h5>이번 프로젝트의 답</h5><ul>
+        <li><b>앞쪽(원천)</b>: <code>source freshness</code> — 원천이 하루 넘게 안 들어오면 경고 · 멈춤</li>
+        <li><b>파이프라인끼리</b> (보강): 적재 DAG와 dbt DAG를 따로 두고 Airflow <b>Asset</b>으로 연결 — "적재가 끝나면 dbt 시작"</li>
+        <li><b>뒤쪽(소비)</b>: <code>exposures</code>로 Metabase 대시보드 · 챗봇을 리니지에 그려 넣음 → 원천부터 대시보드까지 한 그래프</li>
+        <li>마지막 주 Naver 추가: 새 원천 DAG 하나가 늘어도 dbt DAG는 그대로인지 확인</li>
+      </ul></div>
+    </div>
+    <div class="when">언제: 12/16(freshness) · 1/6(Asset 연결) · 1/27(exposures · Naver)</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-head"><span class="qa-no">Q6</span><span class="qa-q">국가별로 같은 모델에 대한 정의를 어떻게 할 것인가?</span><span class="qa-st str">☆ 시간 남으면</span></div>
+    <div class="qa-grid">
+      <div class="prob"><h5>문제</h5><p>같은 "매출 · 전환"이라도 나라마다 통화 · 시간대 · 부가세 · 전환 기준이 달라요. 나라마다 모델을 복사하면 정의가 조금씩 갈라져서, 결국 나라끼리 숫자를 비교할 수 없게 돼요.</p></div>
+      <div><h5>설계 방향</h5><ul>
+        <li><b>모델은 하나, 차이는 설정으로</b>: 국가 · 광고주별 통화, 시간대, 부가세 포함 여부, 전환 이벤트를 <b>seed 표</b>로 빼고 모델은 그 표를 조인</li>
+        <li>환산 · 현지 날짜 계산은 <b>매크로</b> 하나로, 실행 범위는 <code>var</code>로</li>
+        <li>지표 정의(ROAS 등)는 Semantic Layer에 하나만 두고, 국가는 <b>차원</b>으로 나눠 봄</li>
+        <li><b>이미 있는 작은 버전</b>: 광고주별 설정 seed(<code>advertiser_settings</code>), UTC → KST 변환, Naver 부가세 제거, Google micros 환산</li>
+        <li>하려면: 생성기에 해외 브랜드 하나(예: 엔화 · JST)를 추가</li>
+      </ul></div>
+    </div>
+    <div class="when">지금 데이터는 한국 · 원화뿐이라 범위 밖. 일정이 남으면 스트레치로</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-head"><span class="qa-no">Q7</span><span class="qa-q">dbt 모델의 백필은 어떻게 할 것인가?</span><span class="qa-st ok">✅ 계획에 포함</span></div>
+    <div class="qa-grid">
+      <div class="prob"><h5>문제</h5><p>매체는 지난 14일 숫자를 매일 고쳐서 다시 보내고, 버그를 고치면 과거를 다시 계산해야 해요. 그런데 매번 전체를 다시 계산하면 비싸고, 같은 날짜를 두 번 돌렸을 때 숫자가 두 배가 되면 안 돼요.</p></div>
+      <div><h5>이번 프로젝트의 답</h5><ul>
+        <li><b>incremental + lookback</b>: 매일 매체 최근 14일, GA4 최근 30일만 다시 계산</li>
+        <li><b>멱등성</b>: 날짜 칸을 통째로 바꿔 끼우는 방식(<code>insert_overwrite</code>)이라 같은 날짜를 몇 번 돌려도 결과가 같음</li>
+        <li><b>Airflow 백필</b>: 지난 14일치를 날짜별로 다시 돌려 전 구간 정상인지 확인</li>
+        <li><b>검증</b>: 같은 기간을 incremental과 <code>--full-refresh</code>로 각각 돌려 합계가 같은지 대조</li>
+        <li>snapshot은 과거로 소급이 안 돼서, 지난 6개월 이력은 매일 받아 둔 설정 스냅샷 + <code>lag()</code>로 다시 만듦</li>
+      </ul></div>
+    </div>
+    <div class="when">언제: 1/6(incremental · 대조) · 1/20(14일 백필) · 확인: "10일 전 날짜의 전환이 늘면 반영되나?"</div>
+  </div>
+
+  <footer>marketing-semantic-layer · 데이터는 전부 가상 (생성기 출력) · 데이터 생성기는 AI 작성, dbt 이후는 직접 구축 · 쉽게 풀어 쓴 판 2026-11-17</footer>
 </section>
 </main>
 </div>

@@ -549,7 +549,7 @@
       "date": "2026-12-09",
       "week": "2027-01-06",
       "track": "DE",
-      "title": "Airflow DAG · snapshot · freshness · 테스트 실패 시 멈춤",
+      "title": "Airflow DAG · snapshot · freshness · 테스트 실패 시 멈춤 · 연동 방식 비교(Bash vs Cosmos) · Asset 으로 적재 DAG 연결",
       "status": "todo",
       "done_on": "",
       "note": ""
