@@ -201,3 +201,11 @@ body:has(.switch) main{padding-top:76px}
 
 /* 주간 기록 줄바꿈 그대로 보이게 */
 .log dd{white-space:pre-line}
+
+/* 주간 기록 · 아키텍처 접기/펼치기 */
+.log details.arch{margin-top:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface)}
+.log details.arch summary{cursor:pointer;padding:9px 14px;font-weight:700;font-size:13.5px;color:var(--accent);list-style:none}
+.log details.arch summary::-webkit-details-marker{display:none}
+.log details.arch summary::after{content:' ▾ 펼치기';color:var(--muted);font-weight:400;font-size:12px}
+.log details.arch[open] summary::after{content:' ▴ 접기'}
+.log .arch-body{padding:4px 16px 16px;white-space:pre-wrap;font-size:13.5px;line-height:1.75;border-top:1px solid var(--grid)}

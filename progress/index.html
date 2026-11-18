@@ -113,8 +113,9 @@
   const keys = Object.keys(data.logs || {}).filter(k => Object.values(data.logs[k]).some(Boolean)).sort().reverse();
   document.getElementById('logs').innerHTML = keys.length ? keys.map(k => {
     const lg = data.logs[k], w = data.weeks.find(x => x.report === k);
-    return `<div class="log"><div class="when">${md(k)} 보고<small>${esc(w?.title || '')}</small><small>${w ? period(w) : ''}</small></div><dl>
-      ${Object.entries(L).filter(([f]) => lg[f]).map(([f, n]) => `<dt>${n}</dt><dd>${esc(lg[f])}</dd>`).join('')}</dl></div>`;
+    return `<div class="log"><div class="when">${md(k)} 보고<small>${esc(w?.title || '')}</small><small>${w ? period(w) : ''}</small></div><div><dl>
+      ${Object.entries(L).filter(([f]) => lg[f]).map(([f, n]) => `<dt>${n}</dt><dd>${esc(lg[f])}</dd>`).join('')}</dl>
+      ${lg.arch ? `<details class="arch"><summary>🏗 아키텍처 관점으로 보기</summary><div class="arch-body">${esc(lg.arch)}</div></details>` : ''}</div></div>`;
   }).join('') : '<p class="muted">아직 기록 없음</p>';
 })();
 </script>
