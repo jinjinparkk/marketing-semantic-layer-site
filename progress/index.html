@@ -109,7 +109,7 @@
   }).join('');
 
   // 주간 기록
-  const L = { done: '한 것', numbers: '숫자로 확인', learned_ae: '배운 것 · AE', learned_de: '배운 것 · DE', blocked: '막힌 것', next: '다음' };
+  const L = { done: '한 것', numbers: '숫자로 확인', learned: '배운 것', blocked: '막힌 것', next: '다음' };
   const keys = Object.keys(data.logs || {}).filter(k => Object.values(data.logs[k]).some(Boolean)).sort().reverse();
   document.getElementById('logs').innerHTML = keys.length ? keys.map(k => {
     const lg = data.logs[k], w = data.weeks.find(x => x.report === k);
