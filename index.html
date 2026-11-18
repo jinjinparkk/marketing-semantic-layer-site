@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Marketing Semantic Layer — 쉽게 풀어 쓴 프로젝트 소개</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root {
     --bg: #fbfbf9; --fg: #1d1d1f; --muted: #6b6b70; --line: #e4e4e0; --soft: #f2f2ee;
@@ -15,21 +16,21 @@
     --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
   body { margin: 0; background: var(--bg); color: var(--fg);
-         font: 16.5px/1.85 "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+         font: 16.5px/1.85 "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
          word-break: keep-all; }
   .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; }
-  nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 40px 20px 40px 28px;
+  nav.toc { position: sticky; top: 58px; height: calc(100vh - 58px); overflow-y: auto; padding: 40px 20px 40px 28px;
         border-right: 1px solid var(--line); font-size: 14px; }
-  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 24px; line-height: 1.4; }
-  nav .brand small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; margin-top: 4px; }
-  nav ol { list-style: none; padding: 0; margin: 0; }
-  nav li { margin: 2px 0; }
-  nav a { color: var(--muted); text-decoration: none; display: block; padding: 3px 8px; border-radius: 6px; line-height: 1.5; }
-  nav a:hover { color: var(--fg); background: var(--soft); }
-  nav .sub a { padding-left: 22px; font-size: 13px; }
-  nav .group { margin-top: 16px; font-size: 11px; letter-spacing: .08em; color: var(--muted); padding-left: 8px; }
+  nav.toc .brand { font-weight: 700; font-size: 15px; margin-bottom: 24px; line-height: 1.4; }
+  nav.toc .brand small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; margin-top: 4px; }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; }
+  nav.toc li { margin: 2px 0; }
+  nav.toc a { color: var(--muted); text-decoration: none; display: block; padding: 3px 8px; border-radius: 6px; line-height: 1.5; }
+  nav.toc a:hover { color: var(--fg); background: var(--soft); }
+  nav.toc .sub a { padding-left: 22px; font-size: 13px; }
+  nav.toc .group { margin-top: 16px; font-size: 11px; letter-spacing: .08em; color: var(--muted); padding-left: 8px; }
   main { padding: 56px 64px 120px; min-width: 0; max-width: 900px; }
   header.hero { padding-bottom: 36px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
   .eyebrow { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: .04em; }
@@ -157,27 +158,32 @@
   .qa-sec.decide { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; }
   .qa-sec.left { background: var(--soft); border-radius: 8px; padding: 10px 14px; }
   .qa .when { font-size: 13px; color: var(--muted); border-top: 1px dashed var(--line); margin-top: 8px; padding-top: 8px; }
-  /* 소개 ↔ 진행 상황 전환 버튼 (progress/style.css 의 .switch 와 같은 모양) */
-  .switch { position: fixed; top: 14px; right: 18px; z-index: 50; display: flex; gap: 2px; padding: 3px;
-            background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
-  .switch a { padding: 6px 14px; border-radius: 999px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
-  .switch a:hover { color: var(--fg); }
-  .switch a.on { background: var(--accent); color: #fff; }
   footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
   @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; } nav { display: none; } main { padding: 32px 20px 80px; }
+    .layout { grid-template-columns: 1fr; } nav.toc { display: none; } main { padding: 32px 20px 80px; }
     .two, .three, .stats, .picks { grid-template-columns: 1fr; } .crit { grid-template-columns: 1fr 1fr; }
     .steps { flex-wrap: wrap; } .steps .st { min-width: 100px; } .steps .ar { display: none; } .three > div { border-right: 0; border-bottom: 1px solid var(--line); }
     dl.gloss { grid-template-columns: 1fr; }
-    .switch { position: static; margin: 12px 20px 0; width: max-content; }
   }
+  /* 상단바 (진행 상황 페이지와 같은 모양) */
+  .topbar { position: sticky; top: 0; z-index: 50; background: rgba(251,251,249,.82); -webkit-backdrop-filter: saturate(1.6) blur(14px); backdrop-filter: saturate(1.6) blur(14px); border-bottom: 1px solid var(--line); }
+  .tb-in { max-width: 1180px; margin: 0 auto; padding: 0 28px; height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .tb-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14.5px; color: var(--fg); text-decoration: none; letter-spacing: -.01em; white-space: nowrap; line-height: 1; }
+  .tb-logo { width: 22px; height: 22px; border-radius: 7px; background: linear-gradient(135deg, var(--accent), #7b61ff); box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); }
+  .tb-tabs { display: flex; gap: 2px; padding: 3px; background: #ecece7; border-radius: 11px; line-height: 1.4; }
+  .tb-tabs a { padding: 6px 13px; border-radius: 8px; font-size: 13px; font-weight: 600; color: #55555a; text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+  .tb-tabs a:hover { color: var(--fg); }
+  .tb-tabs a.on { background: #fff; color: var(--fg); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  .tb-tabs em { font-style: normal; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,.07); color: var(--muted); }
+  nav.toc a.active { color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+  @media (max-width: 760px) { .tb-in { padding: 0 14px; } .tb-brand { font-size: 0; gap: 0; } .tb-tabs a { padding: 6px 9px; font-size: 12.5px; } }
 </style>
 </head>
 <body>
-<div class="switch" role="navigation" aria-label="페이지 전환"><a class="on" href="./" aria-current="page">📘 프로젝트 소개</a><a href="progress/">📊 OKR 진행 상황</a><a href="http://localhost:8006/me.html" title="내 PC에서 run_progress.bat 을 켜야 열림">✏️ 내 체크</a></div>
+<header class="topbar"><div class="tb-in"><a class="tb-brand" href="https://jinjinparkk.github.io/marketing-semantic-layer-site/"><i class="tb-logo"></i>Marketing Semantic Layer</a><nav class="tb-tabs" aria-label="페이지 전환"><a class="on" aria-current="page" href="./">프로젝트 소개</a><a href="progress/">OKR 진행 상황</a><a title="내 PC에서 run_progress.bat 을 켜야 열림" href="http://localhost:8006/me.html">내 체크<em>로컬</em></a></nav></div></header>
 <div class="layout">
-<nav>
-  <div class="brand">Marketing Semantic Layer<small>2026-11 ~ 2027-01 OKR · 쉽게 풀어 쓴 판</small></div>
+<nav class="toc">
+  <div class="brand">목차<small>2026-11 ~ 2027-01 OKR · 쉽게 풀어 쓴 판</small></div>
   <ol>
     <li><a href="#start">0. 먼저 읽기 — 한 장 요약</a></li>
     <li class="group">프로젝트</li>
@@ -1326,5 +1332,20 @@ abc          | MW_GG_SRCH_CS_DRESSKW_AO    | 2025-08-01 | null         ← null 
 </section>
 </main>
 </div>
+<script>
+// 스크롤 위치에 맞춰 목차 강조
+(() => {
+  const links = [...document.querySelectorAll('nav.toc a[href^="#"]')];
+  const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const targets = [...map.keys()].map(id => document.getElementById(id)).filter(Boolean);
+  const onScroll = () => {
+    let cur = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top < 120) cur = t;
+    links.forEach(a => a.classList.remove('active'));
+    if (cur) map.get(cur.id).classList.add('active');
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+})();
+</script>
 </body>
 </html>

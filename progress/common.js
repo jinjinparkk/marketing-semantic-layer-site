@@ -143,3 +143,25 @@ function initTheme(btn) {
   label();
   btn.onclick = () => { const t = dark() ? 'light' : 'dark'; document.documentElement.dataset.theme = t; localStorage.setItem('okr-theme', t); label(); };
 }
+
+// 주간 기록 글을 보기 좋게: ━━ 제목 ━━ · 【 소제목 】 · ①/1) 번호 · ·/-/▸ 목록 · → 화살표
+// ▣ 상자 | 설명 / ↓ 연결 설명 (흐름도) · 앞 공백 2칸 = 한 단계 들여쓰기
+function richText(src) {
+  const out = [], GAP = '<i class="rt-gap"></i>';
+  const inline = t => esc(t).replace(/^([^:·\-()]{1,14}):\s/, '<b>$1:</b> ');
+  for (const raw of String(src ?? '').split('\n')) {
+    const lv = Math.min(3, Math.floor(raw.match(/^\s*/)[0].length / 2)), t = raw.trim();
+    let m;
+    if (!t) { if (out.length && out[out.length - 1] !== GAP) out.push(GAP); continue; }
+    if ((m = t.match(/^━+\s*(.+?)\s*━+$/))) out.push(`<h4 class="rt-h">${esc(m[1])}</h4>`);
+    else if ((m = t.match(/^【\s*(.+?)\s*】$/))) out.push(`<h5 class="rt-sub">${esc(m[1])}</h5>`);
+    else if ((m = t.match(/^▣\s*(.+)$/))) { const [a, b] = m[1].split('|'); out.push(`<div class="rt-box"><b>${esc(a.trim())}</b>${b ? `<span>${esc(b.trim())}</span>` : ''}</div>`); }
+    else if ((m = t.match(/^↓\s*(.*)$/))) out.push(`<div class="rt-conn"><i>↓</i><span>${inline(m[1])}</span></div>`);
+    else if ((m = t.match(/^([①-⑳]|\d{1,2}\))\s*(.*)$/))) out.push(`<div class="rt-li rt-num l${lv}"><span class="rt-m">${m[1]}</span><span>${inline(m[2])}</span></div>`);
+    else if ((m = t.match(/^[·\-▸•]\s*(.*)$/))) out.push(`<div class="rt-li l${lv}"><span class="rt-m rt-dot"></span><span>${inline(m[1])}</span></div>`);
+    else if ((m = t.match(/^→\s*(.*)$/))) out.push(`<div class="rt-li rt-arrow l${lv}"><span class="rt-m">→</span><span>${inline(m[1])}</span></div>`);
+    else out.push(`<div class="rt-p l${lv}">${inline(t)}</div>`);
+  }
+  while (out[out.length - 1] === GAP) out.pop();
+  return out.join('');
+}
