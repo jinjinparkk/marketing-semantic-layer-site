@@ -210,8 +210,8 @@
       "week": "2026-11-25",
       "track": "AE",
       "title": "모델링 ① 개념 · 논리 — data_model.md 직접 읽고 ERD 그리기 (업무 → grain → dim · fct), 조회 전환 분리 여부 결정",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-18",
       "note": ""
     },
     {
@@ -220,7 +220,7 @@
       "week": "2026-11-25",
       "track": "DE",
       "title": "dbt init · profiles.yml (dev = duckdb) · dbt debug",
-      "status": "todo",
+      "status": "doing",
       "done_on": "",
       "note": ""
     },
