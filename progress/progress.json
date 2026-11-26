@@ -215,8 +215,18 @@
       "note": ""
     },
     {
+      "id": "d08",
+      "date": "2026-11-26",
+      "week": "2026-11-25",
+      "track": "DE",
+      "title": "DuckDB 적재 도구 (loader/load_duckdb.py — BigQuery 와 같은 raw 테이블, Claude 작성)",
+      "status": "done",
+      "done_on": "2026-11-26",
+      "note": "--all 160초, --date 재실행 멱등 확인, warehouse/dev.duckdb"
+    },
+    {
       "id": "t101",
-      "date": "2026-11-17",
+      "date": "2026-11-26",
       "week": "2026-11-25",
       "track": "DE",
       "title": "dbt init · profiles.yml (dev = duckdb) · dbt debug",
@@ -226,7 +236,7 @@
     },
     {
       "id": "t102",
-      "date": "2026-11-17",
+      "date": "2026-11-26",
       "week": "2026-11-25",
       "track": "DE",
       "title": "packages.yml (dbt_utils) · dbt deps",
@@ -236,7 +246,7 @@
     },
     {
       "id": "t103",
-      "date": "2026-11-17",
+      "date": "2026-11-26",
       "week": "2026-11-25",
       "track": "DE",
       "title": "브랜치 규칙 · 첫 PR · master 병합",
@@ -245,8 +255,18 @@
       "note": ""
     },
     {
+      "id": "t112",
+      "date": "2026-11-26",
+      "week": "2026-12-02",
+      "track": "AE",
+      "title": "dbt_project.yml 폴더별 materialization · tags · 개발용 데이터 범위 macro",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
       "id": "t104",
-      "date": "2026-11-18",
+      "date": "2026-11-27",
       "week": "2026-11-25",
       "track": "AE",
       "title": "Google staging 2개 (micros, 최신 _extract_date, PMax)",
@@ -255,18 +275,8 @@
       "note": ""
     },
     {
-      "id": "t105",
-      "date": "2026-11-18",
-      "week": "2026-11-25",
-      "track": "AE",
-      "title": "dbt docs · 모델 설명",
-      "status": "todo",
-      "done_on": "",
-      "note": ""
-    },
-    {
       "id": "t106",
-      "date": "2026-11-19",
+      "date": "2026-11-27",
       "week": "2026-11-25",
       "track": "AE",
       "title": "지표 10개 정의서 초안",
@@ -276,7 +286,7 @@
     },
     {
       "id": "t107",
-      "date": "2026-11-19",
+      "date": "2026-11-27",
       "week": "2026-12-02",
       "track": "AE",
       "title": "Meta staging (actions 배열, I6)",
@@ -285,8 +295,18 @@
       "note": ""
     },
     {
+      "id": "t105",
+      "date": "2026-11-28",
+      "week": "2026-11-25",
+      "track": "AE",
+      "title": "dbt docs · 모델 설명",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
       "id": "t108",
-      "date": "2026-11-20",
+      "date": "2026-11-28",
       "week": "2026-12-02",
       "track": "AE",
       "title": "campaigns · ads staging (매일 스냅샷, 최신 수신본 macro)",
@@ -296,7 +316,7 @@
     },
     {
       "id": "t109",
-      "date": "2026-11-20",
+      "date": "2026-11-28",
       "week": "2026-12-02",
       "track": "AE",
       "title": "매체 통합 표 + contract",
@@ -306,7 +326,7 @@
     },
     {
       "id": "t110",
-      "date": "2026-11-20",
+      "date": "2026-11-28",
       "week": "2026-12-02",
       "track": "AE",
       "title": "seeds 3개 · 매체 정리 매크로",
@@ -315,18 +335,8 @@
       "note": ""
     },
     {
-      "id": "t112",
-      "date": "2026-11-20",
-      "week": "2026-12-02",
-      "track": "AE",
-      "title": "dbt_project.yml 폴더별 materialization · tags · 개발용 데이터 범위 macro",
-      "status": "todo",
-      "done_on": "",
-      "note": ""
-    },
-    {
       "id": "t111",
-      "date": "2026-11-23",
+      "date": "2026-11-30",
       "week": "2026-12-02",
       "track": "DE",
       "title": "GitHub Actions CI (PR마다 DuckDB dbt build)",
@@ -336,7 +346,7 @@
     },
     {
       "id": "t201",
-      "date": "2026-11-24",
+      "date": "2026-11-30",
       "week": "2026-12-09",
       "track": "AE",
       "title": "stg_ga4__events (UNNEST, KST)",
@@ -346,7 +356,7 @@
     },
     {
       "id": "t202",
-      "date": "2026-11-24",
+      "date": "2026-11-30",
       "week": "2026-12-09",
       "track": "DE",
       "title": "DB별 SQL 매크로 (adapter.dispatch)",
@@ -355,8 +365,18 @@
       "note": ""
     },
     {
+      "id": "m2",
+      "date": "2026-12-01",
+      "week": "2026-12-16",
+      "track": "AE",
+      "title": "모델링 결정 — URL 정규화 규칙 · 첫 스냅샷 이전 날짜 · 같은 URL 소재 처리",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
       "id": "t203",
-      "date": "2026-11-25",
+      "date": "2026-12-01",
       "week": "2026-12-09",
       "track": "AE",
       "title": "int_ga4__sessions (URL 파싱) · int_ga4__orders (I5)",
@@ -366,7 +386,7 @@
     },
     {
       "id": "t204",
-      "date": "2026-11-25",
+      "date": "2026-12-01",
       "week": "2026-12-09",
       "track": "AE",
       "title": "URL 파싱 단위 테스트",
@@ -376,7 +396,7 @@
     },
     {
       "id": "t205",
-      "date": "2026-11-25",
+      "date": "2026-12-01",
       "week": "2026-12-09",
       "track": "DE",
       "title": "_extract_date 날짜 폴더 적재 구조",
@@ -385,18 +405,8 @@
       "note": ""
     },
     {
-      "id": "m2",
-      "date": "2026-11-26",
-      "week": "2026-12-16",
-      "track": "AE",
-      "title": "모델링 결정 — URL 정규화 규칙 · 첫 스냅샷 이전 날짜 · 같은 URL 소재 처리",
-      "status": "todo",
-      "done_on": "",
-      "note": ""
-    },
-    {
       "id": "t206",
-      "date": "2026-11-26",
+      "date": "2026-12-02",
       "week": "2026-12-16",
       "track": "AE",
       "title": "url_history · name_history (I3)",
@@ -406,7 +416,7 @@
     },
     {
       "id": "t207",
-      "date": "2026-11-27",
+      "date": "2026-12-02",
       "week": "2026-12-16",
       "track": "AE",
       "title": "sessions_mapped — 단계별 세션 수 = 검증값",
@@ -416,7 +426,7 @@
     },
     {
       "id": "t208",
-      "date": "2026-11-27",
+      "date": "2026-12-03",
       "week": "2026-12-16",
       "track": "AE",
       "title": "매핑 우선순위 · 귀속 · macro 단위 테스트",
@@ -425,8 +435,18 @@
       "note": ""
     },
     {
+      "id": "t209",
+      "date": "2026-12-03",
+      "week": "2026-12-16",
+      "track": "DE",
+      "title": "원천 품질 테스트 · source freshness",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
       "id": "t210",
-      "date": "2026-11-27",
+      "date": "2026-12-03",
       "week": "2026-12-16",
       "track": "AE",
       "title": "정답지(answer_key) seed · 정답지 대조 테스트 (매핑 단계별 세션 수 · 1.27배 · P1~P3)",
@@ -436,7 +456,7 @@
     },
     {
       "id": "m3",
-      "date": "2026-11-30",
+      "date": "2026-12-04",
       "week": "2026-12-23",
       "track": "AE",
       "title": "모델링 ② 물리 — mart 스타 스키마 확정 (dim · fct grain, 가산성, SCD, spine 범위, 자정 세션, attribution_setting 표시, Naver 연결 전 처리)",
@@ -445,18 +465,8 @@
       "note": ""
     },
     {
-      "id": "t209",
-      "date": "2026-11-30",
-      "week": "2026-12-16",
-      "track": "DE",
-      "title": "원천 품질 테스트 · source freshness",
-      "status": "todo",
-      "done_on": "",
-      "note": ""
-    },
-    {
       "id": "t301",
-      "date": "2026-12-01",
+      "date": "2026-12-04",
       "week": "2026-12-23",
       "track": "AE",
       "title": "귀속 (라스트 논-다이렉트 30일)",
@@ -466,7 +476,7 @@
     },
     {
       "id": "t302",
-      "date": "2026-12-02",
+      "date": "2026-12-05",
       "week": "2026-12-23",
       "track": "AE",
       "title": "dim · fct · media_vs_ga4 (date_spine) — 매체 ÷ GA4 1.27배 재현",
@@ -476,7 +486,7 @@
     },
     {
       "id": "t309",
-      "date": "2026-12-02",
+      "date": "2026-12-05",
       "week": "2026-12-23",
       "track": "AE",
       "title": "지표 · 용어 doc block ({% docs %}) — 정의서와 컬럼 설명 한 곳에",
@@ -486,7 +496,7 @@
     },
     {
       "id": "t303",
-      "date": "2026-12-03",
+      "date": "2026-12-07",
       "week": "2026-12-23",
       "track": "AE",
       "title": "테스트 (dbt_utils: unique_combination · mutually_exclusive_ranges · expression_is_true) · warn_if/error_if · store_failures · mart contract · groups/access",
@@ -496,7 +506,7 @@
     },
     {
       "id": "t304",
-      "date": "2026-12-03",
+      "date": "2026-12-07",
       "week": "2026-12-23",
       "track": "DE",
       "title": "실행 시간 분석 (run_results) · view/table 근거",
@@ -506,7 +516,7 @@
     },
     {
       "id": "t308",
-      "date": "2026-12-03",
+      "date": "2026-12-07",
       "week": "2026-12-23",
       "track": "DE",
       "title": "dbt_project_evaluator · CI 에 --empty 검사",
@@ -516,7 +526,7 @@
     },
     {
       "id": "d07",
-      "date": "2026-12-04",
+      "date": "2026-12-08",
       "week": "2026-12-30",
       "track": "DE",
       "title": "BigQuery 예산 알림 · 쿼리 한도 확인 (적재 전에)",
@@ -526,7 +536,7 @@
     },
     {
       "id": "t305",
-      "date": "2026-12-04",
+      "date": "2026-12-08",
       "week": "2026-12-30",
       "track": "DE",
       "title": "BigQuery 적재 · prod target · DuckDB vs BigQuery 대조표",
@@ -536,7 +546,7 @@
     },
     {
       "id": "t306",
-      "date": "2026-12-07",
+      "date": "2026-12-09",
       "week": "2026-12-30",
       "track": "AE",
       "title": "검증 질문 20개 · 낭비 판단 기준",
@@ -546,7 +556,7 @@
     },
     {
       "id": "t307",
-      "date": "2026-12-07",
+      "date": "2026-12-09",
       "week": "2026-12-30",
       "track": "DE",
       "title": "파티션 · 클러스터 · hooks · run-operation · 읽은 바이트",
@@ -556,7 +566,7 @@
     },
     {
       "id": "t401",
-      "date": "2026-12-08",
+      "date": "2026-12-09",
       "week": "2027-01-06",
       "track": "DE",
       "title": "incremental — microbatch 우선 검토 (dbt-duckdb 지원 확인), 매체 14일 · GA4 30일 lookback",
@@ -566,7 +576,7 @@
     },
     {
       "id": "t402",
-      "date": "2026-12-08",
+      "date": "2026-12-09",
       "week": "2027-01-06",
       "track": "AE",
       "title": "incremental vs full-refresh 합계 대조",
@@ -576,7 +586,7 @@
     },
     {
       "id": "m4",
-      "date": "2026-12-09",
+      "date": "2026-12-10",
       "week": "2027-01-13",
       "track": "AE",
       "title": "모델링 ③ 시맨틱 — Cube 모델 설계 (measures · dimensions · joins, 비율은 합계끼리)",
@@ -586,7 +596,7 @@
     },
     {
       "id": "t403",
-      "date": "2026-12-09",
+      "date": "2026-12-10",
       "week": "2027-01-06",
       "track": "DE",
       "title": "Airflow DAG · snapshot · freshness · 테스트 실패 시 멈춤 · 연동 방식 비교(Bash vs Cosmos) · Asset 으로 적재 DAG 연결",
@@ -596,7 +606,7 @@
     },
     {
       "id": "t409",
-      "date": "2026-12-09",
+      "date": "2026-12-10",
       "week": "2027-01-06",
       "track": "AE",
       "title": "advertiser_settings snapshot (목표 ROAS · CPA 변경 이력, SCD2)",
@@ -606,7 +616,7 @@
     },
     {
       "id": "t404",
-      "date": "2026-12-10",
+      "date": "2026-12-11",
       "week": "2027-01-13",
       "track": "AE",
       "title": "Cube 지표 10개 · dbt 숫자 대조",
@@ -636,7 +646,7 @@
     },
     {
       "id": "t407",
-      "date": "2026-12-14",
+      "date": "2026-12-12",
       "week": "2027-01-20",
       "track": "DE",
       "title": "14일 백필 · 실패 알림",
@@ -646,7 +656,7 @@
     },
     {
       "id": "t408",
-      "date": "2026-12-14",
+      "date": "2026-12-12",
       "week": "2027-01-20",
       "track": "AE",
       "title": "Metabase 대시보드 3장",
@@ -655,11 +665,31 @@
       "note": ""
     },
     {
+      "id": "t504",
+      "date": "2026-12-12",
+      "week": "2027-01-13",
+      "track": "DE",
+      "title": "비용 리포트 (INFORMATION_SCHEMA.JOBS)",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
       "id": "t501",
-      "date": "2026-12-15",
+      "date": "2026-12-14",
       "week": "2027-01-20",
       "track": "AE",
       "title": "챗봇 — Cube API로만 숫자 조회",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
+      "id": "t502a",
+      "date": "2026-12-14",
+      "week": "2027-01-27",
+      "track": "AE",
+      "title": "검증 질문 20개 챗봇 vs 대시보드 비교 — 18개 이상 일치",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -675,21 +705,11 @@
       "note": ""
     },
     {
-      "id": "t502a",
+      "id": "t505",
       "date": "2026-12-15",
       "week": "2027-01-27",
-      "track": "AE",
-      "title": "검증 질문 20개 챗봇 vs 대시보드 비교 — 18개 이상 일치",
-      "status": "todo",
-      "done_on": "",
-      "note": ""
-    },
-    {
-      "id": "t504",
-      "date": "2026-12-15",
-      "week": "2027-01-13",
       "track": "DE",
-      "title": "비용 리포트 (INFORMATION_SCHEMA.JOBS)",
+      "title": "Naver 원천 적재 · freshness · DAG 연결 · 운영 문서",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -700,16 +720,6 @@
       "week": "2027-01-27",
       "track": "AE",
       "title": "BI · AI 별도 지표 계산 0건 확인 · 지표 정의서 정리 · Naver base 2개 → staging 어댑터 · exposures · 체크리스트 확인",
-      "status": "todo",
-      "done_on": "",
-      "note": ""
-    },
-    {
-      "id": "t505",
-      "date": "2026-12-16",
-      "week": "2027-01-27",
-      "track": "DE",
-      "title": "Naver 원천 적재 · freshness · DAG 연결 · 운영 문서",
       "status": "todo",
       "done_on": "",
       "note": ""
