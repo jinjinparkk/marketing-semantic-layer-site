@@ -289,7 +289,7 @@
       "date": "2026-11-20",
       "week": "2026-12-02",
       "track": "AE",
-      "title": "campaigns · ads staging (매일 스냅샷)",
+      "title": "campaigns · ads staging (매일 스냅샷, 최신 수신본 macro)",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -310,6 +310,16 @@
       "week": "2026-12-02",
       "track": "AE",
       "title": "seeds 3개 · 매체 정리 매크로",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
+      "id": "t112",
+      "date": "2026-11-20",
+      "week": "2026-12-02",
+      "track": "AE",
+      "title": "dbt_project.yml 폴더별 materialization · tags · 개발용 데이터 범위 macro",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -409,7 +419,17 @@
       "date": "2026-11-27",
       "week": "2026-12-16",
       "track": "AE",
-      "title": "매핑 우선순위 단위 테스트",
+      "title": "매핑 우선순위 · 귀속 · macro 단위 테스트",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
+      "id": "t210",
+      "date": "2026-11-27",
+      "week": "2026-12-16",
+      "track": "AE",
+      "title": "정답지(answer_key) seed · 정답지 대조 테스트 (매핑 단계별 세션 수 · 1.27배 · P1~P3)",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -449,7 +469,17 @@
       "date": "2026-12-02",
       "week": "2026-12-23",
       "track": "AE",
-      "title": "dim · fct · media_vs_ga4 — 매체 ÷ GA4 1.27배 재현",
+      "title": "dim · fct · media_vs_ga4 (date_spine) — 매체 ÷ GA4 1.27배 재현",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
+      "id": "t309",
+      "date": "2026-12-02",
+      "week": "2026-12-23",
+      "track": "AE",
+      "title": "지표 · 용어 doc block ({% docs %}) — 정의서와 컬럼 설명 한 곳에",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -459,7 +489,7 @@
       "date": "2026-12-03",
       "week": "2026-12-23",
       "track": "AE",
-      "title": "테스트 · severity · store_failures · mart contract · groups/access",
+      "title": "테스트 (dbt_utils: unique_combination · mutually_exclusive_ranges · expression_is_true) · warn_if/error_if · store_failures · mart contract · groups/access",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -470,6 +500,16 @@
       "week": "2026-12-23",
       "track": "DE",
       "title": "실행 시간 분석 (run_results) · view/table 근거",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
+      "id": "t308",
+      "date": "2026-12-03",
+      "week": "2026-12-23",
+      "track": "DE",
+      "title": "dbt_project_evaluator · CI 에 --empty 검사",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -519,7 +559,7 @@
       "date": "2026-12-08",
       "week": "2027-01-06",
       "track": "DE",
-      "title": "incremental (매체 14일 · GA4 30일 lookback)",
+      "title": "incremental — microbatch 우선 검토 (dbt-duckdb 지원 확인), 매체 14일 · GA4 30일 lookback",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -550,6 +590,16 @@
       "week": "2027-01-06",
       "track": "DE",
       "title": "Airflow DAG · snapshot · freshness · 테스트 실패 시 멈춤 · 연동 방식 비교(Bash vs Cosmos) · Asset 으로 적재 DAG 연결",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
+      "id": "t409",
+      "date": "2026-12-09",
+      "week": "2027-01-06",
+      "track": "AE",
+      "title": "advertiser_settings snapshot (목표 ROAS · CPA 변경 이력, SCD2)",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -615,21 +665,21 @@
       "note": ""
     },
     {
-      "id": "t502a",
-      "date": "2026-12-15",
-      "week": "2027-01-27",
-      "track": "AE",
-      "title": "검증 질문 20개 챗봇 vs 대시보드 비교 — 18개 이상 일치",
-      "status": "todo",
-      "done_on": "",
-      "note": ""
-    },
-    {
       "id": "t502",
       "date": "2026-12-15",
       "week": "2027-01-27",
       "track": "AE",
       "title": "검증 질문 20개 전부 일치 · 낭비 3건 탐지",
+      "status": "todo",
+      "done_on": "",
+      "note": ""
+    },
+    {
+      "id": "t502a",
+      "date": "2026-12-15",
+      "week": "2027-01-27",
+      "track": "AE",
+      "title": "검증 질문 20개 챗봇 vs 대시보드 비교 — 18개 이상 일치",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -649,7 +699,7 @@
       "date": "2026-12-16",
       "week": "2027-01-27",
       "track": "AE",
-      "title": "BI · AI 별도 지표 계산 0건 확인 · 지표 정의서 정리 · Naver staging 어댑터 · exposures · 체크리스트 확인",
+      "title": "BI · AI 별도 지표 계산 0건 확인 · 지표 정의서 정리 · Naver base 2개 → staging 어댑터 · exposures · 체크리스트 확인",
       "status": "todo",
       "done_on": "",
       "note": ""
@@ -692,7 +742,8 @@
       "tasks": [
         "t104",
         "t109",
-        "t302"
+        "t302",
+        "t112"
       ]
     },
     {
@@ -718,6 +769,13 @@
       ]
     },
     {
+      "no": "2-3",
+      "name": "정답지 대조 테스트",
+      "tasks": [
+        "t210"
+      ]
+    },
+    {
       "no": "3",
       "name": "contract",
       "tasks": [
@@ -727,7 +785,7 @@
     },
     {
       "no": "4",
-      "name": "incremental",
+      "name": "incremental (microbatch)",
       "tasks": [
         "t401",
         "t402"
@@ -738,14 +796,16 @@
       "name": "리니지 · 문서 · exposures",
       "tasks": [
         "t105",
-        "t503"
+        "t503",
+        "t309"
       ]
     },
     {
       "no": "6",
       "name": "CI",
       "tasks": [
-        "t111"
+        "t111",
+        "t308"
       ]
     },
     {
@@ -771,7 +831,7 @@
     },
     {
       "no": "8",
-      "name": "매크로 · 패키지 · dispatch",
+      "name": "매크로 · 패키지(dbt_utils) · dispatch",
       "tasks": [
         "t102",
         "t110",
@@ -787,9 +847,9 @@
     },
     {
       "no": "9",
-      "name": "snapshot",
+      "name": "snapshot (목표값 이력)",
       "tasks": [
-        "t403"
+        "t409"
       ]
     },
     {
@@ -804,6 +864,13 @@
       "name": "브랜치 · PR · 리뷰",
       "tasks": [
         "t103"
+      ]
+    },
+    {
+      "no": "12",
+      "name": "프로젝트 점검 (dbt_project_evaluator)",
+      "tasks": [
+        "t308"
       ]
     }
   ],
