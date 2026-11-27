@@ -230,8 +230,8 @@
       "week": "2026-11-25",
       "track": "DE",
       "title": "dbt init · profiles.yml (dev = duckdb) · dbt debug",
-      "status": "doing",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-27",
       "note": ""
     },
     {
@@ -240,8 +240,8 @@
       "week": "2026-11-25",
       "track": "DE",
       "title": "packages.yml (dbt_utils) · dbt deps",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-27",
       "note": ""
     },
     {
@@ -250,7 +250,7 @@
       "week": "2026-11-25",
       "track": "DE",
       "title": "브랜치 규칙 · 첫 PR · master 병합",
-      "status": "todo",
+      "status": "doing",
       "done_on": "",
       "note": ""
     },
@@ -260,8 +260,8 @@
       "week": "2026-12-02",
       "track": "AE",
       "title": "dbt_project.yml 폴더별 materialization · tags · 개발용 데이터 범위 macro",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-27",
       "note": ""
     },
     {
@@ -270,8 +270,8 @@
       "week": "2026-11-25",
       "track": "AE",
       "title": "Google staging 2개 (micros, 최신 _extract_date, PMax)",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-27",
       "note": ""
     },
     {
@@ -280,8 +280,8 @@
       "week": "2026-11-25",
       "track": "AE",
       "title": "지표 10개 정의서 초안",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-27",
       "note": ""
     },
     {
@@ -290,8 +290,8 @@
       "week": "2026-12-02",
       "track": "AE",
       "title": "Meta staging (actions 배열, I6)",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-27",
       "note": ""
     },
     {
