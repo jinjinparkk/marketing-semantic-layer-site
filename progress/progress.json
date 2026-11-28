@@ -300,8 +300,8 @@
       "week": "2026-11-25",
       "track": "AE",
       "title": "dbt docs · 모델 설명",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-28",
       "note": ""
     },
     {
@@ -310,8 +310,8 @@
       "week": "2026-12-02",
       "track": "AE",
       "title": "campaigns · ads staging (매일 스냅샷, 최신 수신본 macro)",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-28",
       "note": ""
     },
     {
@@ -320,8 +320,8 @@
       "week": "2026-12-02",
       "track": "AE",
       "title": "매체 통합 표 + contract",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-28",
       "note": ""
     },
     {
@@ -330,8 +330,8 @@
       "week": "2026-12-02",
       "track": "AE",
       "title": "seeds 3개 · 매체 정리 매크로",
-      "status": "todo",
-      "done_on": "",
+      "status": "done",
+      "done_on": "2026-11-28",
       "note": ""
     },
     {
